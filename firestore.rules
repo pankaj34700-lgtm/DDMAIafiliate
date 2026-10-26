@@ -1,0 +1,69 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.email == 'ddmai651@gmail.com' ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')
+      );
+    }
+
+    // 1. Users collection: profiles, credentials, roles
+    match /users/{userId} {
+      allow read: if isAuthenticated() && (isOwner(userId) || isAdmin());
+      allow create: if isAuthenticated() && isOwner(userId)
+                    && request.resource.data.role in ['student', 'teacher', 'partner']
+                    && request.resource.data.status in ['active', 'pending'];
+      allow update: if isAuthenticated() && (
+        (isOwner(userId) && request.resource.data.role == resource.data.role) ||
+        isAdmin()
+      );
+      allow delete: if isAdmin();
+    }
+
+    // 2. Webinar Leads (AI Income Freedom Masterclass)
+    match /webinar_leads/{leadId} {
+      allow create: if request.resource.data.name is string
+                    && request.resource.data.phone is string
+                    && request.resource.data.email is string
+                    && request.resource.data.status in ['registered', 'attended'];
+      allow read, update, delete: if isAdmin();
+    }
+
+    // 3. Coaching Portals (₹1,999/yr WaaS)
+    // - Created as 'pending'
+    // - Only admin can approve (status == 'approved')
+    // - Public can read only approved portals
+    match /coaching_portals/{portalId} {
+      allow read: if resource.data.status == 'approved' || isAdmin() || (isAuthenticated() && resource.data.ownerUid == request.auth.uid);
+      allow create: if request.resource.data.instituteName is string
+                    && request.resource.data.contactPhone is string
+                    && request.resource.data.status == 'pending';
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // 4. Affiliate Referrals (DDMAI-V5H4QH)
+    match /affiliate_referrals/{referralId} {
+      allow create: if request.resource.data.referralCode is string;
+      allow read: if isAuthenticated() || isAdmin();
+      allow update, delete: if isAdmin();
+    }
+
+    // Default deny all other paths
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

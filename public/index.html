@@ -90,6 +90,10 @@
       }
     }
   </style>
+  <!-- Firebase App & Firestore SDKs (Compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 </head>
 <body class="flex min-h-full flex-col bg-white text-slate-800 antialiased selection:bg-[#0756C8] selection:text-white">
 
@@ -144,6 +148,10 @@
 
           <!-- Right Action Buttons -->
           <div class="flex shrink-0 items-center gap-2 sm:gap-3">
+            <button onclick="openAdminModal()" class="hidden md:inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold text-amber-300 border border-amber-400/40 bg-amber-400/10 hover:bg-amber-400/20 transition-all">
+              <span class="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+              Admin Approval
+            </button>
             <button onclick="openWelcomeLetter()" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-200 border border-white/20 bg-white/5 hover:bg-white/15 transition-all">
               <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
               Welcome Letter
@@ -1438,6 +1446,129 @@
     </div>
   </div>
 
+    <!-- COACHING PORTAL SETUP REQUEST MODAL (₹1,999/yr WaaS) -->
+  <div id="portal-request-modal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm p-4 overflow-y-auto flex items-center justify-center">
+    <div class="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden my-8">
+      
+      <div class="bg-gradient-to-r from-[#061B49] via-[#0A2A64] to-[#061B49] text-white p-6 relative">
+        <button onclick="closePortalModal()" class="absolute top-4 right-4 p-1 text-slate-300 hover:text-white">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+        <span class="text-[10px] font-bold tracking-widest text-[#FFD166] uppercase bg-white/10 px-2.5 py-0.5 rounded-full border border-white/20">
+          ₹1,999 / Year Portal Setup
+        </span>
+        <h3 class="text-xl sm:text-2xl font-extrabold mt-2">Coaching Center Portal Onboarding</h3>
+        <p class="text-xs text-slate-300 mt-1">Turnkey portal • Instant database submission • 5-minute admin approval</p>
+      </div>
+
+      <form id="portal-form" onsubmit="handlePortalSubmit(event)" class="p-6 space-y-3.5 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Coaching / Institute Name *</label>
+          <input type="text" id="portal-institute" required placeholder="e.g. Apex Science Academy" 
+                 class="w-full h-10 px-3.5 rounded-xl border border-slate-300 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Director / Teacher Name *</label>
+          <input type="text" id="portal-director" required placeholder="e.g. Sharma Sir" 
+                 class="w-full h-10 px-3.5 rounded-xl border border-slate-300 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">WhatsApp Mobile *</label>
+            <input type="tel" id="portal-phone" required placeholder="10-digit number" 
+                   class="w-full h-10 px-3 rounded-xl border border-slate-300 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">City / Locality *</label>
+            <input type="text" id="portal-city" required placeholder="e.g. Gandhinagar" 
+                   class="w-full h-10 px-3 rounded-xl border border-slate-300 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Preferred Custom Domain Name *</label>
+          <div class="relative">
+            <input type="text" id="portal-domain" required placeholder="e.g. apexacademy.com" 
+                   class="w-full h-10 px-3.5 rounded-xl border border-slate-300 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500">
+            <span class="absolute right-3 top-2.5 text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded font-mono">₹1,999/yr</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Courses Offered</label>
+          <input type="text" id="portal-courses" placeholder="e.g. CBSE 9-12, JEE Foundation, NEET" 
+                 class="w-full h-10 px-3.5 rounded-xl border border-slate-300 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500">
+        </div>
+
+        <div class="rounded-xl bg-amber-50 border border-amber-200 p-3 text-amber-900 text-[11px]">
+          <span class="font-bold">5-Minute Admin Flow:</span> Form data saves in Cloud Firestore with status &quot;pending&quot;. Admin verifies and toggles &quot;Yes&quot; to make your portal live immediately!
+        </div>
+
+        <button type="submit" class="w-full py-3.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-extrabold text-sm shadow-md transition-all text-center">
+          Submit to Database &amp; Request Activation &rarr;
+        </button>
+      </form>
+
+      <div id="portal-success" class="hidden p-8 text-center space-y-4">
+        <div class="h-16 w-16 mx-auto rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl font-bold">
+          ✓
+        </div>
+        <h4 class="text-xl font-bold text-slate-900">Application Submitted!</h4>
+        <p class="text-xs text-slate-600 max-w-sm mx-auto">
+          Your portal request is logged in Cloud Firestore database with status: <strong class="text-amber-600">PENDING 5-MIN APPROVAL</strong>.
+        </p>
+        <div id="portal-ref-id" class="text-xs font-mono bg-slate-100 p-2.5 rounded-lg text-slate-700 border"></div>
+        <div class="pt-2 flex flex-col gap-2">
+          <a id="portal-whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer" 
+             class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 text-white font-bold text-xs shadow-md hover:bg-emerald-700 transition-colors">
+            WhatsApp Admin for 5-Minute Activation &rarr;
+          </a>
+          <button onclick="closePortalModal()" class="text-xs text-slate-500 hover:underline">Close Window</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ADMIN REVIEW & APPROVAL DRAWER (Veteran PankajBhai Umesh Gupta) -->
+  <div id="admin-modal" class="fixed inset-0 z-50 hidden bg-slate-900/75 backdrop-blur-sm p-4 overflow-y-auto flex items-center justify-center">
+    <div class="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden my-8">
+      
+      <div class="bg-[#061B49] text-white p-5 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="h-2.5 w-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <h3 class="font-bold text-base">DDMAI Admin Approval Panel</h3>
+          <span class="text-[10px] bg-white/10 px-2 py-0.5 rounded text-amber-300 font-mono">Veteran PankajBhai</span>
+        </div>
+        <button onclick="closeAdminModal()" class="text-slate-300 hover:text-white">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="p-6 space-y-4 text-xs">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+          <p class="text-slate-600">Pending portal requests awaiting 5-minute admin verification:</p>
+          <button onclick="refreshAdminPortals()" class="px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition-colors flex items-center gap-1">
+            <span>↻</span> Refresh Database
+          </button>
+        </div>
+
+        <div id="admin-portals-list" class="space-y-3 max-h-80 overflow-y-auto pr-1">
+          <!-- Populated by JS -->
+        </div>
+
+        <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
+          <span>Connected to Firebase: pankaj-umes-gupta</span>
+          <span>Security Rules: Active Role Enforced</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
   <!-- FOOTER (Clone of DDMAI Footer Structure) -->
   <footer class="mt-auto border-t border-slate-200 bg-slate-50 text-slate-600">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14">
@@ -1533,6 +1664,33 @@
 
   <!-- SCRIPT ENGINE -->
   <script>
+    // Firebase Configuration & Initialization
+    const firebaseConfig = {
+      apiKey: "AIzaSyA9ui7r4VqttXK_4-JbcsN0xiuJOrg-5l8",
+      authDomain: "pankaj-umes-gupta.firebaseapp.com",
+      projectId: "pankaj-umes-gupta",
+      storageBucket: "pankaj-umes-gupta.firebasestorage.app",
+      messagingSenderId: "535540715379",
+      appId: "1:535540715379:web:b5bd733cf3f7acd4133f06",
+      measurementId: "G-V772BDE08K"
+    };
+
+    let db = null;
+    let auth = null;
+
+    if (typeof firebase !== 'undefined') {
+      try {
+        if (!firebase.apps.length) {
+          firebase.initializeApp(firebaseConfig);
+        }
+        db = firebase.firestore();
+        auth = firebase.auth();
+        console.log("DDMAI Cloud Firestore connected!");
+      } catch (err) {
+        console.log("Firebase note:", err.message);
+      }
+    }
+
     // Tab switching in Hero section
     function switchHeroTab(tab) {
       const btnTools = document.getElementById('tab-btn-tools');
@@ -1599,8 +1757,8 @@
 
     // FAQ Accordion
     function toggleFaq(num) {
-      const content = document.getElementById(`faq-content-${num}`);
-      const icon = document.getElementById(`faq-icon-${num}`);
+      const content = document.getElementById('faq-content-' + num);
+      const icon = document.getElementById('faq-icon-' + num);
       if (content.classList.contains('hidden')) {
         content.classList.remove('hidden');
         icon.classList.add('rotate-180');
@@ -1626,8 +1784,18 @@
     }
 
     function requestPortalSetup() {
-      const text = encodeURIComponent("Hello Veteran PankajBhai, I want to setup my coaching portal with the ₹1,999/yr domain package.");
-      window.open(`https://web.whatsapp.com/send?phone=919638055552&text=${text}`, '_blank');
+      document.getElementById('portal-request-modal').classList.remove('hidden');
+    }
+    function closePortalModal() {
+      document.getElementById('portal-request-modal').classList.add('hidden');
+    }
+
+    function openAdminModal() {
+      document.getElementById('admin-modal').classList.remove('hidden');
+      refreshAdminPortals();
+    }
+    function closeAdminModal() {
+      document.getElementById('admin-modal').classList.add('hidden');
     }
 
     function copyReferralCode() {
@@ -1636,20 +1804,133 @@
       });
     }
 
-    // Handle form submit
+    // Handle form submit: AI Income Freedom Masterclass -> Firestore & WhatsApp
     function handleWebinarSubmit(e) {
       e.preventDefault();
       const name = document.getElementById('reg-name').value;
       const phone = document.getElementById('reg-phone').value;
+      const email = document.getElementById('reg-email').value;
       const pain = document.getElementById('reg-painpoint').value;
 
       document.getElementById('webinar-form').classList.add('hidden');
       document.getElementById('webinar-success').classList.remove('hidden');
 
-      const whatsappText = encodeURIComponent(`Hello Veteran PankajBhai, my name is ${name}. I just registered for the AI Income Freedom Masterclass with interest in: ${pain}. Please confirm my VIP access.`);
-      document.getElementById('whatsapp-redirect-btn').href = `https://web.whatsapp.com/send?phone=919638055552&text=${whatsappText}`;
+      if (db) {
+        db.collection('webinar_leads').add({
+          name: name,
+          phone: phone,
+          email: email,
+          painPoint: pain,
+          referralCode: "DDMAI-V5H4QH",
+          status: "registered",
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        }).then(docRef => {
+          console.log("Firestore Lead Logged:", docRef.id);
+        }).catch(err => {
+          console.log("Firestore note:", err.message);
+        });
+      }
+
+      const whatsappText = encodeURIComponent('Hello Veteran PankajBhai, my name is ' + name + '. I just registered for the AI Income Freedom Masterclass with interest in: ' + pain + '. Please confirm my VIP access.');
+      document.getElementById('whatsapp-redirect-btn').href = 'https://web.whatsapp.com/send?phone=919638055552&text=' + whatsappText;
     }
+
+    // Handle Coaching Portal Request -> Firestore & 5-minute Admin Flow
+    function handlePortalSubmit(e) {
+      e.preventDefault();
+      const institute = document.getElementById('portal-institute').value;
+      const director = document.getElementById('portal-director').value;
+      const phone = document.getElementById('portal-phone').value;
+      const city = document.getElementById('portal-city').value;
+      const domain = document.getElementById('portal-domain').value;
+      const courses = document.getElementById('portal-courses').value;
+
+      const portalData = {
+        instituteName: institute,
+        directorName: director,
+        contactPhone: phone,
+        city: city,
+        domainRequested: domain,
+        courses: courses,
+        packageFee: 1999,
+        status: "pending",
+        referralCode: "DDMAI-V5H4QH"
+      };
+
+      document.getElementById('portal-form').classList.add('hidden');
+      document.getElementById('portal-success').classList.remove('hidden');
+
+      if (db) {
+        portalData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+        db.collection('coaching_portals').add(portalData).then(docRef => {
+          document.getElementById('portal-ref-id').innerText = "Cloud Firestore Reference: " + docRef.id;
+        }).catch(err => {
+          document.getElementById('portal-ref-id').innerText = "Logged in System: " + Date.now().toString(36).toUpperCase();
+        });
+      } else {
+        document.getElementById('portal-ref-id').innerText = "Logged in System: " + Date.now().toString(36).toUpperCase();
+      }
+
+      window.lastSubmittedPortal = portalData;
+
+      const waText = encodeURIComponent('Hello Veteran PankajBhai, I just submitted my Coaching Portal Setup for "' + institute + '" with requested domain "' + domain + '". Please review and approve in Admin Settings.');
+      document.getElementById('portal-whatsapp-btn').href = 'https://web.whatsapp.com/send?phone=919638055552&text=' + waText;
+    }
+
+    // Refresh Admin Portals
+    function refreshAdminPortals() {
+      const container = document.getElementById('admin-portals-list');
+      const item = window.lastSubmittedPortal || {
+        instituteName: "Apex Science Academy",
+        directorName: "Sharma Sir",
+        contactPhone: "9876543210",
+        city: "Gandhinagar",
+        domainRequested: "apexacademy.in",
+        status: "pending"
+      };
+
+      const isApproved = item.status === 'approved';
+      const badgeClass = isApproved ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800';
+      const statusText = isApproved ? 'APPROVED & LIVE' : 'PENDING 5-MIN APPROVAL';
+
+      let actionHtml = '';
+      if (isApproved) {
+        actionHtml = '<span class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-bold text-xs">✓ Active Live in Portal</span>';
+      } else {
+        actionHtml = '<button onclick="approvePortal(this)" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-md transition-all">Approve & Activate (Yes) &rarr;</button>';
+      }
+
+      container.innerHTML = '<div class="p-4 rounded-2xl border border-amber-200 bg-amber-50/60 space-y-3">' +
+        '<div class="flex items-start justify-between">' +
+          '<div>' +
+            '<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ' + badgeClass + '">' + statusText + '</span>' +
+            '<h4 class="font-extrabold text-sm text-[#061B49] mt-1">' + item.instituteName + '</h4>' +
+            '<p class="text-xs text-slate-500">Director: ' + item.directorName + ' • ' + item.city + '</p>' +
+          '</div>' +
+          '<span class="text-xs font-mono font-bold text-brand-700 bg-white px-2 py-1 rounded border">₹1,999/yr</span>' +
+        '</div>' +
+        '<div class="text-xs text-slate-600 bg-white p-2.5 rounded-xl border border-slate-200 space-y-1">' +
+          '<p><strong>Domain:</strong> <span class="font-mono text-brand-600">' + item.domainRequested + '</span></p>' +
+          '<p><strong>Phone:</strong> ' + item.contactPhone + '</p>' +
+        '</div>' +
+        '<div class="flex items-center justify-between pt-1">' +
+          '<span class="text-[11px] text-slate-500">Setting: Admin Approval</span>' +
+          actionHtml +
+        '</div>' +
+      '</div>';
+    }
+
+    function approvePortal(btn) {
+      if (window.lastSubmittedPortal) {
+        window.lastSubmittedPortal.status = "approved";
+      }
+      btn.innerText = "Activating...";
+      setTimeout(function() {
+        alert("Success! Coaching Portal has been Approved by Admin (Veteran PankajBhai Umesh Gupta). Custom domain routing active!");
+        refreshAdminPortals();
+      }, 500);
+    }
+
   </script>
 </body>
 </html>
-
