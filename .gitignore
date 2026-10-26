@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+playwrite.cli/node_modules/
+playwrite.cli/package-lock.json
+
+# Firebase Cache & Logs
+.firebase/
+*-debug.log
+firebase-debug.log
+firestore-debug.log
+
+# Large Personal Documents & Backups
+Das Personal/
+*.docx
+*.pdf
+Direct_Market_ILH_Email_MD.txt
+"DDMAI— Find the Right Tutor*"
+DDMAI—*
+
+# OS Files
+Thumbs.db
+Desktop.ini
+.DS_Store
