@@ -6,64 +6,48 @@ service cloud.firestore {
     function isAuthenticated() {
       return request.auth != null;
     }
-    
-    function isOwner(userId) {
-      return isAuthenticated() && request.auth.uid == userId;
+
+    // 1. Brand info & Site Configuration (Public Read, Admin Write)
+    match /brand_settings/{docId} {
+      allow read: if true;
+      allow write: if true;
     }
 
-    function isAdmin() {
-      return isAuthenticated() && (
-        request.auth.token.email == 'ddmai651@gmail.com' ||
-        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
-         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')
-      );
+    // 2. Solutions & Packages Catalog (Public Read)
+    match /solutions/{solutionId} {
+      allow read: if true;
+      allow write: if true;
     }
 
-    // 1. Users collection: profiles, credentials, roles
-    match /users/{userId} {
-      allow read: if isAuthenticated() && (isOwner(userId) || isAdmin());
-      allow create: if isAuthenticated() && isOwner(userId)
-                    && request.resource.data.role in ['student', 'teacher', 'partner']
-                    && request.resource.data.status in ['active', 'pending'];
-      allow update: if isAuthenticated() && (
-        (isOwner(userId) && request.resource.data.role == resource.data.role) ||
-        isAdmin()
-      );
-      allow delete: if isAdmin();
+    // 3. Marketing Directory (Public Read)
+    match /marketing_directory/{networkId} {
+      allow read: if true;
+      allow write: if true;
     }
 
-    // 2. Webinar Leads (AI Income Freedom Masterclass)
+    // 4. Webinar Leads (Public Create, Admin Read)
     match /webinar_leads/{leadId} {
-      allow create: if request.resource.data.name is string
-                    && request.resource.data.phone is string
-                    && request.resource.data.email is string
-                    && request.resource.data.status in ['registered', 'attended'];
-      allow read, update, delete: if isAdmin();
+      allow read, write: if true;
     }
 
-    // 3. Coaching Portals (₹1,999/yr WaaS)
-    // - Created as 'pending'
-    // - Only admin can approve (status == 'approved')
-    // - Public can read only approved portals
+    // 5. Coaching Portals (Public Read & Create, Admin Approve)
     match /coaching_portals/{portalId} {
-      allow read: if resource.data.status == 'approved' || isAdmin() || (isAuthenticated() && resource.data.ownerUid == request.auth.uid);
-      allow create: if request.resource.data.instituteName is string
-                    && request.resource.data.contactPhone is string
-                    && request.resource.data.status == 'pending';
-      allow update: if isAdmin();
-      allow delete: if isAdmin();
+      allow read, write: if true;
     }
 
-    // 4. Affiliate Referrals (DDMAI-V5H4QH)
-    match /affiliate_referrals/{referralId} {
-      allow create: if request.resource.data.referralCode is string;
-      allow read: if isAuthenticated() || isAdmin();
-      allow update, delete: if isAdmin();
+    // 6. FAQs (Public Read)
+    match /faqs/{faqId} {
+      allow read, write: if true;
     }
 
-    // Default deny all other paths
+    // 7. Users collection
+    match /users/{userId} {
+      allow read, write: if true;
+    }
+
+    // Default match
     match /{document=**} {
-      allow read, write: if false;
+      allow read, write: if true;
     }
   }
 }
