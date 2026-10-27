@@ -4,7 +4,7 @@
 **Target Brand:** Digital Direct Marketing – AI & Tech (DDMAI)  
 **Founder & Chief Architect:** Veteran PankajBhai Umesh Gupta  
 **Headquarters:** Gandhinagar, Gujarat, India  
-**Live Deployed Production URL:** https://pankaj-umes-gupta.web.app  
+**Live Deployed Production URL:** https://ddmaiaffiliate.web.app  
 **Referral Network ID:** `DDMAI-V5H4QH`  
 **Execution Timestamp:** 2026-10-27 00:28 IST  
 
@@ -27,7 +27,7 @@ The table below summarizes the exact conversion from the reference demo project 
 | **Security Rules** | Firestore Security Rules (Slide 50) | **Role-Based Rules (`firestore.rules`)** | ✔ Deployed Live |
 | **Admin Approval Flow** | Teacher Approval (Slide 60) | **5-Minute Coaching Portal Activation Workflow** | ✔ Implemented |
 | **Automated Testing** | Terminal Verification | **`test.cli` (34 tests) + `playwrite.cli` (21 tests)** | ✔ 100% Passed |
-| **Live Production** | `skilvexa.com` | **`https://pankaj-umes-gupta.web.app`** | ✔ Live & Verified |
+| **Live Production** | `skilvexa.com` | **`https://ddmaiaffiliate.web.app`** | ✔ Live & Verified |
 
 ---
 
@@ -71,7 +71,7 @@ The table below summarizes the exact conversion from the reference demo project 
 * [x] **Firebase Hosting Deployed:** Successfully released version to Google global CDN.
 * [x] **Live HTTPS/SSL:** Fully functional with HTTP 200 OK status.
 * [x] **Live URLs:**
-  * Primary: `https://pankaj-umes-gupta.web.app`
+  * Primary: `https://ddmaiaffiliate.web.app`
   * Secondary: `https://pankaj-umes-gupta.firebaseapp.com`
 
 ---
