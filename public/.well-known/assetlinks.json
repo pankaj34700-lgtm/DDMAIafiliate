@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.ddmai.app",
+        "sha256_cert_fingerprints": ["FA:6E:71:BB:E8:3B:60:F2:51:0D:FC:38:B5:4F:F2:5A:5D:39:1D:2D:C3:ED:4A:1F:5A:3D:14:BA:19:28:7F:48"]
+      }
+    }]

@@ -1,0 +1,24 @@
+{
+  "name": "Digital Direct Marketing – AI & Tech",
+  "short_name": "DDMAI",
+  "description": "Direct Marketing Systems & Coaching Portals by Veteran PankajBhai Umesh Gupta",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#061B49",
+  "theme_color": "#061B49",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
