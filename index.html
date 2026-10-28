@@ -156,23 +156,37 @@
           </p>
 
           <!-- Right Action Buttons -->
-          <div class="flex shrink-0 items-center gap-2 sm:gap-3">
-            <a href="admin.html" class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-amber-300 border border-amber-400/40 bg-amber-400/10 hover:bg-amber-400/20 transition-all">
-              <span class="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse"></span>
-              Admin Panel
+          <div class="flex shrink-0 items-center gap-1.5 sm:gap-2.5">
+            <!-- 🔒 Admin Panel Button (Prominently visible) -->
+            <a href="admin.html" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-amber-300 border border-amber-400/50 bg-amber-400/15 hover:bg-amber-400/25 transition-all shadow-sm">
+              <span class="h-2 w-2 rounded-full bg-amber-400 animate-pulse"></span>
+              <span>🔒 Admin Panel</span>
             </a>
-            <button onclick="openWelcomeLetter()" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-200 border border-white/20 bg-white/5 hover:bg-white/15 transition-all">
+
+            <!-- 👤 Member Login Button -->
+            <button onclick="openUserLoginModal()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-white border border-white/20 bg-white/10 hover:bg-white/20 transition-all shadow-sm">
+              <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+              <span>Member Login</span>
+            </button>
+
+            <!-- 🎓 Certificate Generator Button -->
+            <button onclick="openCertificateModal()" class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-amber-200 border border-amber-400/30 bg-amber-500/10 hover:bg-amber-500/20 transition-all">
+              <span>🎓 Certificates</span>
+            </button>
+
+            <!-- Welcome Letter modal button (retained for test.cli) -->
+            <button onclick="openWelcomeLetter()" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-200 border border-white/20 bg-white/5 hover:bg-white/15 transition-all">
               <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
               Welcome Letter
             </button>
 
             <a href="https://ddmai.com/signup/?ref=DDMAI-V5H4QH" target="_blank" rel="noopener noreferrer" 
-               class="inline-flex items-center justify-center font-semibold text-xs sm:text-sm px-3.5 py-2 rounded-lg bg-white text-brand-800 hover:bg-brand-50 shadow-sm transition-all">
-              DDMAI Partner Signup
+               class="hidden xl:inline-flex items-center justify-center font-semibold text-xs sm:text-sm px-3.5 py-2 rounded-xl bg-white text-brand-800 hover:bg-brand-50 shadow-sm transition-all">
+              Partner Signup
             </a>
 
             <button onclick="openWebinarModal()" 
-               class="inline-flex items-center justify-center font-semibold text-xs sm:text-sm px-4 py-2 rounded-lg bg-[#FFD166] text-[#061B49] hover:bg-[#ffe0a3] shadow-gold transition-all">
+               class="inline-flex items-center justify-center font-bold text-xs sm:text-sm px-4 py-2 rounded-xl bg-[#FFD166] text-[#061B49] hover:bg-[#ffe0a3] shadow-gold transition-all">
               Join Launchpad
             </button>
           </div>
@@ -1952,6 +1966,451 @@
           .catch(function(err) { console.log('DDMAI ServiceWorker error:', err); });
       });
     }
+
+    // ================= USER LOGIN & DASHBOARD MODALS =================
+    function openUserLoginModal() {
+      document.getElementById('user-login-modal').classList.remove('hidden');
+    }
+
+    function closeUserLoginModal() {
+      document.getElementById('user-login-modal').classList.add('hidden');
+    }
+
+    function quickDemoLogin(profile) {
+      let userData;
+      if (profile === 'apex') {
+        userData = {
+          name: "Apex Science Academy",
+          director: "Dr. Rajesh Patel",
+          phone: "+91 9638055552",
+          domain: "apexscience.in",
+          city: "Gandhinagar, Gujarat",
+          role: "Coaching Center Director",
+          portalStatus: "approved",
+          credits: 20
+        };
+      } else {
+        userData = {
+          name: "Ramesh Kumar Sharma",
+          director: "Ramesh Sharma",
+          phone: "+91 9876543210",
+          domain: "scholarslearning.in",
+          city: "Ahmedabad, Gujarat",
+          role: "Affiliate Partner",
+          portalStatus: "approved",
+          credits: 20
+        };
+      }
+
+      localStorage.setItem('ddmai_user_auth', JSON.stringify(userData));
+      closeUserLoginModal();
+      openWelcomeModal(userData.name);
+    }
+
+    function handleUserLoginForm(e) {
+      e.preventDefault();
+      const identifier = document.getElementById('login-user-identifier').value.trim();
+      const userData = {
+        name: identifier.includes('@') ? identifier.split('@')[0] : "Educator " + identifier.slice(-4),
+        director: "Valued Partner",
+        phone: identifier,
+        domain: "portal.ddmaiaffiliate.web.app",
+        city: "Gandhinagar, Gujarat",
+        role: "Active Member",
+        portalStatus: "approved",
+        credits: 20
+      };
+
+      localStorage.setItem('ddmai_user_auth', JSON.stringify(userData));
+      closeUserLoginModal();
+      openWelcomeModal(userData.name);
+    }
+
+    function openWelcomeModal(name) {
+      const welcomeModal = document.getElementById('welcome-message-modal');
+      if (welcomeModal) welcomeModal.classList.remove('hidden');
+    }
+
+    function closeWelcomeModal() {
+      const welcomeModal = document.getElementById('welcome-message-modal');
+      if (welcomeModal) welcomeModal.classList.add('hidden');
+    }
+
+    function confirmWelcomeAndOpenDashboard() {
+      closeWelcomeModal();
+      openUserDashboardModal();
+    }
+
+    function openUserDashboardModal() {
+      let userData = { name: "Apex Science Academy", role: "Coaching Center Director" };
+      try {
+        const stored = localStorage.getItem('ddmai_user_auth');
+        if (stored) userData = JSON.parse(stored);
+      } catch (e) {}
+
+      const nameEl = document.getElementById('modal-dash-user-name');
+      const roleEl = document.getElementById('modal-dash-role');
+      if (nameEl) nameEl.innerText = userData.name || "Member";
+      if (roleEl) roleEl.innerText = userData.role || "Active Member";
+      document.getElementById('user-dashboard-modal').classList.remove('hidden');
+    }
+
+    function closeUserDashboardModal() {
+      document.getElementById('user-dashboard-modal').classList.add('hidden');
+    }
+
+    function handleUserLogout() {
+      localStorage.removeItem('ddmai_user_auth');
+      closeUserDashboardModal();
+      alert("Logged out of Member Portal successfully!");
+    }
+
+    function copyMemberReferralLink() {
+      navigator.clipboard.writeText("https://ddmai.com/signup/?ref=DDMAI-V5H4QH");
+      alert("Official referral link copied to clipboard: https://ddmai.com/signup/?ref=DDMAI-V5H4QH");
+    }
+
+    // ================= CERTIFICATE MODAL ENGINE =================
+    function openCertificateModal() {
+      document.getElementById('certificate-modal').classList.remove('hidden');
+      syncModalCertificate();
+    }
+
+    function closeCertificateModal() {
+      document.getElementById('certificate-modal').classList.add('hidden');
+    }
+
+    function syncModalCertificate() {
+      const type = document.getElementById('modal-cert-type').value;
+      const recipient = document.getElementById('modal-cert-recipient').value.trim() || "Apex Science Academy";
+      const director = document.getElementById('modal-cert-director').value.trim() || "Dr. Rajesh Patel";
+
+      document.getElementById('modal-cert-display-name').innerText = recipient;
+      document.getElementById('modal-cert-display-director').innerText = director;
+
+      if (type === 'coaching_auth') {
+        document.getElementById('modal-cert-subtitle').innerText = "Certificate of Authorization";
+        document.getElementById('modal-cert-title').innerText = "Turnkey Coaching Portal Partner";
+        document.getElementById('modal-cert-body').innerHTML = 'represented by <strong>' + director + '</strong>, is officially recognized and authorized as a verified educational portal partner under the DDMAI ecosystem. Official Custom Domain: <code class="font-mono font-bold text-amber-800">apexscience.in</code>.';
+      } else {
+        document.getElementById('modal-cert-subtitle').innerText = "Certificate of Achievement";
+        document.getElementById('modal-cert-title').innerText = "AI Income Freedom Masterclass Graduate";
+        document.getElementById('modal-cert-body').innerHTML = 'has successfully completed the comprehensive training in <strong>Direct Marketing AI, 5-Minute Turnkey Coaching Portals, and 11-Day Deep Nurture Email Systems</strong> conducted under Veteran PankajBhai Umesh Gupta.';
+      }
+    }
+
+    function printModalCertificate() {
+      window.print();
+    }
+
+    // ================= FLOATING QUICK ACCESS DOCK =================
+    function toggleQuickDock() {
+      const menu = document.getElementById('quick-dock-menu');
+      if (menu) menu.classList.toggle('hidden');
+    }
+
   </script>
+
+  <!-- ================= USER LOGIN PANEL MODAL ================= -->
+  <div id="user-login-modal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-md p-4 overflow-y-auto flex items-center justify-center">
+    <div class="relative w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl overflow-hidden my-8 text-white">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-amber-500/20 border border-amber-400/40 p-1 flex items-center justify-center">
+            <img src="assets/logo.jpeg" alt="DDMAI" class="w-full h-full object-contain rounded-lg">
+          </div>
+          <div>
+            <h3 class="font-bold text-base text-white">DDMAI Member Login</h3>
+            <p class="text-[10px] text-slate-400">Coaching Centers, Affiliates & Attendees</p>
+          </div>
+        </div>
+        <button onclick="closeUserLoginModal()" class="text-slate-400 hover:text-white text-xl p-1">&times;</button>
+      </div>
+
+      <!-- Quick 1-Click Demo Login Selector -->
+      <div class="mt-4 p-3.5 rounded-2xl bg-slate-950 border border-slate-800">
+        <span class="text-[11px] font-bold text-amber-400 uppercase tracking-wider block mb-2">⚡ 1-Click Instant Demo Login</span>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+          <button type="button" onclick="quickDemoLogin('apex')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-amber-500/30 text-left text-slate-200 transition-all">
+            <strong class="text-amber-300 block text-[11px]">Apex Science Academy</strong>
+            <span class="text-[10px] text-slate-400">Approved Coaching Portal</span>
+          </button>
+          <button type="button" onclick="quickDemoLogin('ramesh')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-blue-500/30 text-left text-slate-200 transition-all">
+            <strong class="text-blue-300 block text-[11px]">Ramesh Kumar Sharma</strong>
+            <span class="text-[10px] text-slate-400">Masterclass Member</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Standard Login Form -->
+      <form onsubmit="handleUserLoginForm(event)" class="mt-4 space-y-3.5 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-300 mb-1">Mobile Number or Email *</label>
+          <input type="text" id="login-user-identifier" required placeholder="e.g. 9638055552 or user@example.com"
+            class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-400 font-mono">
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-300 mb-1">Passcode / PIN</label>
+          <input type="password" id="login-user-passcode" placeholder="Default: ddmai2026 or leave blank for demo"
+            class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-400 font-mono">
+        </div>
+
+        <button type="submit"
+          class="w-full py-3 rounded-2xl font-bold text-xs bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 shadow-lg shadow-amber-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer">
+          <span>Sign In to Member Dashboard &rarr;</span>
+        </button>
+
+        <div class="flex items-center justify-between text-[11px] text-slate-400 pt-2 border-t border-slate-800">
+          <span>Need help? <a href="https://wa.me/919638055552" target="_blank" class="text-emerald-400 hover:underline">WhatsApp Admin</a></span>
+          <a href="admin.html" target="_blank" class="text-amber-400 font-bold hover:underline">Executive Admin Panel &rarr;</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= WELCOME MESSAGE POPUP MODAL ================= -->
+  <div id="welcome-message-modal" class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-md p-4 overflow-y-auto flex items-center justify-center text-white">
+    <div class="w-full max-w-lg bg-slate-900 border border-amber-500/40 rounded-3xl p-6 sm:p-8 shadow-2xl relative text-center">
+      <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-amber-500 to-amber-300 p-0.5 mx-auto mb-4 shadow-xl shadow-amber-500/20">
+        <img src="assets/logo.jpeg" alt="DDMAI Logo" class="w-full h-full object-contain rounded-2xl bg-slate-900" onerror="this.src='https://placehold.co/100x100/1e293b/d9a93e?text=DDMAI'">
+      </div>
+
+      <span class="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-amber-400/20 text-amber-300 border border-amber-400/30 font-mono">
+        Official Welcome Message
+      </span>
+
+      <h3 class="text-2xl font-extrabold text-white mt-3 tracking-tight">
+        Namaste & Heartiest Welcome!
+      </h3>
+      <p class="text-xs text-amber-400 font-serif italic mt-0.5">
+        From Veteran PankajBhai Umesh Gupta &bull; Gandhinagar, Gujarat
+      </p>
+
+      <div class="mt-4 p-4 rounded-2xl bg-slate-950/80 border border-slate-800 text-xs text-slate-300 leading-relaxed text-left space-y-2">
+        <p>
+          "I warmly welcome you to the <strong>Digital Direct Marketing – AI & Tech (DDMAI)</strong> ecosystem. We build platforms that operate 24/7 to scale your coaching admissions, digital assets, and recurring affiliate revenue."
+        </p>
+        <p class="text-amber-300/90 font-semibold">
+          Your portal access, 20 starter unlock credits, and verified certification privileges are now active!
+        </p>
+      </div>
+
+      <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <button onclick="confirmWelcomeAndOpenDashboard()"
+          class="w-full sm:w-auto px-6 py-2.5 rounded-xl font-bold text-xs bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all shadow-lg shadow-amber-500/20">
+          Open Member Dashboard &rarr;
+        </button>
+        <button onclick="openCertificateModal()"
+          class="w-full sm:w-auto px-5 py-2.5 rounded-xl font-bold text-xs bg-slate-800 hover:bg-slate-700 text-white transition-all border border-slate-700">
+          🎓 View My Certificate
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= IN-PAGE USER DASHBOARD MODAL ================= -->
+  <div id="user-dashboard-modal" class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-md p-4 overflow-y-auto flex items-center justify-center text-white">
+    <div class="w-full max-w-4xl bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl relative my-8">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-400/40 p-1 flex items-center justify-center">
+            <img src="assets/logo.jpeg" alt="DDMAI" class="w-full h-full object-contain rounded-lg">
+          </div>
+          <div>
+            <h3 class="font-extrabold text-base text-white">DDMAI Member & Portal Dashboard</h3>
+            <p class="text-xs text-slate-400">Welcome, <span id="modal-dash-user-name" class="text-amber-300 font-bold">Apex Science Academy</span> &bull; <span id="modal-dash-role" class="text-slate-300">Coaching Partner</span></p>
+          </div>
+        </div>
+        <button onclick="closeUserDashboardModal()" class="text-slate-400 hover:text-white text-2xl p-1">&times;</button>
+      </div>
+
+      <!-- 4 Quick KPI Badges -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 my-5 text-xs">
+        <div class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800">
+          <span class="text-slate-500 block text-[10px] uppercase font-bold">Portal Status</span>
+          <span class="text-emerald-400 font-bold text-xs mt-1 block">✅ Approved & Live</span>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800">
+          <span class="text-slate-500 block text-[10px] uppercase font-bold">Available Credits</span>
+          <span class="text-amber-300 font-bold text-xs mt-1 block">20 Starter Credits</span>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800">
+          <span class="text-slate-500 block text-[10px] uppercase font-bold">Masterclass Pass</span>
+          <span class="text-blue-400 font-bold text-xs mt-1 block">VIP Seat Confirmed</span>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800">
+          <span class="text-slate-500 block text-[10px] uppercase font-bold">Partner Referral</span>
+          <span class="text-amber-400 font-mono font-bold text-xs mt-1 block">DDMAI-V5H4QH</span>
+        </div>
+      </div>
+
+      <!-- Main Actions Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+        <!-- Coaching Portal Card -->
+        <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+          <h4 class="font-bold text-white text-sm flex items-center justify-between">
+            <span>🏫 Coaching Website Portal</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono">Live</span>
+          </h4>
+          <p class="text-slate-400 leading-relaxed text-[11px]">
+            Your turnkey multi-tenant website is hosted with zero server fees. Custom domain integration:
+          </p>
+          <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-[11px] font-mono text-amber-300">
+            https://apexscience.in
+          </div>
+          <div class="flex items-center gap-2 pt-1">
+            <a href="https://apexscience.in" target="_blank" class="px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs hover:bg-amber-400">
+              Visit Live Portal &rarr;
+            </a>
+            <button onclick="openCertificateModal()" class="px-3 py-1.5 rounded-xl bg-slate-800 text-slate-200 border border-slate-700 text-xs hover:bg-slate-700">
+              Print Certificate
+            </button>
+          </div>
+        </div>
+
+        <!-- Marketing & WhatsApp Toolkit -->
+        <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+          <h4 class="font-bold text-white text-sm flex items-center justify-between">
+            <span>📢 WhatsApp Direct Launch Kit</span>
+            <span class="text-amber-400 font-semibold text-[10px]">1-Click Copy</span>
+          </h4>
+          <p class="text-slate-400 leading-relaxed text-[11px]">
+            Use your official referral link to onboard affiliates and student admissions:
+          </p>
+          <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-[11px] font-mono text-slate-300">
+            <span class="truncate">https://ddmai.com/signup/?ref=DDMAI-V5H4QH</span>
+            <button onclick="copyMemberReferralLink()" class="text-amber-400 hover:text-amber-300 font-bold ml-2">Copy</button>
+          </div>
+          <div class="pt-1">
+            <a href="https://wa.me/919638055552?text=Namaste%20Veteran%20PankajBhai,%20I%20am%20logged%20into%20my%20DDMAI%20dashboard" target="_blank"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 text-white font-bold text-xs hover:bg-emerald-500">
+              💬 Direct WhatsApp Mentor Walkthrough
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-slate-500">
+        <a href="user-dashboard.html" target="_blank" class="text-amber-400 hover:underline font-semibold">Open Fullscreen Dashboard &rarr;</a>
+        <button onclick="handleUserLogout()" class="text-rose-400 hover:underline">Log Out</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= CERTIFICATE VERIFICATION & GENERATOR MODAL ================= -->
+  <div id="certificate-modal" class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-md p-4 overflow-y-auto flex items-center justify-center text-slate-900">
+    <div class="w-full max-w-4xl bg-white rounded-3xl p-6 sm:p-8 shadow-2xl relative my-8 border-4 border-[#d9a93e]">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🎓</span>
+          <h3 class="font-bold text-base text-[#061B49] font-sans">DDMAI Official Verified Certificate Generator</h3>
+        </div>
+        <button onclick="closeCertificateModal()" class="text-slate-400 hover:text-slate-700 text-2xl p-1">&times;</button>
+      </div>
+
+      <!-- Controls Row -->
+      <div class="mt-4 p-4 rounded-2xl bg-amber-50 border border-amber-200 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-sans">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Certificate Type</label>
+          <select id="modal-cert-type" onchange="syncModalCertificate()" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-slate-800">
+            <option value="coaching_auth">🏫 Turnkey Coaching Center Authorization</option>
+            <option value="masterclass_grad">📜 Masterclass Achievement Certificate</option>
+          </select>
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Recipient / Institute Name</label>
+          <input type="text" id="modal-cert-recipient" value="Apex Science Academy" oninput="syncModalCertificate()"
+            class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-slate-800">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Director / Student Name</label>
+          <input type="text" id="modal-cert-director" value="Dr. Rajesh Patel" oninput="syncModalCertificate()"
+            class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-slate-800">
+        </div>
+      </div>
+
+      <!-- Certificate Preview Container -->
+      <div class="my-6 p-6 sm:p-10 border-2 border-[#d9a93e] rounded-2xl bg-[#FFFBF2] text-center font-serif relative overflow-hidden">
+        <div class="flex items-center justify-center gap-3 mb-2 font-sans">
+          <div class="w-12 h-12 rounded-full bg-slate-900 p-1 border-2 border-amber-500 shadow-md">
+            <img src="assets/logo.jpeg" alt="DDMAI Logo" class="w-full h-full object-contain rounded-full" onerror="this.src='https://placehold.co/60x60/061B49/d9a93e?text=DDMAI'">
+          </div>
+          <div class="text-left">
+            <span class="text-lg font-black text-[#061B49] tracking-tight block">DIGITAL DIRECT MARKETING</span>
+            <span class="text-[10px] font-bold text-amber-700 tracking-widest uppercase block">AI & TECH &bull; GANDHINAGAR &bull; GUJARAT</span>
+          </div>
+        </div>
+
+        <p id="modal-cert-subtitle" class="text-xs uppercase font-bold text-amber-700 font-sans tracking-widest mt-3">Certificate of Authorization</p>
+        <h2 id="modal-cert-title" class="text-2xl sm:text-3xl font-extrabold text-[#061B49] mt-1 font-display">Turnkey Coaching Portal Partner</h2>
+
+        <div class="my-4 py-2">
+          <span id="modal-cert-display-name" class="text-2xl font-black text-[#061B49] border-b-2 border-amber-500 pb-1 px-4 inline-block">
+            Apex Science Academy
+          </span>
+        </div>
+
+        <p id="modal-cert-body" class="max-w-xl mx-auto text-xs sm:text-sm text-slate-700 leading-relaxed">
+          represented by <strong id="modal-cert-display-director">Dr. Rajesh Patel</strong>, is officially recognized and authorized as a verified educational portal partner under the DDMAI ecosystem. Official Domain: <code class="font-mono font-bold text-amber-800">apexscience.in</code>.
+        </p>
+
+        <div class="mt-8 pt-6 border-t border-amber-200/80 flex items-end justify-between text-left font-sans text-xs">
+          <div>
+            <div class="font-display font-bold text-sm text-[#061B49]">Veteran PankajBhai Umesh Gupta</div>
+            <p class="text-[11px] text-amber-700 font-bold">Founder & Lead System Architect</p>
+            <p class="text-[10px] text-slate-500">Gandhinagar, Gujarat &bull; +91 9638055552</p>
+          </div>
+          <div class="text-center">
+            <div class="w-16 h-16 rounded-full border-2 border-amber-500 bg-amber-100/70 text-amber-800 flex flex-col items-center justify-center font-bold text-[9px] shadow-sm">
+              <span>⭐</span>
+              <span>DDMAI</span>
+              <span class="text-[7px]">VERIFIED</span>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="text-[10px] text-slate-400 block">Verification ID:</span>
+            <strong class="font-mono text-xs text-[#061B49]">DDMAI-CERT-2026-9182</strong>
+            <span class="text-[10px] text-slate-400 block mt-1">Date: 28 Oct 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center justify-end gap-3 font-sans text-xs">
+        <button onclick="closeCertificateModal()" class="px-4 py-2 rounded-xl bg-slate-200 text-slate-700 font-semibold">Close</button>
+        <button onclick="printModalCertificate()" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold shadow-lg transition-all flex items-center gap-1.5">
+          <span>🖨️ Print / Save Certificate as PDF</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING QUICK ACTION DOCK (Bottom-Right) -->
+  <div class="fixed bottom-5 right-5 z-40 flex flex-col items-end gap-2.5 font-sans">
+    <div id="quick-dock-menu" class="hidden flex flex-col items-end gap-2 transition-all">
+      <a href="admin.html" target="_blank" class="px-4 py-2 rounded-2xl bg-slate-900/95 text-amber-300 border border-amber-400/50 text-xs font-bold shadow-2xl flex items-center gap-2 hover:scale-105 transition-transform backdrop-blur-md">
+        <span>🔒 Admin Control Panel</span>
+      </a>
+      <button onclick="openUserLoginModal()" class="px-4 py-2 rounded-2xl bg-slate-900/95 text-white border border-white/20 text-xs font-bold shadow-2xl flex items-center gap-2 hover:scale-105 transition-transform backdrop-blur-md">
+        <span>👤 Member Portal Login</span>
+      </button>
+      <button onclick="openCertificateModal()" class="px-4 py-2 rounded-2xl bg-slate-900/95 text-amber-200 border border-amber-400/30 text-xs font-bold shadow-2xl flex items-center gap-2 hover:scale-105 transition-transform backdrop-blur-md">
+        <span>🎓 Official Certificates</span>
+      </button>
+    </div>
+    
+    <div class="flex items-center gap-2">
+      <a href="https://web.whatsapp.com/send?phone=919638055552&text=Hello%20Veteran%20PankajBhai,%20I%20am%20visiting%20the%20DDMAI%20website" target="_blank"
+        class="h-12 w-12 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white shadow-xl flex items-center justify-center text-xl transition-all hover:scale-110" title="Direct WhatsApp Support">
+        💬
+      </a>
+      <button onclick="toggleQuickDock()" id="quick-dock-toggle"
+        class="h-12 px-4 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-extrabold text-xs shadow-xl flex items-center gap-2 hover:scale-105 transition-all">
+        <span>⚡ Quick Access</span>
+      </button>
+    </div>
+  </div>
+
 </body>
 </html>

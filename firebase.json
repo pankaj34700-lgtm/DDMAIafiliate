@@ -13,6 +13,14 @@
       {
         "source": "/admin",
         "destination": "/admin.html"
+      },
+      {
+        "source": "/dashboard",
+        "destination": "/user-dashboard.html"
+      },
+      {
+        "source": "/user-dashboard",
+        "destination": "/user-dashboard.html"
       }
     ],
     "headers": [
