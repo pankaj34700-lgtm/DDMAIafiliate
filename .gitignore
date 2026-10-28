@@ -1,7 +1,5 @@
 # Dependencies
 node_modules/
-playwrite.cli/node_modules/
-playwrite.cli/package-lock.json
 playwright.cli/node_modules/
 playwright.cli/package-lock.json
 

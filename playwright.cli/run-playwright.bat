@@ -1,6 +1,10 @@
 @echo off
-title DDMAI Playwright CLI Test Suite
+title DDMAI Playwright Browser Automation Suite
 cls
-echo Running DDMAI Playwright Automated Browser Test Suite...
-node "%~dp0playwright-runner.js"
+echo ======================================================
+echo   DDMAI PLAYWRIGHT BROWSER CLI SUITE (playwright.cli)
+echo   Target: Digital Direct Marketing – AI & Tech
+echo ======================================================
+echo.
+node "%~dp0run-all-playwright.js"
 pause
