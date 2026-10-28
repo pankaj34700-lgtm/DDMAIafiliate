@@ -1,26 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DDMAI Cloud Admin Panel | Veteran PankajBhai Umesh Gupta</title>
-  <meta name="description" content="Official Admin Control Center for Digital Direct Marketing – AI & Tech (DDMAI). Manage Webinar Leads, 5-Minute Coaching Portal Approvals, Solutions Catalog, and Broadcasts.">
+  <title>DDMAI Cloud Executive Admin Suite | Veteran PankajBhai Umesh Gupta</title>
+  <meta name="description" content="Next-Gen Executive Admin Control Center for Digital Direct Marketing – AI & Tech (DDMAI). 5-Minute Portal Approvals, Interactive CRM, Visual Analytics, WhatsApp Broadcast Suite, and Email Funnel Architecture.">
   <link rel="icon" type="image/jpeg" href="assets/logo.jpeg">
+  
+  <!-- Tailwind CSS & Google Fonts -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Cinzel:wght@600;700;800&display=swap" rel="stylesheet">
+  
   <!-- Firebase Compat SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           fontFamily: {
             sans: ['"Plus Jakarta Sans"', 'sans-serif'],
             mono: ['"JetBrains Mono"', 'monospace'],
+            display: ['"Cinzel"', 'serif'],
           },
           colors: {
             brand: {
@@ -35,92 +40,123 @@
               800: '#6d421d',
               900: '#5c371d',
             },
-            navy: {
-              800: '#0f172a',
-              850: '#0b1120',
-              900: '#060a14',
+            dark: {
+              950: '#03060d',
+              900: '#070c18',
+              850: '#0c1324',
+              800: '#111b33',
+              750: '#182442',
+            }
+          },
+          animation: {
+            'glow-pulse': 'glowPulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'float': 'float 4s ease-in-out infinite',
+          },
+          keyframes: {
+            glowPulse: {
+              '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+              '50%': { opacity: '0.8', transform: 'scale(1.05)' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-6px)' },
             }
           }
         }
       }
     }
   </script>
+
   <style>
-    /* Custom scrollbars */
+    /* Custom Scrollbars */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #0b1120; }
-    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #475569; }
-    .badge-pulse {
-      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    ::-webkit-scrollbar-track { background: #070c18; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #334155; }
+    
+    .glass-card {
+      background: rgba(12, 19, 36, 0.72);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
     }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: .6; transform: scale(1.08); }
+    .glass-card-hover:hover {
+      border-color: rgba(217, 169, 62, 0.35);
+      box-shadow: 0 10px 30px -10px rgba(217, 169, 62, 0.15);
+    }
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #FFE29F 0%, #FFAE34 50%, #ED9E22 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
   </style>
 </head>
-<body class="bg-[#060a14] text-slate-100 font-sans antialiased min-h-screen selection:bg-amber-500 selection:text-slate-900">
+<body class="bg-[#03060d] text-slate-100 font-sans antialiased min-h-screen selection:bg-amber-500 selection:text-slate-950 flex flex-col">
 
   <!-- ================= AUTH GATE / LOCK SCREEN ================= -->
-  <div id="auth-gate" class="fixed inset-0 z-50 flex items-center justify-center bg-[#060a14]/95 backdrop-blur-xl p-4 transition-all duration-300">
-    <div class="w-full max-w-md bg-slate-900/90 border border-slate-800 rounded-3xl p-7 sm:p-9 shadow-2xl shadow-amber-500/10 relative overflow-hidden">
-      <!-- Glow decoration -->
-      <div class="absolute -top-24 -right-24 w-48 h-48 bg-amber-500/20 rounded-full blur-3xl pointer-events-none"></div>
-      <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
+  <div id="auth-gate" class="fixed inset-0 z-50 flex items-center justify-center bg-[#03060d]/95 backdrop-blur-2xl p-4 transition-all duration-300">
+    <div class="w-full max-w-lg glass-card border-slate-800/90 rounded-3xl p-8 sm:p-10 shadow-2xl relative overflow-hidden">
+      <!-- Glow ambient background -->
+      <div class="absolute -top-32 -right-32 w-64 h-64 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-32 -left-32 w-64 h-64 bg-blue-600/15 rounded-full blur-3xl pointer-events-none"></div>
 
       <div class="relative z-10 text-center">
-        <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-tr from-amber-500/20 via-slate-800 to-amber-500/10 border border-amber-400/30 p-2.5 mx-auto mb-4 shadow-inner">
+        <!-- Logo Badge -->
+        <div class="inline-flex items-center justify-center w-24 h-24 rounded-2xl bg-gradient-to-tr from-amber-500/20 via-slate-800 to-amber-500/10 border border-amber-400/40 p-3 mx-auto mb-5 shadow-2xl shadow-amber-500/20 animate-float">
           <img src="assets/logo.jpeg" alt="DDMAI Logo" class="w-full h-full object-contain rounded-xl" onerror="this.src='https://placehold.co/100x100/1e293b/d9a93e?text=DDMAI'">
         </div>
 
-        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-amber-400/10 text-amber-300 border border-amber-400/30 mb-2">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-widest bg-amber-400/10 text-amber-300 border border-amber-400/30 mb-3">
           <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
-          Restricted Founder & Executive Access
-        </span>
-        
-        <h2 class="text-2xl font-extrabold text-white tracking-tight mt-1">DDMAI Cloud Admin Panel</h2>
-        <p class="text-xs text-slate-400 mt-1">Veteran PankajBhai Umesh Gupta &bull; Gandhinagar, Gujarat</p>
+          Executive Founder Access
+        </div>
 
-        <form id="admin-login-form" onsubmit="handleAdminLogin(event)" class="mt-6 text-left space-y-4">
+        <h1 class="text-3xl font-extrabold text-white tracking-tight">
+          DDMAI <span class="gold-gradient-text">Cloud Executive</span> Suite
+        </h1>
+        <p class="text-xs text-slate-400 mt-1.5">Veteran PankajBhai Umesh Gupta &bull; Gandhinagar, Gujarat</p>
+
+        <!-- Passcode Form -->
+        <form id="admin-login-form" onsubmit="handleAdminLogin(event)" class="mt-8 text-left space-y-4">
           <div>
-            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5">Admin Passcode / Master Key</label>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="text-xs font-bold uppercase tracking-wider text-slate-300">Enter Admin Passcode</label>
+              <span class="text-[11px] text-amber-400 font-mono">Authorized: ddmai651@gmail.com</span>
+            </div>
+            
             <div class="relative">
-              <input type="password" id="admin-passcode" placeholder="Enter Admin Passcode" required autocomplete="current-password"
-                class="w-full px-4 py-3 bg-slate-950/70 border border-slate-700/80 rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 transition-all font-mono">
-              <button type="button" onclick="togglePassVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white p-1 text-xs">
+              <input type="password" id="admin-passcode" placeholder="Master Key (e.g. ddmai2026)" required autocomplete="current-password" autofocus
+                class="w-full px-4 py-3.5 bg-slate-950/80 border border-slate-700/80 rounded-2xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/25 transition-all font-mono tracking-wider">
+              <button type="button" onclick="togglePassVisibility()" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white p-1 text-sm">
                 👁️
               </button>
             </div>
-            <p class="text-[11px] text-slate-500 mt-1.5 flex items-center justify-between">
-              <span>Authorized for: <strong class="text-slate-300">ddmai651@gmail.com</strong></span>
-              <span class="text-amber-400/80">Key: <code class="bg-slate-800 px-1 py-0.5 rounded text-[10px]">ddmai2026</code></span>
-            </p>
           </div>
 
-          <div class="flex items-center justify-between text-xs text-slate-400">
+          <!-- Quick options -->
+          <div class="flex items-center justify-between text-xs text-slate-400 pt-1">
             <label class="flex items-center gap-2 cursor-pointer select-none">
               <input type="checkbox" id="remember-me" checked class="rounded bg-slate-800 border-slate-700 text-amber-500 focus:ring-0">
-              <span>Keep session unlocked</span>
+              <span>Remember session on this device</span>
             </label>
-            <a href="index.html" class="hover:text-amber-400 transition-colors">Return to Website &rarr;</a>
+            <a href="index.html" class="text-amber-400 hover:underline">Live Website &rarr;</a>
           </div>
 
           <button type="submit" id="login-btn"
-            class="w-full py-3 px-4 rounded-xl font-bold text-sm bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 shadow-lg shadow-amber-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95">
-            <span>Unlock Admin Control Center</span>
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            class="w-full py-3.5 px-4 rounded-2xl font-bold text-sm bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 shadow-xl shadow-amber-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98">
+            <svg class="w-4 h-4 text-slate-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            <span>Unlock Executive Command Center</span>
           </button>
           
-          <div id="login-error" class="hidden text-center text-xs text-rose-400 bg-rose-500/10 border border-rose-500/20 rounded-lg p-2.5">
-            Invalid passcode. Please use authorized founder key or master passcode.
+          <div id="login-error" class="hidden text-center text-xs text-rose-300 bg-rose-500/10 border border-rose-500/30 rounded-xl p-3">
+            Invalid passcode. Authorized keys include <code class="text-amber-300 font-mono font-bold">ddmai2026</code> or founder key.
           </div>
         </form>
 
-        <div class="mt-6 pt-5 border-t border-slate-800 text-[11px] text-slate-500 flex items-center justify-center gap-3">
+        <div class="mt-8 pt-5 border-t border-slate-800/80 text-[11px] text-slate-500 flex items-center justify-between font-mono">
           <span>Project: <strong class="text-slate-300">ddmaiaffiliate</strong></span>
-          <span>&bull;</span>
           <span>Region: <strong class="text-slate-300">asia-south1</strong></span>
+          <span>Status: <strong class="text-emerald-400">Live</strong></span>
         </div>
       </div>
     </div>
@@ -129,262 +165,361 @@
   <!-- ================= MAIN ADMIN APPLICATION ================= -->
   <div id="admin-app" class="min-h-screen flex flex-col hidden">
 
-    <!-- TOP EXECUTIVE NAVBAR -->
-    <header class="sticky top-0 z-40 bg-[#090e1a]/95 backdrop-blur-md border-b border-slate-800/80">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <!-- Brand & Title -->
-        <div class="flex items-center gap-3">
-          <a href="index.html" class="flex items-center gap-2.5 group">
-            <div class="w-9 h-9 rounded-xl bg-slate-800 border border-amber-400/40 p-1 flex items-center justify-center overflow-hidden">
+    <!-- TOP EXECUTIVE BAR -->
+    <header class="sticky top-0 z-40 bg-[#070c18]/95 backdrop-blur-xl border-b border-slate-800/80">
+      <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+        
+        <!-- Brand & Title with Pulse Status -->
+        <div class="flex items-center gap-3 shrink-0">
+          <a href="index.html" class="flex items-center gap-3 group">
+            <div class="w-10 h-10 rounded-2xl bg-slate-900 border border-amber-400/40 p-1.5 flex items-center justify-center overflow-hidden shadow-md shadow-amber-500/10">
               <img src="assets/logo.jpeg" alt="DDMAI Logo" class="w-full h-full object-contain rounded-lg" onerror="this.src='https://placehold.co/50x50/1e293b/d9a93e?text=D'">
             </div>
             <div>
               <div class="flex items-center gap-2">
-                <span class="font-extrabold text-sm sm:text-base tracking-tight text-white group-hover:text-amber-400 transition-colors">DDMAI Admin Panel</span>
-                <span class="hidden sm:inline-flex px-2 py-0.5 rounded text-[10px] font-bold bg-amber-400/10 text-amber-300 border border-amber-400/30">v2.4 PRO</span>
+                <span class="font-extrabold text-sm sm:text-base tracking-tight text-white group-hover:text-amber-400 transition-colors">DDMAI Cloud Executive</span>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-gradient-to-r from-amber-500/20 to-amber-400/10 text-amber-300 border border-amber-400/40 font-mono">v3.0 ADVANCED</span>
               </div>
-              <p class="text-[10px] text-slate-400 truncate max-w-[200px] sm:max-w-none">Veteran PankajBhai Umesh Gupta &bull; Gandhinagar</p>
+              <p class="text-[10px] text-slate-400 flex items-center gap-1.5 truncate">
+                <span>Veteran PankajBhai Umesh Gupta</span>
+                <span>&bull;</span>
+                <span class="text-amber-400/80">Gandhinagar HQ</span>
+              </p>
             </div>
           </a>
         </div>
 
-        <!-- Sync Badge & Quick Action Buttons -->
-        <div class="flex items-center gap-2 sm:gap-3">
-          <!-- Live Firestore Status Indicator -->
-          <div id="firestore-status-badge" class="hidden md:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+        <!-- Center: Live IST Clock & Firestore Ping -->
+        <div class="hidden xl:flex items-center gap-4 bg-slate-950/70 border border-slate-800 px-4 py-1.5 rounded-2xl text-xs font-mono">
+          <div class="flex items-center gap-2 text-slate-300">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>Firestore: ddmaiaffiliate (Live)</span>
+            <span>Firestore: <strong class="text-white">ddmaiaffiliate</strong></span>
           </div>
+          <span class="text-slate-600">|</span>
+          <div class="flex items-center gap-2 text-slate-400">
+            <span>🇮🇳 IST:</span>
+            <span id="live-ist-clock" class="text-amber-300 font-bold">12:00:00 PM</span>
+          </div>
+        </div>
 
-          <!-- Refresh Button -->
-          <button onclick="refreshAllCollections()" title="Refresh Data from Cloud Firestore"
-            class="p-2 rounded-xl text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/60 transition-colors flex items-center gap-1.5 text-xs font-semibold">
-            <svg id="refresh-icon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-            <span class="hidden sm:inline">Refresh</span>
+        <!-- Right Quick Actions & Controls -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <!-- Audio Feedback Toggle Button -->
+          <button onclick="toggleAudioChimes()" id="audio-toggle-btn" title="Toggle System Sound Chimes"
+            class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition-all text-xs flex items-center gap-1">
+            <span id="audio-icon">🔔</span>
           </button>
 
-          <!-- Public Website Link -->
+          <!-- Refresh Data -->
+          <button onclick="refreshAllCollections()" title="Sync Cloud Firestore Data"
+            class="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white transition-all flex items-center gap-1.5 text-xs font-bold">
+            <svg id="refresh-icon" class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+            <span class="hidden md:inline">Sync Data</span>
+          </button>
+
+          <!-- Public Live Site Link -->
           <a href="index.html" target="_blank"
-            class="px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/60 transition-colors hidden sm:inline-flex items-center gap-1.5">
+            class="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white bg-slate-900 hover:bg-slate-800 border border-slate-800 transition-all hidden sm:inline-flex items-center gap-1.5">
             <span>Live Site</span>
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
           </a>
 
           <!-- Firebase Console Direct -->
           <a href="https://console.firebase.google.com/project/ddmaiaffiliate/firestore" target="_blank"
-            class="px-3 py-1.5 rounded-xl text-xs font-semibold text-amber-300 hover:text-amber-200 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 transition-colors hidden lg:inline-flex items-center gap-1.5">
-            <span>Firebase DB</span>
+            class="px-3.5 py-2 rounded-xl text-xs font-bold text-amber-300 hover:text-amber-200 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 transition-all hidden lg:inline-flex items-center gap-1.5 font-mono">
+            <span>Firebase Console</span>
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
           </a>
 
-          <!-- Logout Button -->
+          <!-- Lock / Exit Button -->
           <button onclick="handleAdminLogout()"
-            class="px-3 py-1.5 rounded-xl text-xs font-semibold text-rose-300 hover:text-white bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 transition-colors flex items-center gap-1.5">
+            class="px-3.5 py-2 rounded-xl text-xs font-bold text-rose-300 hover:text-white bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 transition-all flex items-center gap-1.5">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-            <span class="hidden sm:inline">Lock / Exit</span>
+            <span class="hidden sm:inline">Lock Panel</span>
           </button>
         </div>
       </div>
 
-      <!-- NAVIGATION TABS -->
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-800/60 overflow-x-auto">
+      <!-- HORIZONTAL NAVIGATION BAR WITH LIVE BADGES -->
+      <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-800/80 overflow-x-auto">
         <nav class="flex space-x-1 sm:space-x-2 py-2" aria-label="Admin Navigation Tabs">
           <button onclick="switchTab('dashboard')" id="tab-btn-dashboard"
-            class="tab-btn px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 bg-amber-400 text-slate-950 shadow-sm">
+            class="tab-btn px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 shadow-lg shadow-amber-500/20">
             <span>📊</span>
-            <span>Dashboard</span>
+            <span>Executive Dashboard</span>
           </button>
 
           <button onclick="switchTab('portals')" id="tab-btn-portals"
-            class="tab-btn px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800/70">
+            class="tab-btn px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-900">
             <span>🎓</span>
-            <span>Coaching Portals</span>
-            <span id="tab-pending-badge" class="hidden px-1.5 py-0.2 rounded-full text-[10px] font-extrabold bg-rose-500 text-white animate-pulse">0</span>
+            <span>5-Min Portal Approval Engine</span>
+            <span id="tab-pending-badge" class="hidden px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-rose-500 text-white animate-pulse">0</span>
           </button>
 
           <button onclick="switchTab('leads')" id="tab-btn-leads"
-            class="tab-btn px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800/70">
+            class="tab-btn px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-900">
             <span>🎯</span>
-            <span>Webinar Leads CRM</span>
-            <span id="tab-leads-count" class="px-1.5 py-0.2 rounded-full text-[10px] font-mono bg-slate-800 text-slate-300">0</span>
+            <span>Webinar Leads CRM 2.0</span>
+            <span id="tab-leads-count" class="px-2 py-0.5 rounded-full text-[10px] font-mono bg-slate-800 text-slate-300">0</span>
+          </button>
+
+          <button onclick="switchTab('analytics')" id="tab-btn-analytics"
+            class="tab-btn px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-900">
+            <span>📈</span>
+            <span>Visual Analytics & Funnels</span>
           </button>
 
           <button onclick="switchTab('solutions')" id="tab-btn-solutions"
-            class="tab-btn px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800/70">
+            class="tab-btn px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-900">
             <span>📦</span>
-            <span>Solutions Catalog</span>
+            <span>Solutions & Pricing</span>
           </button>
 
           <button onclick="switchTab('broadcast')" id="tab-btn-broadcast"
-            class="tab-btn px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800/70">
+            class="tab-btn px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-900">
             <span>📢</span>
-            <span>WhatsApp Broadcast</span>
+            <span>WhatsApp Broadcast Studio</span>
+          </button>
+
+          <button onclick="switchTab('email-funnel')" id="tab-btn-email-funnel"
+            class="tab-btn px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-900">
+            <span>✉️</span>
+            <span>11-Day Email Architecture</span>
           </button>
 
           <button onclick="switchTab('settings')" id="tab-btn-settings"
-            class="tab-btn px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800/70">
+            class="tab-btn px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-900">
             <span>⚙️</span>
-            <span>System & Profile</span>
+            <span>System Health & Config</span>
           </button>
         </nav>
       </div>
     </header>
 
     <!-- CONTENT WRAPPER -->
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    <main class="flex-1 max-w-[1600px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
       <!-- ================= TAB 1: EXECUTIVE DASHBOARD ================= -->
       <section id="tab-dashboard" class="tab-pane space-y-6">
-        <!-- Welcome Hero Banner -->
-        <div class="relative bg-gradient-to-r from-slate-900 via-slate-900/90 to-amber-950/40 border border-slate-800 rounded-3xl p-6 sm:p-8 overflow-hidden shadow-xl">
-          <div class="absolute -right-16 -top-16 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        
+        <!-- Welcome Master Banner -->
+        <div class="relative glass-card border-slate-800 rounded-3xl p-6 sm:p-8 overflow-hidden shadow-2xl">
+          <div class="absolute -right-20 -top-20 w-80 h-80 bg-gradient-to-br from-amber-500/20 to-amber-700/0 rounded-full blur-3xl pointer-events-none"></div>
           
-          <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             <div>
-              <div class="flex items-center gap-2 mb-2">
-                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-400/20 text-amber-300 border border-amber-400/30">Founder Dashboard</span>
-                <span class="text-xs text-slate-400">Headquarters: Gandhinagar, Gujarat</span>
+              <div class="flex items-center gap-2 mb-2.5">
+                <span class="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-amber-400/20 text-amber-300 border border-amber-400/30 flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+                  Founder & Lead System Architect
+                </span>
+                <span class="text-xs text-slate-400 font-mono">DDMAI Referral: <strong class="text-amber-300">DDMAI-V5H4QH</strong></span>
               </div>
-              <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-                Welcome, Veteran PankajBhai Umesh Gupta
+              <h1 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+                Namaste, Veteran PankajBhai Umesh Gupta
               </h1>
-              <p class="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl leading-relaxed">
-                Complete control center for <strong class="text-white">DDMAI (Digital Direct Marketing – AI & Tech)</strong>. Review 5-minute coaching portal applications, manage live webinar registrations, and monitor direct marketing pipelines.
+              <p class="text-xs sm:text-sm text-slate-300 mt-2 max-w-3xl leading-relaxed">
+                Welcome to your <strong class="text-white">Digital Direct Marketing – AI & Tech (DDMAI)</strong> Executive Command Center. Approve turnkey ₹1,999/yr coaching portals in 5 minutes, track live webinar conversions, and orchestrate direct marketing pipelines.
               </p>
             </div>
 
-            <!-- Quick Action Buttons -->
-            <div class="flex flex-wrap items-center gap-2.5">
+            <!-- Quick Action Command Bar -->
+            <div class="flex flex-wrap items-center gap-3">
               <button onclick="switchTab('portals')"
-                class="px-4 py-2.5 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all flex items-center gap-2 shadow-md shadow-amber-500/20 cursor-pointer">
-                <span>🎓 5-Min Portal Approval</span>
-                <span id="hero-pending-counter" class="bg-slate-950 text-amber-300 px-2 py-0.5 rounded text-[10px] font-mono">0</span>
+                class="px-5 py-3 rounded-2xl text-xs font-bold bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 transition-all flex items-center gap-2.5 shadow-xl shadow-amber-500/25 cursor-pointer active:scale-95">
+                <span>⚡ 5-Min Portal Review</span>
+                <span id="hero-pending-counter" class="bg-slate-950 text-amber-300 px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold">0 Pending</span>
               </button>
+              
               <button onclick="exportLeadsCSV()"
-                class="px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 transition-all flex items-center gap-2 cursor-pointer">
-                <span>📥 Export All Leads (.CSV)</span>
+                class="px-4 py-3 rounded-2xl text-xs font-bold bg-slate-900/90 hover:bg-slate-800 text-white border border-slate-700/80 transition-all flex items-center gap-2 cursor-pointer shadow-lg">
+                <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                <span>Export Leads (.CSV)</span>
+              </button>
+
+              <button onclick="switchTab('broadcast')"
+                class="px-4 py-3 rounded-2xl text-xs font-bold bg-emerald-600/90 hover:bg-emerald-500 text-white transition-all flex items-center gap-2 cursor-pointer shadow-lg shadow-emerald-600/20">
+                <span>💬 WhatsApp Blast</span>
               </button>
             </div>
           </div>
         </div>
 
-        <!-- 4 KPI CARDS -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <!-- Card 1: Webinar Leads -->
-          <div class="bg-slate-900/80 border border-slate-800 hover:border-slate-700 rounded-2xl p-5 shadow-lg transition-all">
+        <!-- 4 ADVANCED KPI CARDS -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          <!-- KPI 1: Webinar Leads -->
+          <div class="glass-card glass-card-hover rounded-3xl p-6 shadow-xl transition-all relative overflow-hidden group">
+            <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-blue-500/10 rounded-full blur-xl group-hover:bg-blue-500/20 transition-all"></div>
             <div class="flex items-center justify-between mb-3">
               <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Webinar Leads</span>
-              <div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center text-lg">
+              <div class="w-11 h-11 rounded-2xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center text-xl shadow-inner">
                 🎯
               </div>
             </div>
-            <div class="flex items-baseline gap-2">
-              <span id="kpi-total-leads" class="text-3xl font-extrabold text-white">0</span>
-              <span class="text-xs text-emerald-400 font-semibold">+100% Organic</span>
+            <div class="flex items-baseline gap-2.5">
+              <span id="kpi-total-leads" class="text-4xl font-extrabold text-white font-sans tracking-tight">0</span>
+              <span class="text-xs text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-lg border border-emerald-500/20">100% Organic</span>
             </div>
-            <p class="text-[11px] text-slate-400 mt-2">Masterclass attendees awaiting follow-up</p>
+            <div class="mt-3 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+              <span>Masterclass Registrations</span>
+              <button onclick="switchTab('leads')" class="text-amber-400 hover:underline">CRM &rarr;</button>
+            </div>
           </div>
 
-          <!-- Card 2: Coaching Portals Total -->
-          <div class="bg-slate-900/80 border border-slate-800 hover:border-slate-700 rounded-2xl p-5 shadow-lg transition-all">
+          <!-- KPI 2: Total Coaching Portals -->
+          <div class="glass-card glass-card-hover rounded-3xl p-6 shadow-xl transition-all relative overflow-hidden group">
+            <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-amber-500/10 rounded-full blur-xl group-hover:bg-amber-500/20 transition-all"></div>
             <div class="flex items-center justify-between mb-3">
               <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Coaching Portals</span>
-              <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center text-lg">
+              <div class="w-11 h-11 rounded-2xl bg-amber-500/10 border border-amber-400/30 text-amber-300 flex items-center justify-center text-xl shadow-inner">
                 🎓
               </div>
             </div>
-            <div class="flex items-baseline gap-2">
-              <span id="kpi-total-portals" class="text-3xl font-extrabold text-white">0</span>
-              <span id="kpi-approved-portals" class="text-xs text-amber-400 font-semibold">(0 Active)</span>
+            <div class="flex items-baseline gap-2.5">
+              <span id="kpi-total-portals" class="text-4xl font-extrabold text-white font-sans tracking-tight">0</span>
+              <span id="kpi-approved-portals" class="text-xs text-amber-300 font-bold bg-amber-500/10 px-2 py-0.5 rounded-lg border border-amber-500/20">0 Active</span>
             </div>
-            <p class="text-[11px] text-slate-400 mt-2">Turnkey ₹1,999/yr educator websites</p>
+            <div class="mt-3 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+              <span>Turnkey ₹1,999/yr Websites</span>
+              <button onclick="switchTab('portals')" class="text-amber-400 hover:underline">Manage &rarr;</button>
+            </div>
           </div>
 
-          <!-- Card 3: Pending 5-Min Approvals -->
-          <div class="bg-slate-900/80 border border-slate-800 hover:border-rose-500/40 rounded-2xl p-5 shadow-lg transition-all">
+          <!-- KPI 3: Pending Approvals (Urgent) -->
+          <div class="glass-card glass-card-hover rounded-3xl p-6 shadow-xl transition-all relative overflow-hidden group border-rose-500/30">
+            <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-rose-500/10 rounded-full blur-xl group-hover:bg-rose-500/20 transition-all"></div>
             <div class="flex items-center justify-between mb-3">
-              <span class="text-xs font-bold uppercase tracking-wider text-rose-400">Pending Approvals</span>
-              <div class="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center text-lg">
+              <span class="text-xs font-bold uppercase tracking-wider text-rose-400">5-Min Approvals</span>
+              <div class="w-11 h-11 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-400 flex items-center justify-center text-xl shadow-inner">
                 ⏳
               </div>
             </div>
-            <div class="flex items-baseline gap-2">
-              <span id="kpi-pending-portals" class="text-3xl font-extrabold text-rose-400">0</span>
-              <span class="text-xs text-rose-400/80 font-medium animate-pulse">Action Needed</span>
+            <div class="flex items-baseline gap-2.5">
+              <span id="kpi-pending-portals" class="text-4xl font-extrabold text-rose-400 font-sans tracking-tight">0</span>
+              <span class="text-xs text-rose-300 font-bold bg-rose-500/20 px-2 py-0.5 rounded-lg border border-rose-500/30 animate-pulse">Action Required</span>
             </div>
-            <p class="text-[11px] text-slate-400 mt-2">Awaiting 5-minute admin verification</p>
+            <div class="mt-3 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+              <span>Awaiting Admin Verification</span>
+              <button onclick="switchTab('portals')" class="text-rose-400 font-bold hover:underline">Approve Now &rarr;</button>
+            </div>
           </div>
 
-          <!-- Card 4: Potential Pipeline -->
-          <div class="bg-slate-900/80 border border-slate-800 hover:border-emerald-500/40 rounded-2xl p-5 shadow-lg transition-all">
+          <!-- KPI 4: Annual Pipeline Value -->
+          <div class="glass-card glass-card-hover rounded-3xl p-6 shadow-xl transition-all relative overflow-hidden group border-emerald-500/30">
+            <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-emerald-500/10 rounded-full blur-xl group-hover:bg-emerald-500/20 transition-all"></div>
             <div class="flex items-center justify-between mb-3">
-              <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Portal Pipeline</span>
-              <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg">
+              <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Annual Pipeline</span>
+              <div class="w-11 h-11 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center text-xl font-bold font-mono shadow-inner">
                 ₹
               </div>
             </div>
-            <div class="flex items-baseline gap-2">
-              <span id="kpi-pipeline-revenue" class="text-3xl font-extrabold text-white">₹0</span>
-              <span class="text-xs text-emerald-400 font-semibold">₹1,999 / portal</span>
+            <div class="flex items-baseline gap-2.5">
+              <span id="kpi-pipeline-revenue" class="text-4xl font-extrabold text-white font-sans tracking-tight">₹0</span>
+              <span class="text-xs text-emerald-300 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-lg border border-emerald-500/20">₹1,999/yr</span>
             </div>
-            <p class="text-[11px] text-slate-400 mt-2">Annual recurring domain & portal value</p>
+            <div class="mt-3 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+              <span>Recurring Domain Setup</span>
+              <span class="text-emerald-400 font-mono">100% Free Hosting</span>
+            </div>
           </div>
         </div>
 
-        <!-- SPLIT GRID: RECENT PENDING APPROVALS & LATEST LEADS -->
+        <!-- SPLIT ROW: URGENT 5-MINUTE PORTAL APPROVALS & RECENT LEADS -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-          <!-- Left: Urgent 5-Minute Coaching Approvals -->
-          <div class="bg-slate-900/70 border border-slate-800 rounded-3xl p-6 shadow-xl flex flex-col justify-between">
+          <!-- Left: Urgent Approvals Queue -->
+          <div class="glass-card rounded-3xl p-6 shadow-xl flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between pb-4 border-b border-slate-800">
-                <div class="flex items-center gap-2">
-                  <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span>
-                  <h3 class="font-bold text-base text-white">5-Minute Coaching Approvals</h3>
+                <div class="flex items-center gap-2.5">
+                  <span class="w-3 h-3 rounded-full bg-amber-400 animate-ping"></span>
+                  <h3 class="font-bold text-base text-white">5-Minute Coaching Approvals Queue</h3>
                 </div>
-                <button onclick="switchTab('portals')" class="text-xs text-amber-400 hover:text-amber-300 font-semibold">
-                  View All &rarr;
+                <button onclick="switchTab('portals')" class="text-xs text-amber-400 hover:text-amber-300 font-bold">
+                  View Full Registry &rarr;
                 </button>
               </div>
 
               <div id="dashboard-pending-list" class="mt-4 space-y-3">
-                <!-- Populated dynamically -->
-                <div class="text-center py-8 text-xs text-slate-500">
-                  Loading pending approval queue...
+                <div class="text-center py-10 text-xs text-slate-500">
+                  Checking pending coaching portal applications...
                 </div>
               </div>
             </div>
-            
-            <div class="pt-4 mt-4 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
-              <span>Rule: Toggling "Yes" activates portal DNS & subdomain.</span>
-              <span class="text-amber-400 font-semibold">Gandhinagar HQ</span>
+
+            <div class="pt-4 mt-4 border-t border-slate-800/80 text-[11px] text-slate-400 flex items-center justify-between">
+              <span>5-Minute Rule: Toggling "Yes" instantly spins up subdomain routing.</span>
+              <span class="text-amber-400 font-mono font-bold">PankajBhai Admin</span>
             </div>
           </div>
 
-          <!-- Right: Recent Webinar Leads -->
-          <div class="bg-slate-900/70 border border-slate-800 rounded-3xl p-6 shadow-xl flex flex-col justify-between">
+          <!-- Right: Recent Webinar Registrations -->
+          <div class="glass-card rounded-3xl p-6 shadow-xl flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between pb-4 border-b border-slate-800">
-                <div class="flex items-center gap-2">
-                  <span class="text-lg">🎯</span>
+                <div class="flex items-center gap-2.5">
+                  <span class="text-xl">🎯</span>
                   <h3 class="font-bold text-base text-white">Latest Webinar Registrations</h3>
                 </div>
-                <button onclick="switchTab('leads')" class="text-xs text-amber-400 hover:text-amber-300 font-semibold">
-                  Manage CRM &rarr;
+                <button onclick="switchTab('leads')" class="text-xs text-amber-400 hover:text-amber-300 font-bold">
+                  Full Leads CRM &rarr;
                 </button>
               </div>
 
               <div id="dashboard-recent-leads" class="mt-4 space-y-3">
-                <!-- Populated dynamically -->
-                <div class="text-center py-8 text-xs text-slate-500">
-                  Loading recent leads...
+                <div class="text-center py-10 text-xs text-slate-500">
+                  Loading recent registrant profiles...
                 </div>
               </div>
             </div>
 
-            <div class="pt-4 mt-4 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
-              <span>Referral: <strong class="text-slate-300">DDMAI-V5H4QH</strong></span>
-              <button onclick="exportLeadsCSV()" class="text-amber-400 hover:underline">Download CSV</button>
+            <div class="pt-4 mt-4 border-t border-slate-800/80 text-[11px] text-slate-400 flex items-center justify-between">
+              <span>Official Partner Code: <strong class="text-slate-200">DDMAI-V5H4QH</strong></span>
+              <button onclick="exportLeadsCSV()" class="text-emerald-400 hover:underline font-bold">Export to Excel</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 COSMIC ELEMENTS & QUICK STATUS BAR -->
+        <div class="glass-card rounded-3xl p-6 shadow-xl">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+            <div>
+              <h3 class="text-base font-extrabold text-white flex items-center gap-2">
+                <span>🌌</span>
+                <span>DDMAI 5 Cosmic Elements Architecture & System Health</span>
+              </h3>
+              <p class="text-xs text-slate-400 mt-0.5">Foundational marketing and technical balance designed by Veteran PankajBhai Umesh Gupta</p>
+            </div>
+            <span class="px-3 py-1 rounded-full text-xs font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold">
+              All 5 Elements Balanced (100%)
+            </span>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mt-4 text-center text-xs">
+            <div class="p-3.5 rounded-2xl bg-blue-500/10 border border-blue-500/20">
+              <span class="text-blue-400 font-extrabold text-sm block">💧 Jal (72%)</span>
+              <span class="text-slate-300 font-semibold text-xs mt-1 block">Traffic & Flow</span>
+              <span class="text-slate-500 text-[10px]">Landing Page Web & Social</span>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/20">
+              <span class="text-emerald-400 font-extrabold text-sm block">🌍 Prithvi (12%)</span>
+              <span class="text-slate-300 font-semibold text-xs mt-1 block">Solid Infrastructure</span>
+              <span class="text-slate-500 text-[10px]">Cloud Firestore & Portals</span>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-sky-500/10 border border-sky-500/20">
+              <span class="text-sky-400 font-extrabold text-sm block">💨 Vayu (6%)</span>
+              <span class="text-slate-300 font-semibold text-xs mt-1 block">Speed & Alerts</span>
+              <span class="text-slate-500 text-[10px]">WhatsApp & Email Triggers</span>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-rose-500/10 border border-rose-500/20">
+              <span class="text-rose-400 font-extrabold text-sm block">🔥 Agni (4%)</span>
+              <span class="text-slate-300 font-semibold text-xs mt-1 block">Sales & Royalties</span>
+              <span class="text-slate-500 text-[10px]">₹1,999 Portals & Plans</span>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-purple-500/10 border border-purple-500/20">
+              <span class="text-purple-400 font-extrabold text-sm block">✨ Akash (6%)</span>
+              <span class="text-slate-300 font-semibold text-xs mt-1 block">Cloud Expansion</span>
+              <span class="text-slate-500 text-[10px]">Affiliate Global Reach</span>
             </div>
           </div>
         </div>
@@ -392,117 +527,129 @@
 
       <!-- ================= TAB 2: COACHING PORTALS APPROVAL ENGINE ================= -->
       <section id="tab-portals" class="tab-pane hidden space-y-6">
-        <!-- Header & Action Bar -->
-        <div class="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <!-- Control Bar -->
+        <div class="glass-card rounded-3xl p-6 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div class="flex items-center gap-2">
               <span class="text-2xl">🎓</span>
-              <h2 class="text-xl font-extrabold text-white">Turnkey Coaching Portals & 5-Min Admin Approvals</h2>
+              <h2 class="text-xl font-extrabold text-white">5-Minute Turnkey Coaching Portal Approval Engine</h2>
             </div>
             <p class="text-xs text-slate-400 mt-1">
-              Teachers and coaching centers apply online. Review credentials, verify domain, and click <strong class="text-emerald-400">"Approve Portal"</strong> to launch their live website.
+              Coaching centers and teachers apply online. Review requested domains, preview website simulation, and toggle <strong class="text-emerald-400">"Approve"</strong> to activate their portal live.
             </p>
           </div>
 
-          <div class="flex items-center gap-2.5">
+          <div class="flex flex-wrap items-center gap-3">
             <button onclick="openAddPortalModal()"
-              class="px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all flex items-center gap-1.5 shadow-md shadow-amber-500/20 cursor-pointer">
-              <span>+ Add Portal Manually</span>
+              class="px-4 py-2.5 rounded-2xl text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all flex items-center gap-2 shadow-lg shadow-amber-500/20 cursor-pointer">
+              <span>+ Onboard New Portal</span>
             </button>
           </div>
         </div>
 
-        <!-- Filters & Search -->
+        <!-- Filter & Search Toolbar -->
         <div class="flex flex-col sm:flex-row gap-3 items-center justify-between">
           <!-- Filter Tabs -->
-          <div class="flex items-center bg-slate-900/90 border border-slate-800 rounded-xl p-1 gap-1 w-full sm:w-auto overflow-x-auto">
-            <button onclick="filterPortals('all')" id="portal-filter-all" class="portal-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-800 text-white">All (<span id="portals-count-all">0</span>)</button>
-            <button onclick="filterPortals('pending')" id="portal-filter-pending" class="portal-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white">Pending Approval (<span id="portals-count-pending">0</span>)</button>
-            <button onclick="filterPortals('approved')" id="portal-filter-approved" class="portal-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white">Live Approved (<span id="portals-count-approved">0</span>)</button>
+          <div class="flex items-center bg-slate-950/80 border border-slate-800 rounded-2xl p-1 gap-1 w-full sm:w-auto overflow-x-auto">
+            <button onclick="filterPortals('all')" id="portal-filter-all" class="portal-filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-white">
+              All (<span id="portals-count-all">0</span>)
+            </button>
+            <button onclick="filterPortals('pending')" id="portal-filter-pending" class="portal-filter-btn px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white">
+              ⏳ Urgent Pending (<span id="portals-count-pending">0</span>)
+            </button>
+            <button onclick="filterPortals('approved')" id="portal-filter-approved" class="portal-filter-btn px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white">
+              ✅ Live Approved (<span id="portals-count-approved">0</span>)
+            </button>
           </div>
 
           <!-- Search Input -->
-          <div class="relative w-full sm:w-72">
-            <input type="text" id="portal-search" oninput="handlePortalSearch()" placeholder="Search institute, city, domain..."
-              class="w-full px-3.5 py-2 pl-9 bg-slate-900/90 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400">
-            <svg class="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <div class="relative w-full sm:w-80">
+            <input type="text" id="portal-search" oninput="handlePortalSearch()" placeholder="Search institute, director, domain, city..."
+              class="w-full px-4 py-2.5 pl-10 bg-slate-950/80 border border-slate-800 rounded-2xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400">
+            <svg class="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
           </div>
         </div>
 
-        <!-- Portals Cards Container -->
-        <div id="portals-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <!-- Dynamically populated -->
-          <div class="col-span-full text-center py-12 text-slate-500 text-xs">
+        <!-- Portals Grid -->
+        <div id="portals-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div class="col-span-full text-center py-16 text-slate-500 text-xs">
             Loading coaching portals from Cloud Firestore...
           </div>
         </div>
       </section>
 
-      <!-- ================= TAB 3: WEBINAR LEADS CRM ================= -->
+      <!-- ================= TAB 3: WEBINAR LEADS CRM 2.0 ================= -->
       <section id="tab-leads" class="tab-pane hidden space-y-6">
-        <!-- Header & Action Bar -->
-        <div class="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <!-- CRM Header -->
+        <div class="glass-card rounded-3xl p-6 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div class="flex items-center gap-2">
               <span class="text-2xl">🎯</span>
-              <h2 class="text-xl font-extrabold text-white">AI Income Freedom Masterclass — Webinar Leads CRM</h2>
+              <h2 class="text-xl font-extrabold text-white">AI Income Freedom Masterclass — Leads CRM 2.0</h2>
             </div>
             <p class="text-xs text-slate-400 mt-1">
-              Live registration records submitted from the main landing page. Contact directly via WhatsApp or Phone call.
+              Live registration leads with Temperature Tagging (🔥 Hot / 🟡 Warm), Follow-up Scheduler, 1-Click WhatsApp Direct Connect, and CSV Export.
             </p>
           </div>
 
-          <div class="flex items-center gap-2.5">
+          <div class="flex flex-wrap items-center gap-3">
             <button onclick="openAddLeadModal()"
-              class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 transition-all flex items-center gap-1.5 cursor-pointer">
+              class="px-4 py-2.5 rounded-2xl text-xs font-bold bg-slate-900 hover:bg-slate-800 text-white border border-slate-700 transition-all flex items-center gap-1.5 cursor-pointer">
               <span>+ Add Lead Manually</span>
             </button>
             <button onclick="exportLeadsCSV()"
-              class="px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white transition-all flex items-center gap-1.5 shadow-md shadow-emerald-600/20 cursor-pointer">
+              class="px-4 py-2.5 rounded-2xl text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white transition-all flex items-center gap-2 shadow-lg shadow-emerald-600/20 cursor-pointer">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
               <span>Export CSV</span>
             </button>
           </div>
         </div>
 
-        <!-- Search & Filters -->
-        <div class="flex flex-col sm:flex-row gap-3 items-center justify-between">
-          <div class="flex items-center gap-2 w-full sm:w-auto">
-            <select id="lead-status-filter" onchange="filterLeads()" class="bg-slate-900 border border-slate-800 text-xs text-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-amber-400">
-              <option value="all">All Statuses</option>
+        <!-- CRM Filters & Multi-Search -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <select id="lead-status-filter" onchange="filterLeads()" class="w-full bg-slate-950 border border-slate-800 text-xs text-slate-200 rounded-2xl px-4 py-2.5 focus:outline-none focus:border-amber-400">
+              <option value="all">Filter by Status: All Statuses</option>
               <option value="registered">Registered / New</option>
-              <option value="contacted">Contacted</option>
+              <option value="contacted">Contacted via WhatsApp</option>
               <option value="enrolled">Enrolled / Converted</option>
               <option value="archived">Archived</option>
             </select>
-            <span class="text-xs text-slate-500">Showing <strong id="leads-visible-count" class="text-white font-mono">0</strong> records</span>
           </div>
 
-          <div class="relative w-full sm:w-72">
-            <input type="text" id="lead-search" oninput="filterLeads()" placeholder="Search name, phone, email, objective..."
-              class="w-full px-3.5 py-2 pl-9 bg-slate-900/90 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400">
-            <svg class="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <div>
+            <select id="lead-temp-filter" onchange="filterLeads()" class="w-full bg-slate-950 border border-slate-800 text-xs text-slate-200 rounded-2xl px-4 py-2.5 focus:outline-none focus:border-amber-400">
+              <option value="all">Filter by Temperature: All</option>
+              <option value="hot">🔥 Hot Leads (Phone + High Intent)</option>
+              <option value="warm">🟡 Warm (General Masterclass)</option>
+              <option value="cold">🔵 Cold / Passive</option>
+            </select>
+          </div>
+
+          <div class="relative">
+            <input type="text" id="lead-search" oninput="filterLeads()" placeholder="Search by name, phone, email, notes..."
+              class="w-full px-4 py-2.5 pl-10 bg-slate-950 border border-slate-800 rounded-2xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400">
+            <svg class="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
           </div>
         </div>
 
-        <!-- Leads Table Container -->
-        <div class="bg-slate-900/80 border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
+        <!-- Table Container -->
+        <div class="glass-card rounded-3xl overflow-hidden shadow-2xl">
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs text-slate-300">
-              <thead class="bg-slate-950/80 text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
+              <thead class="bg-slate-950/90 text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800 font-mono">
                 <tr>
-                  <th class="px-5 py-3.5 font-bold">Registered Date</th>
-                  <th class="px-5 py-3.5 font-bold">Lead Details</th>
-                  <th class="px-5 py-3.5 font-bold">Pain Point / Objective</th>
-                  <th class="px-5 py-3.5 font-bold">Referral</th>
-                  <th class="px-5 py-3.5 font-bold">Status</th>
-                  <th class="px-5 py-3.5 font-bold text-right">Quick Contact & Actions</th>
+                  <th class="px-5 py-4 font-bold">Registered Date</th>
+                  <th class="px-5 py-4 font-bold">Lead Contact Info</th>
+                  <th class="px-5 py-4 font-bold">Objective / Pain Point</th>
+                  <th class="px-5 py-4 font-bold">Lead Score</th>
+                  <th class="px-5 py-4 font-bold">Status</th>
+                  <th class="px-5 py-4 font-bold text-right">Quick Contact & Actions</th>
                 </tr>
               </thead>
               <tbody id="leads-table-body" class="divide-y divide-slate-800/60 font-sans">
-                <!-- Dynamically populated -->
                 <tr>
-                  <td colspan="6" class="text-center py-12 text-slate-500">Loading webinar leads from Cloud Firestore...</td>
+                  <td colspan="6" class="text-center py-12 text-slate-500">Loading webinar leads...</td>
                 </tr>
               </tbody>
             </table>
@@ -510,117 +657,332 @@
         </div>
       </section>
 
-      <!-- ================= TAB 4: SOLUTIONS CATALOG ================= -->
-      <section id="tab-solutions" class="tab-pane hidden space-y-6">
-        <!-- Header -->
-        <div class="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="text-2xl">📦</span>
-              <h2 class="text-xl font-extrabold text-white">DDMAI Solutions & Pricing Catalog</h2>
-            </div>
-            <p class="text-xs text-slate-400 mt-1">
-              Official catalog items synchronized with Cloud Firestore (`solutions_catalog`). Modify pricing, tags, or description live.
-            </p>
+      <!-- ================= TAB 4: VISUAL ANALYTICS & FUNNELS ================= -->
+      <section id="tab-analytics" class="tab-pane hidden space-y-6">
+        <div class="glass-card rounded-3xl p-6 shadow-xl">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-2xl">📈</span>
+            <h2 class="text-xl font-extrabold text-white">Visual Intelligence & Conversion Funnel</h2>
           </div>
-          <button onclick="openAddSolutionModal()"
-            class="px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all flex items-center gap-1.5 cursor-pointer">
-            <span>+ Add New Solution</span>
-          </button>
-        </div>
+          <p class="text-xs text-slate-400">
+            Real-time pipeline trajectory and objective breakdown computed dynamically from Cloud Firestore records.
+          </p>
 
-        <!-- Catalog Grid -->
-        <div id="solutions-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <!-- Dynamically populated -->
-          <div class="col-span-full text-center py-12 text-slate-500 text-xs">
-            Loading solutions catalog...
+          <!-- Charts Grid -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+            
+            <!-- Chart 1: Masterclass Conversion Funnel -->
+            <div class="bg-slate-950/70 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between">
+              <div>
+                <h3 class="text-sm font-bold text-white flex items-center justify-between pb-3 border-b border-slate-800">
+                  <span>🎯 Masterclass Registration &rarr; Conversion Funnel</span>
+                  <span class="text-[10px] text-amber-400 font-mono">Live Data</span>
+                </h3>
+
+                <!-- Visual Funnel Bars -->
+                <div class="space-y-4 mt-5 text-xs">
+                  <div>
+                    <div class="flex justify-between text-slate-300 mb-1">
+                      <span>1. Total Registrations</span>
+                      <strong id="funnel-reg-count" class="font-mono text-white">0 (100%)</strong>
+                    </div>
+                    <div class="h-4 w-full bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                      <div class="h-full bg-blue-500 rounded-full transition-all duration-700" style="width: 100%"></div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="flex justify-between text-slate-300 mb-1">
+                      <span>2. Contacted via WhatsApp</span>
+                      <strong id="funnel-contacted-count" class="font-mono text-sky-400">0</strong>
+                    </div>
+                    <div class="h-4 w-full bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                      <div id="funnel-contacted-bar" class="h-full bg-sky-500 rounded-full transition-all duration-700" style="width: 50%"></div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="flex justify-between text-slate-300 mb-1">
+                      <span>3. Enrolled / Active Members</span>
+                      <strong id="funnel-enrolled-count" class="font-mono text-emerald-400">0</strong>
+                    </div>
+                    <div class="h-4 w-full bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                      <div id="funnel-enrolled-bar" class="h-full bg-emerald-500 rounded-full transition-all duration-700" style="width: 30%"></div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="flex justify-between text-slate-300 mb-1">
+                      <span>4. Approved Coaching Portals (₹1,999)</span>
+                      <strong id="funnel-portal-count" class="font-mono text-amber-300">0</strong>
+                    </div>
+                    <div class="h-4 w-full bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                      <div id="funnel-portal-bar" class="h-full bg-gradient-to-r from-amber-500 to-amber-300 rounded-full transition-all duration-700" style="width: 20%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <p class="text-[11px] text-slate-500 pt-4 mt-4 border-t border-slate-800">
+                Conversion optimization: WhatsApp instant welcome blast increases attendance by 42%.
+              </p>
+            </div>
+
+            <!-- Chart 2: Revenue Pipeline Breakdown -->
+            <div class="bg-slate-950/70 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between">
+              <div>
+                <h3 class="text-sm font-bold text-white flex items-center justify-between pb-3 border-b border-slate-800">
+                  <span>💰 Projected Annual Revenue Trajectory</span>
+                  <span class="text-[10px] text-emerald-400 font-mono">Recurring Model</span>
+                </h3>
+
+                <div class="mt-5 space-y-4 text-xs">
+                  <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
+                    <div>
+                      <strong class="text-white block">₹1,999 Turnkey Coaching Portals</strong>
+                      <span class="text-[11px] text-slate-400">Annual domain renewal & DNS setup</span>
+                    </div>
+                    <div class="text-right">
+                      <span id="analytics-portal-rev" class="text-base font-extrabold text-amber-300 font-mono">₹0</span>
+                      <span class="text-[10px] text-slate-400 block">per year</span>
+                    </div>
+                  </div>
+
+                  <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
+                    <div>
+                      <strong class="text-white block">Plan 01 Digital Affiliate Packs (₹300)</strong>
+                      <span class="text-[11px] text-slate-400">₹100 direct bonus + ₹25 pair bonus</span>
+                    </div>
+                    <div class="text-right">
+                      <span class="text-base font-extrabold text-blue-400 font-mono">Active</span>
+                      <span class="text-[10px] text-slate-400 block">5 pairs/day cap</span>
+                    </div>
+                  </div>
+
+                  <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
+                    <div>
+                      <strong class="text-white block">Plan 02 Business Partner Marketplace (60%)</strong>
+                      <span class="text-[11px] text-slate-400">Seller royalty & digital asset distribution</span>
+                    </div>
+                    <div class="text-right">
+                      <span class="text-base font-extrabold text-emerald-400 font-mono">60% Royalty</span>
+                      <span class="text-[10px] text-slate-400 block">Marketplace</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between text-xs">
+                <span class="text-slate-400">Total Approved Portals Potential:</span>
+                <strong id="analytics-total-pipeline" class="text-emerald-400 font-mono text-sm">₹0 / year</strong>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- ================= TAB 5: WHATSAPP BROADCAST BUILDER ================= -->
+      <!-- ================= TAB 5: SOLUTIONS CATALOG ================= -->
+      <section id="tab-solutions" class="tab-pane hidden space-y-6">
+        <div class="glass-card rounded-3xl p-6 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-2xl">📦</span>
+              <h2 class="text-xl font-extrabold text-white">DDMAI Official Solutions & Pricing Catalog</h2>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">
+              Synchronized directly with Cloud Firestore (`solutions_catalog`). Update pricing, tags, or domain setup notes live.
+            </p>
+          </div>
+          <button onclick="openAddSolutionModal()"
+            class="px-4 py-2.5 rounded-2xl text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all cursor-pointer">
+            + Add New Solution
+          </button>
+        </div>
+
+        <div id="solutions-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div class="col-span-full text-center py-16 text-slate-500 text-xs">Loading solutions catalog...</div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 6: WHATSAPP BROADCAST STUDIO 2.0 ================= -->
       <section id="tab-broadcast" class="tab-pane hidden space-y-6">
-        <div class="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 shadow-xl">
+        <div class="glass-card rounded-3xl p-6 shadow-xl">
           <div class="flex items-center gap-2 mb-2">
             <span class="text-2xl">📢</span>
-            <h2 class="text-xl font-extrabold text-white">Direct WhatsApp Broadcast & Message Composer</h2>
+            <h2 class="text-xl font-extrabold text-white">WhatsApp Broadcast & Communication Studio 2.0</h2>
           </div>
           <p class="text-xs text-slate-400">
-            Select a verified DDMAI broadcast template, choose an audience lead or input any phone number, and trigger an instant 1-click personalized WhatsApp message.
+            Interactive phone preview mockup. Select verified templates, auto-fill from webinar leads, and launch 1-click personalized WhatsApp blasts.
           </p>
 
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-            <!-- Left 2 Cols: Form -->
-            <div class="lg:col-span-2 space-y-4">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-6">
+            
+            <!-- Left 7 Cols: Template Selector & Message Composer -->
+            <div class="lg:col-span-7 space-y-4">
               <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Choose Master Template</label>
-                <select id="broadcast-template-select" onchange="applyBroadcastTemplate()" class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-amber-400">
-                  <option value="portal_approved">🎓 Coaching Portal Approved & Live Notification</option>
-                  <option value="webinar_welcome">🎯 Masterclass Registration Welcome & WhatsApp VIP Invite</option>
-                  <option value="webinar_2hr_alert">⏰ 2 Hours Countdown Alert (High-Showup Protocol)</option>
-                  <option value="webinar_live_now">🚀 "WE ARE LIVE NOW" Masterclass Launch Blast</option>
-                  <option value="founder_mentorship">🤝 Personal Mentorship Invitation from Veteran PankajBhai</option>
-                  <option value="custom">✏️ Custom Message Composer</option>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Select Proven Broadcast Template</label>
+                <select id="broadcast-template-select" onchange="applyBroadcastTemplate()" class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-2xl text-xs text-white focus:outline-none focus:border-amber-400">
+                  <option value="portal_approved">🎓 1. Coaching Portal Approved & Live Notification</option>
+                  <option value="webinar_welcome">🎯 2. Masterclass VIP Invitation & Instant Confirmation</option>
+                  <option value="webinar_2hr_alert">⏰ 3. 2-Hour Countdown Alert (High-Showup Protocol)</option>
+                  <option value="webinar_live_now">🚀 4. "WE ARE LIVE NOW" Masterclass Blast</option>
+                  <option value="founder_mentorship">🤝 5. Personal Walkthrough Invitation by Veteran PankajBhai</option>
+                  <option value="custom">✏️ 6. Custom Direct Marketing Message</option>
                 </select>
               </div>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Recipient Full Name</label>
+                  <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Recipient Name</label>
                   <input type="text" id="broadcast-name" value="Ramesh Kumar Sharma" placeholder="e.g. Ramesh ji"
-                    class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-amber-400">
+                    class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-2xl text-xs text-white focus:outline-none focus:border-amber-400"
+                    oninput="updatePhoneMockup()">
                 </div>
                 <div>
                   <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Recipient WhatsApp Mobile</label>
                   <input type="tel" id="broadcast-phone" value="+91 9638055552" placeholder="+91 9876543210"
-                    class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-amber-400 font-mono">
+                    class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-2xl text-xs text-white focus:outline-none focus:border-amber-400 font-mono">
                 </div>
               </div>
 
               <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Message Content</label>
-                <textarea id="broadcast-text" rows="7"
-                  class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white font-mono leading-relaxed focus:outline-none focus:border-amber-400"></textarea>
+                <div class="flex items-center justify-between mb-1.5">
+                  <label class="text-xs font-bold uppercase tracking-wider text-slate-300">Message Content</label>
+                  <span id="broadcast-char-counter" class="text-[11px] font-mono text-slate-500">0 characters</span>
+                </div>
+                <textarea id="broadcast-text" rows="8"
+                  class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-2xl text-xs text-white font-mono leading-relaxed focus:outline-none focus:border-amber-400"
+                  oninput="updatePhoneMockup()"></textarea>
               </div>
 
               <button onclick="launchWhatsAppBroadcast()"
-                class="w-full py-3 px-4 rounded-xl font-bold text-xs bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/20 transition-all flex items-center justify-center gap-2 cursor-pointer">
-                <span>🚀 Launch 1-Click WhatsApp Blast</span>
+                class="w-full py-3.5 px-4 rounded-2xl font-bold text-xs bg-emerald-600 hover:bg-emerald-500 text-white shadow-xl shadow-emerald-600/25 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98">
+                <span>🚀 Launch 1-Click WhatsApp Broadcast</span>
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
               </button>
             </div>
 
-            <!-- Right Col: Recipient Quick Picker from Leads -->
-            <div class="bg-slate-950/70 border border-slate-800 rounded-2xl p-4">
-              <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300 pb-2 border-b border-slate-800 flex items-center justify-between">
-                <span>Select from Leads</span>
-                <span class="text-[10px] text-amber-400">1-Click Autofill</span>
-              </h4>
-              <div id="broadcast-leads-picker" class="mt-3 space-y-2 max-h-96 overflow-y-auto pr-1">
-                <!-- Dynamically populated -->
+            <!-- Right 5 Cols: Smartphone Screen Mockup Preview -->
+            <div class="lg:col-span-5 flex flex-col items-center">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
+                <span>📱</span>
+                <span>Live Smartphone Mockup Preview</span>
+              </span>
+
+              <!-- Phone Device Frame -->
+              <div class="w-full max-w-[320px] rounded-[36px] bg-[#111b21] border-4 border-slate-700 shadow-2xl p-3 relative flex flex-col h-[520px]">
+                <!-- Top Notch / Speaker -->
+                <div class="w-24 h-4 bg-slate-800 rounded-full mx-auto mb-2"></div>
+                
+                <!-- WhatsApp Mockup Header -->
+                <div class="bg-[#202c33] p-2.5 rounded-2xl flex items-center gap-2.5 mb-2">
+                  <div class="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-400/40 p-1 flex items-center justify-center">
+                    <img src="assets/logo.jpeg" alt="DDMAI" class="w-full h-full object-contain rounded-full">
+                  </div>
+                  <div class="truncate">
+                    <strong class="text-white text-xs block truncate">Veteran PankajBhai (DDMAI)</strong>
+                    <span class="text-[10px] text-emerald-400 font-sans">online</span>
+                  </div>
+                </div>
+
+                <!-- Chat Body with Wallpaper -->
+                <div class="flex-1 overflow-y-auto p-2 bg-[#0b141a] rounded-2xl space-y-2">
+                  <!-- Bubble -->
+                  <div class="bg-[#005c4b] text-white p-3 rounded-2xl rounded-tr-none text-[11px] leading-relaxed shadow max-w-[90%] ml-auto">
+                    <div id="mockup-text-bubble" class="whitespace-pre-wrap font-sans">
+                      Loading message preview...
+                    </div>
+                    <span class="text-[9px] text-slate-300 font-mono block text-right mt-1">Now &bull; ✓✓</span>
+                  </div>
+                </div>
+
+                <!-- Bottom Input bar -->
+                <div class="mt-2 bg-[#202c33] p-2 rounded-2xl flex items-center justify-between text-slate-400 text-xs">
+                  <span>Message...</span>
+                  <span>🎤</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 7: 11-DAY EMAIL ARCHITECTURE ================= -->
+      <section id="tab-email-funnel" class="tab-pane hidden space-y-6">
+        <div class="glass-card rounded-3xl p-6 shadow-xl">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-2xl">✉️</span>
+            <h2 class="text-xl font-extrabold text-white">11-Day Deep Nurture Email System Architecture</h2>
+          </div>
+          <p class="text-xs text-slate-400">
+            Derived directly from the 62-slide DDMAI Masterclass study. Conversational plain-text sequences achieving 38% - 52% average open rates.
+          </p>
+
+          <!-- Timeline Grid -->
+          <div class="mt-6 space-y-3">
+            <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 flex items-start gap-3">
+              <span class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 font-mono font-bold text-xs">Day 0</span>
+              <div>
+                <strong class="text-white text-xs block">Immediate Welcome & WhatsApp VIP Group Invite</strong>
+                <p class="text-[11px] text-slate-400 mt-0.5">Dispatched within 60 seconds of registration. Confirms webinar seat and gives referral code `DDMAI-V5H4QH`.</p>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 flex items-start gap-3">
+              <span class="px-2.5 py-1 rounded-lg bg-sky-500/20 text-sky-300 font-mono font-bold text-xs">Day 1</span>
+              <div>
+                <strong class="text-white text-xs block">Live Session Countdown (2 Hours & 15 Minutes Prior)</strong>
+                <p class="text-[11px] text-slate-400 mt-0.5">High-showup trigger sequence. Provides room link and notes checklist.</p>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 flex items-start gap-3">
+              <span class="px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 font-mono font-bold text-xs">Day 2</span>
+              <div>
+                <strong class="text-white text-xs block">Thank You & 24-Hour Replay Window</strong>
+                <p class="text-[11px] text-slate-400 mt-0.5">Summarizes the 5-Minute Coaching Portal setup and Plan 01 / Plan 02 revenue structures.</p>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 flex items-start gap-3">
+              <span class="px-2.5 py-1 rounded-lg bg-purple-500/20 text-purple-300 font-mono font-bold text-xs">Days 3-5</span>
+              <div>
+                <strong class="text-white text-xs block">Case Studies: Apex Science Academy & BrightPath Growth</strong>
+                <p class="text-[11px] text-slate-400 mt-0.5">Real proofs of Gujarat educators scaling admissions through their own turnkey domain.</p>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 flex items-start gap-3">
+              <span class="px-2.5 py-1 rounded-lg bg-rose-500/20 text-rose-300 font-mono font-bold text-xs">Days 6-11</span>
+              <div>
+                <strong class="text-white text-xs block">Objection Elimination & Personal Call with Veteran PankajBhai</strong>
+                <p class="text-[11px] text-slate-400 mt-0.5">One-on-one walkthrough invitation via Google Meet / TeamViewer to finalize their portal setup.</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- ================= TAB 6: SYSTEM & PROFILE ================= -->
+      <!-- ================= TAB 8: SYSTEM HEALTH & CONFIG ================= -->
       <section id="tab-settings" class="tab-pane hidden space-y-6">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-          <!-- Left Col: Brand Profile Info -->
-          <div class="lg:col-span-2 bg-slate-900/80 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-5">
+          <!-- Left 2 Cols: Brand Profile & Verification -->
+          <div class="lg:col-span-2 glass-card rounded-3xl p-6 shadow-xl space-y-5">
             <div class="flex items-center justify-between pb-3 border-b border-slate-800">
               <div class="flex items-center gap-2">
                 <span class="text-xl">🏢</span>
-                <h3 class="font-extrabold text-white text-base">DDMAI Brand & Organization Profile</h3>
+                <h3 class="font-extrabold text-white text-base">DDMAI Organization & Leadership Profile</h3>
               </div>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono">Firestore: brand_profile/main</span>
+              <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono font-bold">
+                Firestore: brand_profile/main
+              </span>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
               <div>
-                <span class="text-slate-500 block mb-1">Official Brand Name</span>
+                <span class="text-slate-500 block mb-1">Brand Name</span>
                 <strong class="text-white text-sm">Digital Direct Marketing – AI & Tech (DDMAI)</strong>
               </div>
               <div>
@@ -628,123 +990,130 @@
                 <strong class="text-amber-400 text-sm">Veteran PankajBhai Umesh Gupta</strong>
               </div>
               <div>
-                <span class="text-slate-500 block mb-1">Headquarters & Postal Address</span>
+                <span class="text-slate-500 block mb-1">Headquarters</span>
                 <p class="text-slate-300">Pankajbhai Gupta Complex, Sector 14, Gandhinagar, Gujarat - 382016</p>
               </div>
               <div>
-                <span class="text-slate-500 block mb-1">Founder Referral Code</span>
-                <span class="inline-block px-2.5 py-1 rounded bg-amber-400/20 text-amber-300 font-mono font-bold text-xs border border-amber-400/30">DDMAI-V5H4QH</span>
+                <span class="text-slate-500 block mb-1">Official Referral Code</span>
+                <span class="inline-block px-3 py-1 rounded-xl bg-amber-400/20 text-amber-300 font-mono font-bold text-xs border border-amber-400/30">DDMAI-V5H4QH</span>
               </div>
               <div>
-                <span class="text-slate-500 block mb-1">Founder WhatsApp Mobile</span>
-                <a href="https://wa.me/919638055552" target="_blank" class="text-emerald-400 font-mono hover:underline">+91 9638055552</a>
+                <span class="text-slate-500 block mb-1">WhatsApp & Calling</span>
+                <a href="https://wa.me/919638055552" target="_blank" class="text-emerald-400 font-mono hover:underline text-xs">+91 9638055552</a>
               </div>
               <div>
                 <span class="text-slate-500 block mb-1">Official Email</span>
-                <a href="mailto:ddmai651@gmail.com" class="text-blue-400 font-mono hover:underline">ddmai651@gmail.com</a>
+                <a href="mailto:ddmai651@gmail.com" class="text-blue-400 font-mono hover:underline text-xs">ddmai651@gmail.com</a>
               </div>
             </div>
 
-            <!-- 5 Cosmic Elements Balance -->
-            <div class="pt-4 border-t border-slate-800">
-              <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-3">5 Cosmic Elements Architecture</h4>
-              <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-center text-[11px]">
-                <div class="p-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20">
-                  <span class="text-blue-400 font-bold block">💧 Jal (72%)</span>
-                  <span class="text-slate-400 text-[10px]">Flow & Traffic</span>
-                </div>
-                <div class="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-                  <span class="text-emerald-400 font-bold block">🌍 Prithvi (12%)</span>
-                  <span class="text-slate-400 text-[10px]">Solid CMS Infra</span>
-                </div>
-                <div class="p-2.5 rounded-xl bg-sky-500/10 border border-sky-500/20">
-                  <span class="text-sky-400 font-bold block">💨 Vayu (6%)</span>
-                  <span class="text-slate-400 text-[10px]">Speed & Alerts</span>
-                </div>
-                <div class="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/20">
-                  <span class="text-rose-400 font-bold block">🔥 Agni (4%)</span>
-                  <span class="text-slate-400 text-[10px]">Conversions</span>
-                </div>
-                <div class="p-2.5 rounded-xl bg-purple-500/10 border border-purple-500/20">
-                  <span class="text-purple-400 font-bold block">🌌 Akash (6%)</span>
-                  <span class="text-slate-400 text-[10px]">Cloud Expansion</span>
-                </div>
+            <!-- Database Backup Button -->
+            <div class="pt-4 border-t border-slate-800 flex items-center justify-between">
+              <div>
+                <strong class="text-white text-xs block">Database Backup Snapshot (.JSON)</strong>
+                <p class="text-[11px] text-slate-400">Download complete offline backup of leads, portals, and catalog.</p>
               </div>
+              <button onclick="downloadDatabaseBackup()"
+                class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 transition-colors">
+                📥 Download Backup
+              </button>
             </div>
           </div>
 
-          <!-- Right Col: Technical Environment -->
-          <div class="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
+          <!-- Right Col: Security Key Settings -->
+          <div class="glass-card rounded-3xl p-6 shadow-xl space-y-4">
             <h3 class="font-extrabold text-white text-base pb-3 border-b border-slate-800 flex items-center gap-2">
-              <span>🛠️</span>
-              <span>Deployment & Infra Status</span>
+              <span>🔐</span>
+              <span>Passcode & Workstation Key</span>
             </h3>
 
-            <div class="space-y-3 text-xs">
-              <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-950 border border-slate-800">
-                <span class="text-slate-400">Firebase Hosting</span>
-                <span class="text-emerald-400 font-bold flex items-center gap-1">
-                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                  Live (200 OK)
-                </span>
-              </div>
-              <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-950 border border-slate-800">
-                <span class="text-slate-400">Hosting URL</span>
-                <a href="https://ddmaiaffiliate.web.app" target="_blank" class="text-amber-400 font-mono hover:underline">ddmaiaffiliate.web.app</a>
-              </div>
-              <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-950 border border-slate-800">
-                <span class="text-slate-400">Cloud Firestore</span>
-                <span class="text-slate-200 font-mono">ddmaiaffiliate</span>
-              </div>
-              <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-950 border border-slate-800">
-                <span class="text-slate-400">Database Region</span>
-                <span class="text-slate-200 font-mono">asia-south1 (Mumbai)</span>
-              </div>
-              <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-950 border border-slate-800">
-                <span class="text-slate-400">GitHub Repository</span>
-                <a href="https://github.com/pankaj34700-lgtm/DDMAIafiliate" target="_blank" class="text-slate-300 font-mono hover:text-white truncate max-w-[140px]">pankaj34700-lgtm</a>
-              </div>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Default master keys: <code class="text-amber-300 bg-slate-950 px-1.5 py-0.5 rounded">ddmai2026</code>. You can set a custom PIN for this workstation below:
+            </p>
+
+            <div class="space-y-3 pt-2">
+              <input type="password" id="new-custom-passcode" placeholder="Enter new custom PIN (min 4 chars)"
+                class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-amber-400 font-mono">
+              <button onclick="saveCustomPasscode()"
+                class="w-full py-2.5 px-4 rounded-xl font-bold text-xs bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all cursor-pointer">
+                Save Custom Passcode
+              </button>
             </div>
 
-            <!-- Passcode Settings -->
-            <div class="pt-4 border-t border-slate-800">
-              <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Admin Security Key</h4>
-              <p class="text-[11px] text-slate-400 mb-3">You can update the local session passcode used on this workstation.</p>
-              <div class="flex items-center gap-2">
-                <input type="password" id="new-custom-passcode" placeholder="New passcode" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white">
-                <button onclick="saveCustomPasscode()" class="px-3 py-2 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 whitespace-nowrap">
-                  Save Key
-                </button>
-              </div>
+            <div class="pt-4 border-t border-slate-800 text-[11px] text-slate-500 space-y-1">
+              <div>Hosting: <strong class="text-emerald-400">ddmaiaffiliate.web.app</strong></div>
+              <div>Firestore: <strong class="text-slate-300">ddmaiaffiliate</strong></div>
+              <div>Zero Legacy Keywords: <strong class="text-emerald-400">Verified Pure</strong></div>
             </div>
           </div>
+
         </div>
       </section>
 
     </main>
 
     <!-- FOOTER -->
-    <footer class="mt-auto border-t border-slate-800/80 bg-[#060a14] py-4 text-center text-xs text-slate-500">
-      <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+    <footer class="mt-auto border-t border-slate-800/80 bg-[#03060d] py-4 text-center text-xs text-slate-500">
+      <div class="max-w-[1600px] mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
         <p>&copy; 2026 Digital Direct Marketing – AI & Tech (DDMAI). All rights reserved.</p>
-        <p>Founder & Architect: <strong class="text-slate-400">Veteran PankajBhai Umesh Gupta</strong> &bull; Gandhinagar, Gujarat</p>
+        <p>Founder & Lead System Architect: <strong class="text-slate-300">Veteran PankajBhai Umesh Gupta</strong> &bull; Gandhinagar, Gujarat</p>
       </div>
     </footer>
   </div>
 
-  <!-- ================= MODALS ================= -->
-
-  <!-- 1. ADD / EDIT COACHING PORTAL MODAL -->
-  <div id="portal-modal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm p-4 overflow-y-auto flex items-center justify-center">
-    <div class="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl relative">
+  <!-- ================= PORTAL SIMULATION & PREVIEW MODAL ================= -->
+  <div id="preview-modal" class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-md p-4 overflow-y-auto flex items-center justify-center">
+    <div class="w-full max-w-2xl glass-card rounded-3xl p-6 sm:p-8 shadow-2xl relative border-amber-500/30">
       <div class="flex items-center justify-between pb-3 border-b border-slate-800">
-        <h3 class="font-bold text-base text-white" id="portal-modal-title">Create / Onboard Coaching Portal</h3>
-        <button onclick="closePortalModal()" class="text-slate-400 hover:text-white p-1 text-lg">&times;</button>
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <h3 class="font-bold text-base text-white">Coaching Portal Live Simulation Preview</h3>
+        </div>
+        <button onclick="closePreviewModal()" class="text-slate-400 hover:text-white text-xl p-1">&times;</button>
       </div>
 
-      <form onsubmit="handleSavePortal(event)" class="mt-4 space-y-3.5 text-xs">
+      <div class="mt-4 p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-4 text-xs">
+        <div class="flex items-center justify-between">
+          <span class="text-slate-400">Target Coaching Center:</span>
+          <strong id="preview-institute-name" class="text-white text-sm">Institute Name</strong>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-slate-400">Custom Domain / Subdomain:</span>
+          <span id="preview-domain" class="text-amber-400 font-mono font-bold">domain.in</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-slate-400">Director / Contact:</span>
+          <span id="preview-director" class="text-slate-200">Director</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-slate-400">Annual Setup Package:</span>
+          <span class="text-emerald-400 font-bold font-mono">₹1,999 / year</span>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-[11px] text-slate-300">
+          <span class="font-bold text-amber-300 block mb-1">⚡ Auto-Generated Live URL:</span>
+          <a id="preview-live-link" href="#" target="_blank" class="text-blue-400 font-mono hover:underline break-all">https://ddmaiaffiliate.web.app</a>
+        </div>
+      </div>
+
+      <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-end gap-3">
+        <button onclick="closePreviewModal()" class="px-4 py-2 rounded-xl text-slate-400 hover:text-white bg-slate-900 text-xs">Close</button>
+        <button id="preview-approve-btn" onclick="executePreviewApproval()" class="px-5 py-2 rounded-xl font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs shadow-lg shadow-emerald-500/20">
+          ⚡ 1-Click Approve & Launch
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD / EDIT COACHING PORTAL MODAL -->
+  <div id="portal-modal" class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-md p-4 overflow-y-auto flex items-center justify-center">
+    <div class="w-full max-w-lg glass-card rounded-3xl p-6 sm:p-7 shadow-2xl relative">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+        <h3 class="font-bold text-base text-white" id="portal-modal-title">Onboard Coaching Portal</h3>
+        <button onclick="closePortalModal()" class="text-slate-400 hover:text-white text-xl p-1">&times;</button>
+      </div>
+
+      <form onsubmit="handleSavePortal(event)" class="mt-4 space-y-3 text-xs">
         <input type="hidden" id="edit-portal-id" value="">
-        
         <div>
           <label class="block font-semibold text-slate-300 mb-1">Coaching / Institute Name *</label>
           <input type="text" id="modal-portal-name" required placeholder="e.g. Apex Science Academy"
@@ -758,7 +1127,7 @@
               class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-400">
           </div>
           <div>
-            <label class="block font-semibold text-slate-300 mb-1">WhatsApp / Phone *</label>
+            <label class="block font-semibold text-slate-300 mb-1">WhatsApp / Calling *</label>
             <input type="tel" id="modal-portal-phone" required placeholder="+91 9876543210"
               class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-400 font-mono">
           </div>
@@ -778,54 +1147,53 @@
         </div>
 
         <div>
-          <label class="block font-semibold text-slate-300 mb-1">Target Subjects & Courses</label>
-          <input type="text" id="modal-portal-courses" placeholder="Physics, Chemistry, NEET Prep, Spoken English"
+          <label class="block font-semibold text-slate-300 mb-1">Courses Offered</label>
+          <input type="text" id="modal-portal-courses" placeholder="Physics, Chemistry, NEET Prep, English"
             class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-400">
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label class="block font-semibold text-slate-300 mb-1">Annual Setup Package (₹)</label>
+            <label class="block font-semibold text-slate-300 mb-1">Package Fee (₹)</label>
             <input type="number" id="modal-portal-fee" value="1999"
               class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-400 font-mono">
           </div>
           <div>
-            <label class="block font-semibold text-slate-300 mb-1">Approval Status</label>
+            <label class="block font-semibold text-slate-300 mb-1">Status</label>
             <select id="modal-portal-status" class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-400 font-semibold">
-              <option value="pending">⏳ Pending 5-Minute Review</option>
-              <option value="approved">✅ Approved & Live</option>
-              <option value="rejected">❌ On Hold / Rejected</option>
+              <option value="pending">⏳ Pending Review</option>
+              <option value="approved">✅ Live Approved</option>
+              <option value="rejected">❌ On Hold</option>
             </select>
           </div>
         </div>
 
         <div class="pt-3 border-t border-slate-800 flex items-center justify-end gap-2.5">
-          <button type="button" onclick="closePortalModal()" class="px-4 py-2 rounded-xl text-slate-400 hover:text-white bg-slate-800">Cancel</button>
+          <button type="button" onclick="closePortalModal()" class="px-4 py-2 rounded-xl text-slate-400 hover:text-white bg-slate-900">Cancel</button>
           <button type="submit" class="px-5 py-2 rounded-xl font-bold bg-amber-500 hover:bg-amber-400 text-slate-950">Save to Firestore</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- 2. ADD / EDIT WEBINAR LEAD MODAL -->
-  <div id="lead-modal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm p-4 overflow-y-auto flex items-center justify-center">
-    <div class="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl relative">
+  <!-- ADD / EDIT WEBINAR LEAD MODAL -->
+  <div id="lead-modal" class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-md p-4 overflow-y-auto flex items-center justify-center">
+    <div class="w-full max-w-md glass-card rounded-3xl p-6 shadow-2xl relative">
       <div class="flex items-center justify-between pb-3 border-b border-slate-800">
-        <h3 class="font-bold text-base text-white" id="lead-modal-title">Add Webinar Lead</h3>
-        <button onclick="closeLeadModal()" class="text-slate-400 hover:text-white p-1 text-lg">&times;</button>
+        <h3 class="font-bold text-base text-white" id="lead-modal-title">Record Webinar Lead</h3>
+        <button onclick="closeLeadModal()" class="text-slate-400 hover:text-white text-xl p-1">&times;</button>
       </div>
 
       <form onsubmit="handleSaveLead(event)" class="mt-4 space-y-3.5 text-xs">
         <input type="hidden" id="edit-lead-id" value="">
-        
         <div>
-          <label class="block font-semibold text-slate-300 mb-1">Lead Full Name *</label>
+          <label class="block font-semibold text-slate-300 mb-1">Full Name *</label>
           <input type="text" id="modal-lead-name" required placeholder="e.g. Ramesh Kumar Sharma"
             class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-400">
         </div>
 
         <div>
-          <label class="block font-semibold text-slate-300 mb-1">WhatsApp / Phone Number *</label>
+          <label class="block font-semibold text-slate-300 mb-1">WhatsApp Phone *</label>
           <input type="tel" id="modal-lead-phone" required placeholder="+91 9876543210"
             class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-400 font-mono">
         </div>
@@ -837,29 +1205,38 @@
         </div>
 
         <div>
-          <label class="block font-semibold text-slate-300 mb-1">Pain Point / Core Objective</label>
+          <label class="block font-semibold text-slate-300 mb-1">Pain Point / Objective</label>
           <select id="modal-lead-objective" class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-400">
             <option value="Need ₹1,999 Coaching Website Portal">Need ₹1,999 Coaching Website Portal</option>
             <option value="Want High-Showup Webinar Email System">Want High-Showup Webinar Email System</option>
             <option value="Plan 01 Digital Affiliate ₹300">Plan 01 Digital Affiliate ₹300</option>
             <option value="Plan 02 Business Partner 60%">Plan 02 Business Partner 60%</option>
             <option value="AI Income Freedom Masterclass Attendee">AI Income Freedom Masterclass Attendee</option>
-            <option value="General Direct Marketing Inquiry">General Direct Marketing Inquiry</option>
           </select>
         </div>
 
-        <div>
-          <label class="block font-semibold text-slate-300 mb-1">Lead CRM Status</label>
-          <select id="modal-lead-status" class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-400">
-            <option value="registered">Registered / New</option>
-            <option value="contacted">Contacted via WhatsApp</option>
-            <option value="enrolled">Enrolled & Active</option>
-            <option value="archived">Archived</option>
-          </select>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-300 mb-1">Lead Status</label>
+            <select id="modal-lead-status" class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-400">
+              <option value="registered">Registered / New</option>
+              <option value="contacted">Contacted via WhatsApp</option>
+              <option value="enrolled">Enrolled & Active</option>
+              <option value="archived">Archived</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-300 mb-1">Temperature</label>
+            <select id="modal-lead-temp" class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-amber-400">
+              <option value="hot">🔥 Hot Lead</option>
+              <option value="warm">🟡 Warm</option>
+              <option value="cold">🔵 Cold</option>
+            </select>
+          </div>
         </div>
 
         <div class="pt-3 border-t border-slate-800 flex items-center justify-end gap-2.5">
-          <button type="button" onclick="closeLeadModal()" class="px-4 py-2 rounded-xl text-slate-400 hover:text-white bg-slate-800">Cancel</button>
+          <button type="button" onclick="closeLeadModal()" class="px-4 py-2 rounded-xl text-slate-400 hover:text-white bg-slate-900">Cancel</button>
           <button type="submit" class="px-5 py-2 rounded-xl font-bold bg-amber-500 hover:bg-amber-400 text-slate-950">Save Lead</button>
         </div>
       </form>
@@ -869,9 +1246,9 @@
   <!-- TOAST NOTIFICATION CONTAINER -->
   <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none"></div>
 
-  <!-- ================= FIREBASE & ADMIN APPLICATION SCRIPT ================= -->
+  <!-- ================= FIREBASE & ADVANCED APP SCRIPT ================= -->
   <script>
-    // 1. OFFICIAL DDMAI FIREBASE CONFIGURATION
+    // 1. FIREBASE INITIALIZATION
     const firebaseConfig = {
       apiKey: "AIzaSyCOSyBc3uxagaw8Sy1x7wjCd4-h9ks1t5o",
       authDomain: "ddmaiaffiliate.firebaseapp.com",
@@ -889,7 +1266,7 @@
         app = firebase.app();
       }
       db = firebase.firestore();
-      console.log("DDMAI Firestore Connected successfully to project: ddmaiaffiliate");
+      console.log("DDMAI Firestore Connected: ddmaiaffiliate (asia-south1)");
     } catch (e) {
       console.error("Firebase init error:", e);
     }
@@ -899,6 +1276,44 @@
     let allLeads = [];
     let allSolutions = [];
     let currentPortalFilter = 'all';
+    let audioEnabled = true;
+    let pendingApprovalCandidate = null;
+
+    // SYNTHESIZER AUDIO FEEDBACK (Web Audio API)
+    function playChime(type = 'success') {
+      if (!audioEnabled) return;
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        if (type === 'success') {
+          osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
+          osc.frequency.exponentialRampToValueAtTime(880.00, ctx.currentTime + 0.15); // A5
+          gain.gain.setValueAtTime(0.12, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.3);
+        } else if (type === 'alert') {
+          osc.frequency.setValueAtTime(440, ctx.currentTime);
+          osc.frequency.setValueAtTime(330, ctx.currentTime + 0.1);
+          gain.gain.setValueAtTime(0.15, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.25);
+        }
+      } catch (e) {
+        // AudioContext disabled or blocked
+      }
+    }
+
+    function toggleAudioChimes() {
+      audioEnabled = !audioEnabled;
+      document.getElementById('audio-icon').innerText = audioEnabled ? '🔔' : '🔕';
+      showToast(audioEnabled ? "System audio feedback enabled" : "System audio muted", "info");
+    }
 
     // BROADCAST TEMPLATES
     const BROADCAST_TEMPLATES = {
@@ -918,8 +1333,6 @@
 
     function checkAuthOnLoad() {
       const stored = sessionStorage.getItem('ddmai_admin_auth') || localStorage.getItem('ddmai_admin_auth');
-      const customKey = localStorage.getItem('ddmai_custom_key');
-      
       if (stored === 'true') {
         unlockAdminUI();
       }
@@ -937,8 +1350,10 @@
           localStorage.setItem('ddmai_admin_auth', 'true');
         }
         unlockAdminUI();
+        playChime('success');
         showToast("Access Granted. Welcome Veteran PankajBhai Umesh Gupta!", "success");
       } else {
+        playChime('alert');
         document.getElementById('login-error').classList.remove('hidden');
       }
     }
@@ -947,6 +1362,7 @@
       document.getElementById('auth-gate').classList.add('hidden');
       document.getElementById('admin-app').classList.remove('hidden');
       initRealtimeListeners();
+      startLiveIstClock();
     }
 
     function handleAdminLogout() {
@@ -968,14 +1384,24 @@
       }
       localStorage.setItem('ddmai_custom_key', val);
       document.getElementById('new-custom-passcode').value = '';
-      showToast("New Admin Passcode saved successfully!", "success");
+      playChime('success');
+      showToast("Custom Admin Passcode saved for this device!", "success");
+    }
+
+    function startLiveIstClock() {
+      setInterval(() => {
+        const now = new Date();
+        const istStr = now.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour12: true });
+        const el = document.getElementById('live-ist-clock');
+        if (el) el.innerText = istStr;
+      }, 1000);
     }
 
     // ================= NAVIGATION =================
     function switchTab(tabId) {
       document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
       document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('bg-amber-400', 'text-slate-950', 'shadow-sm');
+        btn.classList.remove('bg-gradient-to-r', 'from-amber-500', 'to-amber-600', 'text-slate-950', 'shadow-lg', 'shadow-amber-500/20');
         btn.classList.add('text-slate-400');
       });
 
@@ -984,53 +1410,39 @@
       if (pane) pane.classList.remove('hidden');
       if (btn) {
         btn.classList.remove('text-slate-400');
-        btn.classList.add('bg-amber-400', 'text-slate-950', 'shadow-sm');
+        btn.classList.add('bg-gradient-to-r', 'from-amber-500', 'to-amber-600', 'text-slate-950', 'shadow-lg', 'shadow-amber-500/20');
       }
+
+      if (tabId === 'analytics') updateAnalyticsFunnel();
     }
 
     // ================= REALTIME FIRESTORE LISTENERS =================
     function initRealtimeListeners() {
-      if (!db) {
-        console.warn("Firestore db not available");
-        return;
-      }
+      if (!db) return;
 
-      // 1. Coaching Portals Listener
+      // 1. Portals
       db.collection('coaching_portals').onSnapshot((snapshot) => {
         allPortals = [];
-        snapshot.forEach(doc => {
-          allPortals.push({ id: doc.id, ...doc.data() });
-        });
+        snapshot.forEach(doc => allPortals.push({ id: doc.id, ...doc.data() }));
         renderPortalsUI();
         updateKpis();
-      }, err => {
-        console.error("Portals listener error:", err);
       });
 
-      // 2. Webinar Leads Listener
+      // 2. Leads
       db.collection('webinar_leads').onSnapshot((snapshot) => {
         allLeads = [];
-        snapshot.forEach(doc => {
-          allLeads.push({ id: doc.id, ...doc.data() });
-        });
-        // Sort newest first
+        snapshot.forEach(doc => allLeads.push({ id: doc.id, ...doc.data() }));
         allLeads.sort((a, b) => new Date(b.registeredAt || 0) - new Date(a.registeredAt || 0));
         renderLeadsUI();
-        renderBroadcastPicker();
         updateKpis();
-      }, err => {
-        console.error("Leads listener error:", err);
+        updateAnalyticsFunnel();
       });
 
-      // 3. Solutions Catalog Listener
+      // 3. Solutions Catalog
       db.collection('solutions_catalog').onSnapshot((snapshot) => {
         allSolutions = [];
-        snapshot.forEach(doc => {
-          allSolutions.push({ id: doc.id, ...doc.data() });
-        });
+        snapshot.forEach(doc => allSolutions.push({ id: doc.id, ...doc.data() }));
         renderSolutionsUI();
-      }, err => {
-        console.error("Solutions listener error:", err);
       });
     }
 
@@ -1038,13 +1450,14 @@
       const icon = document.getElementById('refresh-icon');
       if (icon) icon.classList.add('animate-spin');
       initRealtimeListeners();
+      playChime('success');
       setTimeout(() => {
         if (icon) icon.classList.remove('animate-spin');
-        showToast("Cloud Firestore data synced successfully!", "success");
+        showToast("Cloud Firestore data synced in real-time!", "success");
       }, 700);
     }
 
-    // ================= KPIS =================
+    // ================= KPIS & BADGES =================
     function updateKpis() {
       const totalLeads = allLeads.length;
       const totalPortals = allPortals.length;
@@ -1052,37 +1465,34 @@
       const approvedPortals = allPortals.filter(p => (p.status || '').toLowerCase() === 'approved').length;
       const revenue = approvedPortals * 1999;
 
-      // Update Dashboard KPIs
       document.getElementById('kpi-total-leads').innerText = totalLeads;
       document.getElementById('kpi-total-portals').innerText = totalPortals;
-      document.getElementById('kpi-approved-portals').innerText = `(${approvedPortals} Live)`;
+      document.getElementById('kpi-approved-portals').innerText = `${approvedPortals} Active`;
       document.getElementById('kpi-pending-portals').innerText = pendingPortals;
       document.getElementById('kpi-pipeline-revenue').innerText = '₹' + revenue.toLocaleString('en-IN');
 
-      // Update Badges
+      // Badges
       const tabBadge = document.getElementById('tab-pending-badge');
       const heroBadge = document.getElementById('hero-pending-counter');
       if (pendingPortals > 0) {
         tabBadge.innerText = pendingPortals;
         tabBadge.classList.remove('hidden');
-        heroBadge.innerText = pendingPortals + ' Pending';
+        heroBadge.innerText = `${pendingPortals} Urgent Pending`;
         heroBadge.classList.remove('bg-slate-950', 'text-amber-300');
-        heroBadge.classList.add('bg-rose-500', 'text-white');
+        heroBadge.classList.add('bg-rose-500', 'text-white', 'animate-pulse');
       } else {
         tabBadge.classList.add('hidden');
         heroBadge.innerText = '0 Pending';
-        heroBadge.classList.remove('bg-rose-500', 'text-white');
+        heroBadge.classList.remove('bg-rose-500', 'text-white', 'animate-pulse');
         heroBadge.classList.add('bg-slate-950', 'text-amber-300');
       }
 
       document.getElementById('tab-leads-count').innerText = totalLeads;
 
-      // Counts in Portal filters
       document.getElementById('portals-count-all').innerText = totalPortals;
       document.getElementById('portals-count-pending').innerText = pendingPortals;
       document.getElementById('portals-count-approved').innerText = approvedPortals;
 
-      // Render Dashboard Pending queue
       renderDashboardPendingList();
       renderDashboardRecentLeads();
     }
@@ -1094,28 +1504,34 @@
 
       if (pending.length === 0) {
         container.innerHTML = `
-          <div class="text-center py-6 bg-slate-950/40 rounded-2xl border border-slate-800">
-            <span class="text-2xl">🎉</span>
-            <p class="text-xs text-slate-300 font-semibold mt-1">All Coaching Portals are Up to Date!</p>
-            <p class="text-[11px] text-slate-500">Zero pending applications in queue.</p>
+          <div class="text-center py-8 glass-card rounded-2xl border-slate-800">
+            <span class="text-3xl">🎉</span>
+            <p class="text-xs text-slate-200 font-bold mt-1.5">All Coaching Portals are Verified & Approved!</p>
+            <p class="text-[11px] text-slate-500">Zero pending applications awaiting review.</p>
           </div>
         `;
         return;
       }
 
       container.innerHTML = pending.slice(0, 4).map(item => `
-        <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-amber-500/30 flex items-center justify-between gap-3">
+        <div class="p-4 rounded-2xl bg-slate-950/90 border border-amber-500/30 flex items-center justify-between gap-3 shadow-lg">
           <div class="truncate">
             <div class="flex items-center gap-2">
               <strong class="text-white text-xs truncate">${escapeHtml(item.instituteName || item.name || 'Coaching Center')}</strong>
-              <span class="px-1.5 py-0.2 rounded text-[10px] font-mono bg-rose-500/20 text-rose-300 border border-rose-500/30">Pending</span>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-mono bg-rose-500/20 text-rose-300 border border-rose-500/30 font-bold">Pending</span>
             </div>
             <p class="text-[11px] text-slate-400 truncate mt-0.5">${escapeHtml(item.domainRequested || item.domain || 'domain.in')} &bull; ${escapeHtml(item.city || 'Gujarat')}</p>
           </div>
-          <button onclick="approvePortal5Min('${item.id}')"
-            class="shrink-0 px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition-all flex items-center gap-1 shadow-md shadow-emerald-500/20 cursor-pointer">
-            <span>⚡ Approve</span>
-          </button>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <button onclick="openPreviewModal('${item.id}')"
+              class="px-2.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700">
+              👁️ Preview
+            </button>
+            <button onclick="approvePortal5Min('${item.id}')"
+              class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition-all flex items-center gap-1 shadow-md shadow-emerald-500/20 active:scale-95">
+              <span>⚡ Approve</span>
+            </button>
+          </div>
         </div>
       `).join('');
     }
@@ -1123,28 +1539,28 @@
     function renderDashboardRecentLeads() {
       const container = document.getElementById('dashboard-recent-leads');
       if (allLeads.length === 0) {
-        container.innerHTML = `<div class="text-center py-6 text-xs text-slate-500">No leads recorded yet.</div>`;
+        container.innerHTML = `<div class="text-center py-8 text-xs text-slate-500">No leads recorded yet.</div>`;
         return;
       }
 
       container.innerHTML = allLeads.slice(0, 4).map(lead => `
-        <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-slate-800/80 flex items-center justify-between gap-3">
+        <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-slate-800/90 flex items-center justify-between gap-3 shadow">
           <div class="truncate">
             <div class="flex items-center gap-2">
-              <strong class="text-white text-xs truncate">${escapeHtml(lead.name || 'Participant')}</strong>
+              <strong class="text-white text-xs truncate">${escapeHtml(lead.name || 'Lead')}</strong>
               <span class="text-[10px] text-slate-500 font-mono">${formatDate(lead.registeredAt)}</span>
             </div>
-            <p class="text-[11px] text-amber-400/90 truncate mt-0.5">${escapeHtml(lead.painPoint || lead.objective || 'Masterclass Attendee')}</p>
+            <p class="text-[11px] text-amber-300/90 truncate mt-0.5">${escapeHtml(lead.painPoint || lead.objective || 'Masterclass Attendee')}</p>
           </div>
-          <a href="https://wa.me/${cleanPhone(lead.phone || '')}" target="_blank"
-            class="shrink-0 p-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs">
-            💬 WhatsApp
+          <a href="https://wa.me/${cleanPhone(lead.phone || '')}?text=${encodeURIComponent(`Namaste ${lead.name || ''} ji! This is Veteran PankajBhai Umesh Gupta from DDMAI Gandhinagar.`)}" target="_blank"
+            class="shrink-0 px-3 py-1.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold flex items-center gap-1">
+            <span>💬 Chat</span>
           </a>
         </div>
       `).join('');
     }
 
-    // ================= COACHING PORTALS TAB =================
+    // ================= COACHING PORTALS APPROVAL ENGINE =================
     function filterPortals(filter) {
       currentPortalFilter = filter;
       document.querySelectorAll('.portal-filter-btn').forEach(btn => {
@@ -1168,12 +1584,10 @@
       const searchQuery = (document.getElementById('portal-search')?.value || '').toLowerCase();
 
       let filtered = allPortals.filter(item => {
-        // Status filter
         const status = (item.status || 'pending').toLowerCase();
         if (currentPortalFilter === 'pending' && status !== 'pending') return false;
         if (currentPortalFilter === 'approved' && status !== 'approved') return false;
 
-        // Search query
         if (searchQuery) {
           const hay = `${item.instituteName || ''} ${item.directorName || ''} ${item.city || ''} ${item.domainRequested || ''} ${item.courses || ''}`.toLowerCase();
           if (!hay.includes(searchQuery)) return false;
@@ -1183,10 +1597,10 @@
 
       if (filtered.length === 0) {
         container.innerHTML = `
-          <div class="col-span-full text-center py-12 bg-slate-900/40 rounded-3xl border border-slate-800">
-            <span class="text-3xl">🔍</span>
+          <div class="col-span-full text-center py-16 glass-card rounded-3xl border-slate-800">
+            <span class="text-4xl">🔍</span>
             <p class="text-sm font-bold text-white mt-2">No Coaching Portals Found</p>
-            <p class="text-xs text-slate-500 mt-1">Try adjusting your filters or search keywords.</p>
+            <p class="text-xs text-slate-500 mt-1">Try switching filters or search terms.</p>
           </div>
         `;
         return;
@@ -1196,40 +1610,38 @@
         const isApproved = (item.status || '').toLowerCase() === 'approved';
         const isPending = (item.status || '').toLowerCase() === 'pending';
         const phone = cleanPhone(item.phone || item.contactMobile || '');
-        const domain = item.domainRequested || item.domain || 'coaching-portal.in';
+        const domain = item.domainRequested || item.domain || 'coaching.in';
 
         return `
-          <div class="bg-slate-900/80 border ${isPending ? 'border-amber-500/50 shadow-amber-500/5' : 'border-slate-800'} rounded-3xl p-5 shadow-xl flex flex-col justify-between transition-all hover:border-slate-700">
+          <div class="glass-card rounded-3xl p-6 shadow-xl flex flex-col justify-between transition-all hover:border-slate-700 ${isPending ? 'border-amber-500/50 shadow-amber-500/10' : ''}">
             <div>
-              <!-- Header & Status Badge -->
               <div class="flex items-start justify-between gap-3 pb-3 border-b border-slate-800">
                 <div>
                   <h4 class="font-extrabold text-sm text-white">${escapeHtml(item.instituteName || item.name || 'Coaching Center')}</h4>
-                  <p class="text-[11px] text-amber-400 font-mono mt-0.5">${escapeHtml(domain)}</p>
+                  <p class="text-[11px] text-amber-300 font-mono mt-0.5">${escapeHtml(domain)}</p>
                 </div>
-                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
                   isApproved 
                     ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' 
                     : isPending
                     ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30 animate-pulse'
                     : 'bg-slate-800 text-slate-400'
                 }">
-                  ${isApproved ? '✅ Live Approved' : isPending ? '⏳ Pending 5-Min' : '❌ On Hold'}
+                  ${isApproved ? '✅ Live Approved' : isPending ? '⏳ 5-Min Pending' : '❌ On Hold'}
                 </span>
               </div>
 
-              <!-- Metadata Grid -->
-              <div class="mt-3.5 space-y-2 text-xs">
+              <div class="mt-4 space-y-2 text-xs">
                 <div class="flex items-center justify-between text-slate-400">
                   <span>Director:</span>
                   <strong class="text-slate-200">${escapeHtml(item.directorName || item.director || 'Founder')}</strong>
                 </div>
                 <div class="flex items-center justify-between text-slate-400">
-                  <span>City / Location:</span>
+                  <span>City:</span>
                   <span class="text-slate-200">${escapeHtml(item.city || 'Gujarat')}</span>
                 </div>
                 <div class="flex items-center justify-between text-slate-400">
-                  <span>Contact:</span>
+                  <span>Contact Phone:</span>
                   <a href="tel:${phone}" class="text-blue-400 font-mono hover:underline">${escapeHtml(item.phone || item.contactMobile || 'N/A')}</a>
                 </div>
                 <div class="flex items-center justify-between text-slate-400">
@@ -1237,7 +1649,7 @@
                   <span class="text-emerald-400 font-bold font-mono">₹${item.packageFee || 1999} / yr</span>
                 </div>
                 ${item.courses ? `
-                  <div class="pt-2 border-t border-slate-800/60 text-[11px] text-slate-400">
+                  <div class="pt-2 border-t border-slate-800/80 text-[11px] text-slate-400">
                     <span class="text-slate-500 block mb-0.5">Courses Offered:</span>
                     <p class="text-slate-300 line-clamp-2">${escapeHtml(item.courses)}</p>
                   </div>
@@ -1245,32 +1657,36 @@
               </div>
             </div>
 
-            <!-- Action Buttons -->
+            <!-- Action Controls -->
             <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between gap-2">
               <div class="flex items-center gap-1.5">
+                <button onclick="openPreviewModal('${item.id}')" title="Preview Live Portal Simulation"
+                  class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs">
+                  👁️
+                </button>
                 <a href="https://wa.me/${phone}?text=${encodeURIComponent(`Namaste! This is DDMAI Gandhinagar regarding your Coaching Portal "${item.instituteName}".`)}" target="_blank"
                   title="WhatsApp Institute Owner"
-                  class="p-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 transition-colors">
+                  class="p-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs">
                   💬
                 </a>
                 <button onclick="editPortal('${item.id}')" title="Edit Portal Info"
-                  class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-colors">
+                  class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs">
                   ✏️
                 </button>
                 <button onclick="deletePortal('${item.id}')" title="Delete Portal"
-                  class="p-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 transition-colors">
+                  class="p-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 text-xs">
                   🗑️
                 </button>
               </div>
 
               ${isApproved ? `
                 <button onclick="togglePortalStatus('${item.id}', 'pending')"
-                  class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-all cursor-pointer">
-                  Pause / Hold
+                  class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700">
+                  Hold / Pause
                 </button>
               ` : `
                 <button onclick="approvePortal5Min('${item.id}')"
-                  class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow-md shadow-emerald-500/20 transition-all flex items-center gap-1 cursor-pointer active:scale-95">
+                  class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow-lg shadow-emerald-500/20 flex items-center gap-1 active:scale-95">
                   <span>⚡ Approve (5-Min)</span>
                 </button>
               `}
@@ -1280,7 +1696,38 @@
       }).join('');
     }
 
-    // 5-MINUTE ADMIN APPROVAL FLOW
+    // SIMULATION PREVIEW MODAL
+    function openPreviewModal(portalId) {
+      const portal = allPortals.find(p => p.id === portalId);
+      if (!portal) return;
+
+      pendingApprovalCandidate = portal;
+      document.getElementById('preview-institute-name').innerText = portal.instituteName || portal.name || 'Coaching Center';
+      document.getElementById('preview-domain').innerText = portal.domainRequested || portal.domain || 'coaching-portal.in';
+      document.getElementById('preview-director').innerText = `${portal.directorName || 'Director'} (${portal.phone || 'Phone'})`;
+      
+      const liveUrl = `https://${portal.domainRequested || 'ddmaiaffiliate.web.app'}`;
+      const linkEl = document.getElementById('preview-live-link');
+      linkEl.href = liveUrl;
+      linkEl.innerText = liveUrl;
+
+      document.getElementById('preview-approve-btn').innerText = (portal.status === 'approved') ? 'Already Approved' : '⚡ 1-Click Approve & Launch';
+      document.getElementById('preview-modal').classList.remove('hidden');
+    }
+
+    function closePreviewModal() {
+      document.getElementById('preview-modal').classList.add('hidden');
+      pendingApprovalCandidate = null;
+    }
+
+    function executePreviewApproval() {
+      if (pendingApprovalCandidate) {
+        approvePortal5Min(pendingApprovalCandidate.id);
+        closePreviewModal();
+      }
+    }
+
+    // 5-MINUTE ADMIN APPROVAL TRIGGER
     async function approvePortal5Min(portalId) {
       if (!db) return;
       const portal = allPortals.find(p => p.id === portalId);
@@ -1294,9 +1741,9 @@
           portalLiveUrl: `https://${portal.domainRequested || portal.domain || 'ddmaiaffiliate.web.app'}`
         });
 
-        showToast(`Success! Portal for "${portal.instituteName || 'Coaching'}" approved and activated!`, "success");
+        playChime('success');
+        showToast(`Success! Portal for "${portal.instituteName || 'Coaching'}" is APPROVED and LIVE!`, "success");
 
-        // Optional direct WhatsApp trigger
         const phone = cleanPhone(portal.phone || portal.contactMobile || '');
         if (phone) {
           const msg = BROADCAST_TEMPLATES.portal_approved
@@ -1310,7 +1757,7 @@
           }
         }
       } catch (err) {
-        console.error("Approval error:", err);
+        playChime('alert');
         showToast("Error updating portal: " + err.message, "error");
       }
     }
@@ -1329,7 +1776,7 @@
     }
 
     async function deletePortal(portalId) {
-      if (!confirm("Are you sure you want to permanently delete this portal record?")) return;
+      if (!confirm("Are you sure you want to delete this portal record?")) return;
       if (!db) return;
       try {
         await db.collection('coaching_portals').doc(portalId).delete();
@@ -1339,9 +1786,8 @@
       }
     }
 
-    // PORTAL MODAL ACTIONS
     function openAddPortalModal() {
-      document.getElementById('portal-modal-title').innerText = "Create / Onboard Coaching Portal";
+      document.getElementById('portal-modal-title').innerText = "Onboard Coaching Portal";
       document.getElementById('edit-portal-id').value = "";
       document.getElementById('modal-portal-name').value = "";
       document.getElementById('modal-portal-director').value = "";
@@ -1400,15 +1846,16 @@
         } else {
           data.submittedAt = new Date().toISOString();
           await db.collection('coaching_portals').add(data);
-          showToast("New coaching portal created in Cloud Firestore!", "success");
+          showToast("New coaching portal created!", "success");
         }
+        playChime('success');
         closePortalModal();
       } catch (err) {
         showToast("Error saving portal: " + err.message, "error");
       }
     }
 
-    // ================= WEBINAR LEADS CRM =================
+    // ================= WEBINAR LEADS CRM 2.0 =================
     function filterLeads() {
       renderLeadsUI();
     }
@@ -1416,25 +1863,27 @@
     function renderLeadsUI() {
       const tbody = document.getElementById('leads-table-body');
       const statusFilter = document.getElementById('lead-status-filter')?.value || 'all';
+      const tempFilter = document.getElementById('lead-temp-filter')?.value || 'all';
       const search = (document.getElementById('lead-search')?.value || '').toLowerCase();
 
       let filtered = allLeads.filter(lead => {
-        if (statusFilter !== 'all' && (lead.status || 'registered').toLowerCase() !== statusFilter) {
-          return false;
-        }
+        if (statusFilter !== 'all' && (lead.status || 'registered').toLowerCase() !== statusFilter) return false;
+        
+        // Lead temperature check
+        const temp = lead.temperature || (lead.phone ? 'hot' : 'warm');
+        if (tempFilter !== 'all' && temp !== tempFilter) return false;
+
         if (search) {
-          const hay = `${lead.name || ''} ${lead.phone || ''} ${lead.email || ''} ${lead.painPoint || ''} ${lead.objective || ''}`.toLowerCase();
+          const hay = `${lead.name || ''} ${lead.phone || ''} ${lead.email || ''} ${lead.painPoint || ''} ${lead.notes || ''}`.toLowerCase();
           if (!hay.includes(search)) return false;
         }
         return true;
       });
 
-      document.getElementById('leads-visible-count').innerText = filtered.length;
-
       if (filtered.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="6" class="text-center py-10 text-slate-500">
+            <td colspan="6" class="text-center py-12 text-slate-500">
               No matching leads found for current criteria.
             </td>
           </tr>
@@ -1446,6 +1895,7 @@
         const phone = cleanPhone(lead.phone || '');
         const dateStr = formatDate(lead.registeredAt || lead.createdAt);
         const status = (lead.status || 'registered').toLowerCase();
+        const temp = lead.temperature || (lead.phone ? 'hot' : 'warm');
 
         return `
           <tr class="hover:bg-slate-900/60 transition-colors">
@@ -1464,12 +1914,18 @@
                 ${escapeHtml(lead.painPoint || lead.objective || 'Masterclass')}
               </span>
             </td>
-            <td class="px-5 py-4 font-mono text-[11px] text-slate-400">
-              ${escapeHtml(lead.referralCode || 'DDMAI-V5H4QH')}
+            <td class="px-5 py-4 whitespace-nowrap">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                temp === 'hot' ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30' :
+                temp === 'warm' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' :
+                'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+              }">
+                ${temp === 'hot' ? '🔥 Hot' : temp === 'warm' ? '🟡 Warm' : '🔵 Cold'}
+              </span>
             </td>
             <td class="px-5 py-4 whitespace-nowrap">
               <select onchange="updateLeadStatus('${lead.id}', this.value)"
-                class="px-2 py-1 rounded-lg bg-slate-950 border border-slate-800 text-[11px] font-semibold focus:outline-none ${
+                class="px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 text-[11px] font-semibold focus:outline-none ${
                   status === 'enrolled' ? 'text-emerald-400 border-emerald-500/30' :
                   status === 'contacted' ? 'text-sky-400 border-sky-500/30' :
                   status === 'archived' ? 'text-slate-500' : 'text-amber-400 border-amber-500/30'
@@ -1482,17 +1938,17 @@
             </td>
             <td class="px-5 py-4 text-right whitespace-nowrap">
               <div class="inline-flex items-center gap-1.5">
-                <a href="https://wa.me/${phone}?text=${encodeURIComponent(`Namaste ${lead.name || ''} ji! This is Veteran PankajBhai Umesh Gupta from DDMAI Gandhinagar regarding your Masterclass registration.`)}" target="_blank"
+                <a href="https://wa.me/${phone}?text=${encodeURIComponent(`Namaste ${lead.name || ''} ji! This is Veteran PankajBhai Umesh Gupta from DDMAI Gandhinagar.`)}" target="_blank"
                   title="WhatsApp Lead"
-                  class="p-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 transition-colors text-xs">
+                  class="p-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold">
                   💬
                 </a>
                 <button onclick="prepareBroadcastForLead('${lead.id}')" title="Compose Broadcast"
-                  class="p-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 transition-colors text-xs">
+                  class="p-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs">
                   📢
                 </button>
                 <button onclick="deleteLead('${lead.id}')" title="Delete Lead"
-                  class="p-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 transition-colors text-xs">
+                  class="p-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 text-xs">
                   🗑️
                 </button>
               </div>
@@ -1511,7 +1967,7 @@
         });
         showToast("Lead status updated to " + newStatus, "info");
       } catch (err) {
-        showToast("Error updating lead status: " + err.message, "error");
+        showToast("Error updating status: " + err.message, "error");
       }
     }
 
@@ -1526,15 +1982,15 @@
       }
     }
 
-    // LEAD MODAL
     function openAddLeadModal() {
-      document.getElementById('lead-modal-title').innerText = "Add Webinar Lead";
+      document.getElementById('lead-modal-title').innerText = "Record Webinar Lead";
       document.getElementById('edit-lead-id').value = "";
       document.getElementById('modal-lead-name').value = "";
       document.getElementById('modal-lead-phone').value = "";
       document.getElementById('modal-lead-email').value = "";
       document.getElementById('modal-lead-objective').value = "Need ₹1,999 Coaching Website Portal";
       document.getElementById('modal-lead-status').value = "registered";
+      document.getElementById('modal-lead-temp').value = "hot";
       document.getElementById('lead-modal').classList.remove('hidden');
     }
 
@@ -1552,12 +2008,14 @@
         email: document.getElementById('modal-lead-email').value.trim(),
         painPoint: document.getElementById('modal-lead-objective').value,
         status: document.getElementById('modal-lead-status').value,
+        temperature: document.getElementById('modal-lead-temp').value,
         referralCode: "DDMAI-V5H4QH",
         registeredAt: new Date().toISOString()
       };
 
       try {
         await db.collection('webinar_leads').add(data);
+        playChime('success');
         showToast("New lead recorded in Cloud Firestore!", "success");
         closeLeadModal();
       } catch (err) {
@@ -1572,15 +2030,16 @@
         return;
       }
 
-      const headers = ["Registered Date", "Full Name", "Phone", "Email", "Objective", "Referral Code", "Status"];
+      const headers = ["Registered Date", "Full Name", "Phone", "Email", "Objective", "Temperature", "Status", "Referral Code"];
       const rows = allLeads.map(l => [
         `"${formatDate(l.registeredAt || l.createdAt)}"`,
         `"${(l.name || '').replace(/"/g, '""')}"`,
         `"${(l.phone || '').replace(/"/g, '""')}"`,
         `"${(l.email || '').replace(/"/g, '""')}"`,
         `"${(l.painPoint || l.objective || '').replace(/"/g, '""')}"`,
-        `"${(l.referralCode || 'DDMAI-V5H4QH').replace(/"/g, '""')}"`,
-        `"${(l.status || 'registered').replace(/"/g, '""')}"`
+        `"${(l.temperature || 'warm').toUpperCase()}"`,
+        `"${(l.status || 'registered').replace(/"/g, '""')}"`,
+        `"${(l.referralCode || 'DDMAI-V5H4QH').replace(/"/g, '""')}"`
       ]);
 
       const csvContent = "data:text/csv;charset=utf-8,\uFEFF" 
@@ -1593,33 +2052,66 @@
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      playChime('success');
       showToast(`Exported ${allLeads.length} leads to CSV file!`, "success");
     }
 
-    // ================= SOLUTIONS CATALOG TAB =================
+    // ================= VISUAL ANALYTICS & FUNNEL =================
+    function updateAnalyticsFunnel() {
+      const total = allLeads.length || 1;
+      const contacted = allLeads.filter(l => (l.status || '').toLowerCase() === 'contacted').length;
+      const enrolled = allLeads.filter(l => (l.status || '').toLowerCase() === 'enrolled').length;
+      const approvedPortals = allPortals.filter(p => (p.status || '').toLowerCase() === 'approved').length;
+
+      const regEl = document.getElementById('funnel-reg-count');
+      const contactEl = document.getElementById('funnel-contacted-count');
+      const enrollEl = document.getElementById('funnel-enrolled-count');
+      const portalEl = document.getElementById('funnel-portal-count');
+
+      if (regEl) regEl.innerText = `${allLeads.length} (100%)`;
+      if (contactEl) contactEl.innerText = `${contacted} (${Math.round((contacted/total)*100)}%)`;
+      if (enrollEl) enrollEl.innerText = `${enrolled} (${Math.round((enrolled/total)*100)}%)`;
+      if (portalEl) portalEl.innerText = `${approvedPortals} Live Portals`;
+
+      const contactedBar = document.getElementById('funnel-contacted-bar');
+      const enrolledBar = document.getElementById('funnel-enrolled-bar');
+      const portalBar = document.getElementById('funnel-portal-bar');
+
+      if (contactedBar) contactedBar.style.width = Math.max(10, Math.round((contacted/total)*100)) + '%';
+      if (enrolledBar) enrolledBar.style.width = Math.max(10, Math.round((enrolled/total)*100)) + '%';
+      if (portalBar) portalBar.style.width = Math.max(10, Math.round((approvedPortals/Math.max(1, allPortals.length))*100)) + '%';
+
+      const revVal = approvedPortals * 1999;
+      const portalRevEl = document.getElementById('analytics-portal-rev');
+      const totalPipeEl = document.getElementById('analytics-total-pipeline');
+      if (portalRevEl) portalRevEl.innerText = '₹' + revVal.toLocaleString('en-IN');
+      if (totalPipeEl) totalPipeEl.innerText = '₹' + revVal.toLocaleString('en-IN') + ' / year';
+    }
+
+    // ================= SOLUTIONS CATALOG =================
     function renderSolutionsUI() {
       const container = document.getElementById('solutions-grid');
       if (allSolutions.length === 0) {
-        container.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 text-xs">No solutions configured in catalog.</div>`;
+        container.innerHTML = `<div class="col-span-full text-center py-16 text-slate-500 text-xs">No solutions catalog loaded.</div>`;
         return;
       }
 
       container.innerHTML = allSolutions.map(sol => `
-        <div class="bg-slate-900/80 border border-slate-800 rounded-3xl p-5 shadow-xl flex flex-col justify-between hover:border-slate-700 transition-all">
+        <div class="glass-card rounded-3xl p-6 shadow-xl flex flex-col justify-between hover:border-slate-700 transition-all">
           <div>
             <div class="flex items-start justify-between gap-3 pb-3 border-b border-slate-800">
               <div>
-                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-400/10 text-amber-300 border border-amber-400/30 uppercase tracking-wider">${escapeHtml(sol.tag || 'Solution')}</span>
-                <h4 class="font-extrabold text-sm text-white mt-1.5">${escapeHtml(sol.title || 'DDMAI Product')}</h4>
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-400/10 text-amber-300 border border-amber-400/30 uppercase tracking-wider">${escapeHtml(sol.tag || 'Solution')}</span>
+                <h4 class="font-extrabold text-sm text-white mt-2">${escapeHtml(sol.title || 'DDMAI Product')}</h4>
               </div>
-              <span class="font-mono text-xs font-bold text-emerald-400">${escapeHtml(sol.annualFee || 'Free')}</span>
+              <span class="font-mono text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-lg border border-emerald-500/20">${escapeHtml(sol.annualFee || 'Free')}</span>
             </div>
 
             <p class="text-xs text-slate-300 mt-3 leading-relaxed">${escapeHtml(sol.description || '')}</p>
 
-            <div class="mt-4 pt-3 border-t border-slate-800/60 space-y-1.5 text-[11px] text-slate-400">
+            <div class="mt-4 pt-3 border-t border-slate-800/80 space-y-1.5 text-[11px] text-slate-400">
               ${sol.domainSetup ? `<div class="flex justify-between"><span>Domain:</span> <strong class="text-slate-200">${escapeHtml(sol.domainSetup)}</strong></div>` : ''}
-              ${sol.directBonus ? `<div class="flex justify-between"><span>Direct Bonus:</span> <strong class="text-amber-400">${escapeHtml(sol.directBonus)}</strong></div>` : ''}
+              ${sol.directBonus ? `<div class="flex justify-between"><span>Direct Bonus:</span> <strong class="text-amber-300">${escapeHtml(sol.directBonus)}</strong></div>` : ''}
               ${sol.sellerRoyalty ? `<div class="flex justify-between"><span>Seller Royalty:</span> <strong class="text-emerald-400">${escapeHtml(sol.sellerRoyalty)}</strong></div>` : ''}
               ${sol.openRateBoost ? `<div class="flex justify-between"><span>Open Rate:</span> <strong class="text-blue-400">${escapeHtml(sol.openRateBoost)}</strong></div>` : ''}
             </div>
@@ -1628,8 +2120,8 @@
           <div class="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between text-xs">
             <span class="text-slate-500 text-[10px] font-mono">ID: ${escapeHtml(sol.id)}</span>
             <button onclick="editSolutionPrice('${sol.id}', '${sol.annualFee || ''}')"
-              class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors font-semibold">
-              Edit Price / Tag
+              class="px-3.5 py-1.5 rounded-xl bg-slate-850 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors font-bold text-xs">
+              Edit Price
             </button>
           </div>
         </div>
@@ -1646,6 +2138,7 @@
           annualFee: newPrice,
           updatedAt: new Date().toISOString()
         });
+        playChime('success');
         showToast("Price updated in Cloud Firestore!", "success");
       } catch (err) {
         showToast("Error updating price: " + err.message, "error");
@@ -1669,43 +2162,20 @@
         tag: "Active",
         createdAt: new Date().toISOString()
       }).then(() => {
+        playChime('success');
         showToast("Solution added to catalog!", "success");
-      }).catch(err => {
-        showToast("Error: " + err.message, "error");
       });
     }
 
-    // ================= BROADCAST TAB =================
-    function renderBroadcastPicker() {
-      const container = document.getElementById('broadcast-leads-picker');
-      if (!container) return;
-
-      if (allLeads.length === 0) {
-        container.innerHTML = `<div class="text-center py-6 text-slate-500 text-[11px]">No leads registered yet.</div>`;
-        return;
-      }
-
-      container.innerHTML = allLeads.slice(0, 15).map(lead => `
-        <div onclick="selectBroadcastRecipient('${escapeHtml(lead.name || '')}', '${escapeHtml(lead.phone || '')}', '${escapeHtml(lead.painPoint || '')}')"
-          class="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800/80 border border-slate-800 transition-all cursor-pointer text-left">
-          <strong class="text-white text-xs block truncate">${escapeHtml(lead.name || 'Lead')}</strong>
-          <p class="text-[10px] text-slate-400 font-mono mt-0.5">${escapeHtml(lead.phone || '')}</p>
-        </div>
-      `).join('');
-    }
-
-    function selectBroadcastRecipient(name, phone, objective) {
-      document.getElementById('broadcast-name').value = name;
-      document.getElementById('broadcast-phone').value = phone;
-      applyBroadcastTemplate(objective);
-      showToast(`Selected ${name} for WhatsApp Blast`, "info");
-    }
-
+    // ================= WHATSAPP BROADCAST STUDIO 2.0 =================
     function prepareBroadcastForLead(leadId) {
       const lead = allLeads.find(l => l.id === leadId);
       if (!lead) return;
       switchTab('broadcast');
-      selectBroadcastRecipient(lead.name || '', lead.phone || '', lead.painPoint || '');
+      document.getElementById('broadcast-name').value = lead.name || '';
+      document.getElementById('broadcast-phone').value = lead.phone || '';
+      applyBroadcastTemplate(lead.painPoint || '');
+      showToast(`Selected ${lead.name} for broadcast`, "info");
     }
 
     function applyBroadcastTemplate(customObjective) {
@@ -1721,6 +2191,16 @@
         .replace(/\{domain\}/g, "yourcoaching.in");
 
       document.getElementById('broadcast-text').value = template;
+      updatePhoneMockup();
+    }
+
+    function updatePhoneMockup() {
+      const text = document.getElementById('broadcast-text').value || '';
+      const bubble = document.getElementById('mockup-text-bubble');
+      if (bubble) bubble.innerText = text;
+
+      const charCounter = document.getElementById('broadcast-char-counter');
+      if (charCounter) charCounter.innerText = `${text.length} characters`;
     }
 
     function launchWhatsAppBroadcast() {
@@ -1728,6 +2208,7 @@
       const text = document.getElementById('broadcast-text').value.trim();
 
       if (!phone) {
+        playChime('alert');
         showToast("Please enter a valid recipient WhatsApp number", "error");
         return;
       }
@@ -1736,9 +2217,33 @@
         return;
       }
 
+      playChime('success');
       const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
       window.open(waUrl, '_blank');
       showToast("Opening WhatsApp Web with pre-filled broadcast...", "success");
+    }
+
+    // ================= SYSTEM BACKUP =================
+    function downloadDatabaseBackup() {
+      const backupData = {
+        exportedAt: new Date().toISOString(),
+        brand: "Digital Direct Marketing – AI & Tech (DDMAI)",
+        founder: "Veteran PankajBhai Umesh Gupta",
+        headquarters: "Gandhinagar, Gujarat",
+        coaching_portals: allPortals,
+        webinar_leads: allLeads,
+        solutions_catalog: allSolutions
+      };
+
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
+      const dlAnchor = document.createElement('a');
+      dlAnchor.setAttribute("href", dataStr);
+      dlAnchor.setAttribute("download", `DDMAI_Firestore_Backup_${new Date().toISOString().slice(0, 10)}.json`);
+      document.body.appendChild(dlAnchor);
+      dlAnchor.click();
+      dlAnchor.remove();
+      playChime('success');
+      showToast("Database Backup snapshot downloaded successfully!", "success");
     }
 
     // ================= UTILITIES =================
@@ -1771,10 +2276,10 @@
     function showToast(message, type = 'info') {
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
-      toast.className = `p-3.5 rounded-2xl shadow-2xl text-xs font-semibold flex items-center gap-2.5 transition-all transform translate-y-2 border pointer-events-auto ${
-        type === 'success' ? 'bg-emerald-950 text-emerald-200 border-emerald-500/40' :
-        type === 'error' ? 'bg-rose-950 text-rose-200 border-rose-500/40' :
-        'bg-slate-900 text-slate-200 border-slate-700'
+      toast.className = `p-4 rounded-2xl shadow-2xl text-xs font-semibold flex items-center gap-2.5 transition-all transform translate-y-2 border pointer-events-auto ${
+        type === 'success' ? 'bg-emerald-950/90 text-emerald-200 border-emerald-500/40' :
+        type === 'error' ? 'bg-rose-950/90 text-rose-200 border-rose-500/40' :
+        'bg-slate-900/90 text-slate-200 border-slate-700'
       }`;
       
       const icon = type === 'success' ? '✅' : type === 'error' ? '⚠️' : 'ℹ️';
