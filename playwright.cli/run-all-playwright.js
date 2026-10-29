@@ -18,7 +18,8 @@ console.log('======================================================\n');
 const tests = [
   { name: '1. Public Landing Page & Lead Form Capture', file: 'playwright-runner.js' },
   { name: '2. Executive Admin Suite & Approval Engine', file: 'admin-test.js' },
-  { name: '3. Member Login, Dashboard & Certificate Studio', file: 'member-and-cert-test.js' }
+  { name: '3. Member Login, Dashboard & Certificate Studio', file: 'member-and-cert-test.js' },
+  { name: '4. Android Mobile Emulation (Pixel 7)', file: 'mobile-runner.js' }
 ];
 
 let allPassed = true;

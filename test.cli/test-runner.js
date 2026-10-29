@@ -112,6 +112,8 @@ assert(fs.existsSync(playwrightCliDir), 'Folder "playwright.cli" exists as a sep
 assert(fs.existsSync(path.join(playwrightCliDir, 'playwright-runner.js')), 'playwright.cli contains "playwright-runner.js"');
 assert(fs.existsSync(path.join(playwrightCliDir, 'admin-test.js')), 'playwright.cli contains "admin-test.js"');
 assert(fs.existsSync(path.join(playwrightCliDir, 'member-and-cert-test.js')), 'playwright.cli contains "member-and-cert-test.js"');
+assert(fs.existsSync(path.join(playwrightCliDir, 'mobile-runner.js')), 'playwright.cli contains "mobile-runner.js" (Pixel 7 Android audit)');
+assert(fs.existsSync(path.join(playwrightCliDir, 'run-all-playwright.js')), 'playwright.cli contains "run-all-playwright.js" master orchestrator');
 assert(fs.existsSync(path.join(playwrightCliDir, 'run-playwright.bat')), 'playwright.cli contains 1-click launcher "run-playwright.bat"');
 
 assert(!fs.existsSync(obsoletePlaywriteDir), 'Legacy duplicate "playwrite.cli" is fully cleaned/removed');

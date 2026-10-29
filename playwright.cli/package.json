@@ -1,8 +1,8 @@
 {
-  "name": "playwrite.cli",
+  "name": "playwright.cli",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "DDMAI Playwright End-to-End Browser Automation Suite",
+  "main": "run-all-playwright.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

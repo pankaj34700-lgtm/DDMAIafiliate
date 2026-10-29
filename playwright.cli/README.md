@@ -35,8 +35,9 @@ This folder contains the complete, dedicated browser automation test suite power
    - Official Certificate Verification & Generator modal with print triggers
    - Standalone `user-dashboard.html` suite verification
 
-4. **`mobile-runner.js`:**
-   - Mobile responsive layout on Pixel 7 device viewport.
+4. **`mobile-runner.js` (2 Tests):**
+   - Android Device Emulation (Google Pixel 7 - 412x915, Touch Enabled)
+   - Mobile responsive layout, modal interaction & screenshot capture
 
 ---
 
@@ -47,7 +48,9 @@ All tests automatically output high-resolution screenshots to:
 - `02-welcome-certificate.png`
 - `03-webinar-confirmation.png`
 - `04-admin-lockscreen.png`
+- `04-mobile-pixel7-home.png`
 - `05-admin-dashboard.png`
+- `05-mobile-webinar-modal.png`
 - `06-admin-broadcast.png`
 - `07-admin-analytics.png`
 - `08-user-login-modal.png`
@@ -60,7 +63,7 @@ All tests automatically output high-resolution screenshots to:
 
 ## 3. How to Run
 
-### Option A: 1-Click Batch Runner (Runs All 3 Suites)
+### Option A: 1-Click Batch Runner (Runs All 4 Suites)
 Double-click:
 ```
 run-playwright.bat
@@ -76,4 +79,5 @@ Or run any individual suite:
 node playwright.cli/playwright-runner.js
 node playwright.cli/admin-test.js
 node playwright.cli/member-and-cert-test.js
+node playwright.cli/mobile-runner.js
 ```

@@ -1,6 +1,12 @@
-const { chromium } = require('./node_modules/playwright');
 const path = require('path');
 const fs = require('fs');
+
+let chromium;
+try {
+  chromium = require('playwright').chromium;
+} catch (e) {
+  chromium = require(path.join(__dirname, 'node_modules', 'playwright')).chromium;
+}
 
 async function runAdminTest() {
   console.log('======================================================');

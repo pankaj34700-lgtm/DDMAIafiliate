@@ -1,6 +1,6 @@
 /**
  * DDMAI PLAYWRIGHT BROWSER AUTOMATION TEST RUNNER
- * Folder: playwrite.cli
+ * Folder: playwright.cli
  * End-to-End browser verification for Digital Direct Marketing – AI & Tech
  */
 
@@ -33,7 +33,7 @@ function logFail(name, err) {
 
 async function runPlaywrightSuite() {
   console.log('\n======================================================');
-  console.log('  DDMAI PLAYWRIGHT BROWSER CLI SUITE (playwrite.cli)');
+  console.log('  DDMAI PLAYWRIGHT BROWSER CLI SUITE (playwright.cli)');
   console.log('  Target URL: ' + indexUrl);
   console.log('======================================================\n');
 

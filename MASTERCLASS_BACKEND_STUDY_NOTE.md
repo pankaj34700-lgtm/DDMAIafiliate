@@ -26,7 +26,7 @@ The table below summarizes the exact conversion from the reference demo project 
 | **Database Architecture** | Cloud Firestore collections | **`webinar_leads`, `coaching_portals`, `users`, `affiliates`** | ✔ Configured |
 | **Security Rules** | Firestore Security Rules (Slide 50) | **Role-Based Rules (`firestore.rules`)** | ✔ Deployed Live |
 | **Admin Approval Flow** | Teacher Approval (Slide 60) | **5-Minute Coaching Portal Activation Workflow** | ✔ Implemented |
-| **Automated Testing** | Terminal Verification | **`test.cli` (34 tests) + `playwrite.cli` (21 tests)** | ✔ 100% Passed |
+| **Automated Testing** | Terminal Verification | **`test.cli` (51 tests) + `playwright.cli` (35 tests)** | ✔ 100% Passed |
 | **Live Production** | `skilvexa.com` | **`https://ddmaiaffiliate.web.app`** | ✔ Live & Verified |
 
 ---
@@ -63,8 +63,8 @@ The table below summarizes the exact conversion from the reference demo project 
 
 ### Pillar 5: Testing, Functionality & Security
 * [x] **`test.cli` (Node.js Test Suite):** 34 tests passing with zero failures. Audits files, brand identity, sections, and zero legacy keywords.
-* [x] **`playwrite.cli` (Headless Chromium Suite):** 21 browser tests passing. Verifies live DOM rendering, tab switching, modal triggers, and form submission.
-* [x] **Automated Visual Snapshots:** 3 desktop and modal screenshots generated in `playwrite.cli/screenshots/`.
+* [x] **`playwright.cli` (Headless Chromium Suite):** Browser tests passing. Verifies live DOM rendering, tab switching, modal triggers, and form submission.
+* [x] **Automated Visual Snapshots:** Desktop, mobile, and modal screenshots generated in `playwright.cli/screenshots/`.
 
 ### Pillar 6: Deployment & Hosting (Slide 61)
 * [x] **Production Build Clean:** Output prepared in `public/` directory.

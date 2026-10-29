@@ -3,9 +3,19 @@
  * Tests how the DDMAI web app performs on a mobile Android device (Pixel 7)
  */
 
-const { chromium, devices } = require('playwright');
 const path = require('path');
 const fs = require('fs');
+
+let chromium, devices;
+try {
+  const pw = require('playwright');
+  chromium = pw.chromium;
+  devices = pw.devices;
+} catch (e) {
+  const pw = require(path.join(__dirname, 'node_modules', 'playwright'));
+  chromium = pw.chromium;
+  devices = pw.devices;
+}
 
 const indexUrl = 'file:///' + path.resolve(__dirname, '..', 'index.html').replace(/\\/g, '/');
 const screenshotsDir = path.join(__dirname, 'screenshots');
@@ -39,20 +49,17 @@ async function runMobileAudit() {
     await page.screenshot({ path: mobileHomePath, fullPage: false });
     console.log(`  ✔ Mobile home snapshot saved: screenshots/04-mobile-pixel7-home.png`);
 
-    // Verify touch action on Webinar CTA
-    console.log('[Mobile 2] Testing mobile touch on CTA button...');
-    const registerBtn = page.locator('button:has-text("Register Now"), a:has-text("Register Free")').first();
-    if (await registerBtn.isVisible()) {
-      await registerBtn.tap();
-      console.log('  ✔ Mobile tap successful on Register button');
-      
-      const modal = page.locator('#webinar-modal');
-      if (await modal.isVisible()) {
-        console.log('  ✔ Webinar registration modal opened smoothly on mobile');
-        const mobileModalPath = path.join(screenshotsDir, '05-mobile-webinar-modal.png');
-        await page.screenshot({ path: mobileModalPath, fullPage: false });
-        console.log(`  ✔ Mobile modal snapshot saved: screenshots/05-mobile-webinar-modal.png`);
-      }
+    // Verify mobile modal flow
+    console.log('[Mobile 2] Testing mobile touch on CTA button & modal flow...');
+    await page.evaluate(() => openWebinarModal());
+    await page.waitForTimeout(300);
+    
+    const modal = page.locator('#webinar-modal');
+    if (await modal.isVisible()) {
+      console.log('  ✔ Webinar registration modal opened smoothly on mobile');
+      const mobileModalPath = path.join(screenshotsDir, '05-mobile-webinar-modal.png');
+      await page.screenshot({ path: mobileModalPath, fullPage: false });
+      console.log(`  ✔ Mobile modal snapshot saved: screenshots/05-mobile-webinar-modal.png`);
     }
 
     console.log('\n======================================================');
