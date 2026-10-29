@@ -255,74 +255,157 @@
               <span>Join Launchpad</span>
             </button>
 
-            <!-- Mobile Hamburger Toggle Button -->
-            <button onclick="toggleMobileNav()" id="mobile-menu-btn" aria-label="Toggle Navigation Menu"
-               class="xl:hidden inline-flex items-center justify-center p-2 rounded-xl text-slate-200 hover:text-white hover:bg-white/10 border border-white/15 transition-all">
-              <svg id="mobile-menu-icon-open" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-              <svg id="mobile-menu-icon-close" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            <!-- Hamburger Menu Toggle Button (Visible Across All Devices) -->
+            <button onclick="toggleMobileNav()" id="mobile-menu-btn" aria-label="Toggle Platform Menu"
+               class="inline-flex items-center gap-1.5 px-2.5 py-2 rounded-xl text-slate-200 hover:text-white bg-white/[0.08] hover:bg-white/[0.14] border border-white/20 shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer group">
+              <svg id="mobile-menu-icon-open" class="w-5 h-5 text-amber-300 group-hover:text-amber-200 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 6h16M4 12h16M4 18h16"/>
+              </svg>
+              <svg id="mobile-menu-icon-close" class="w-5 h-5 hidden text-amber-300 group-hover:text-amber-200 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+              <span class="text-xs font-bold text-slate-200 group-hover:text-white hidden sm:inline transition-colors">Menu</span>
             </button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Mobile Navigation Drawer (Collapsible) -->
-    <div id="mobile-nav-drawer" class="hidden xl:hidden border-b border-white/15 bg-[#040D24]/98 backdrop-blur-2xl text-white transition-all shadow-2xl">
-      <div class="max-w-7xl mx-auto px-4 py-4 space-y-4">
-        <!-- Quick Action Grid on Mobile -->
-        <div class="grid grid-cols-2 gap-2 pb-3 border-b border-white/10 text-xs font-bold">
-          <a href="admin.html" target="_blank" class="p-2.5 rounded-xl bg-amber-400/15 border border-amber-400/40 text-amber-300 flex items-center justify-center gap-1.5 shadow-sm">
-            <span>🔒 Admin Panel</span>
-          </a>
-          <button onclick="openUserLoginModal(); toggleMobileNav();" class="p-2.5 rounded-xl bg-white/10 border border-white/20 text-white flex items-center justify-center gap-1.5 shadow-sm">
-            <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-            <span>Member Login</span>
-          </button>
-          <button onclick="openCertificateModal(); toggleMobileNav();" class="p-2.5 rounded-xl bg-amber-500/10 border border-amber-400/20 text-amber-200 flex items-center justify-center gap-1.5">
-            <span>🎓 Certificates</span>
-          </button>
-          <button onclick="openWelcomeLetter(); toggleMobileNav();" class="p-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-300 flex items-center justify-center gap-1.5">
-            <span>📜 Welcome Letter</span>
-          </button>
-        </div>
+    <!-- Executive Platform Drawer (Collapsible for Desktop & Mobile) -->
+    <div id="mobile-nav-drawer" class="hidden border-b border-white/15 bg-[#03091e]/98 backdrop-blur-2xl text-white transition-all shadow-[0_25px_60px_rgba(0,0,0,0.6)]">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          
+          <!-- Column 1: Executive Portals & Management Hub -->
+          <div class="lg:col-span-4 space-y-3 pb-4 lg:pb-0 border-b lg:border-b-0 lg:border-r border-white/10 lg:pr-6">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-amber-300/90 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+              Executive Portals &amp; Credentials
+            </span>
+            <div class="grid grid-cols-2 lg:grid-cols-1 gap-2 pt-1 text-xs font-bold">
+              <a href="admin.html" target="_blank" class="p-3 rounded-xl bg-amber-400/15 border border-amber-400/40 text-amber-300 hover:bg-amber-400/25 flex items-center justify-between shadow-sm transition-all group">
+                <span class="flex items-center gap-2">
+                  <span class="text-sm">🔒</span>
+                  <span>Executive Admin Panel</span>
+                </span>
+                <span class="text-xs opacity-60 group-hover:translate-x-1 transition-transform">&rarr;</span>
+              </a>
+              <button onclick="openUserLoginModal(); toggleMobileNav();" class="p-3 rounded-xl bg-white/10 border border-white/20 text-white hover:bg-white/15 flex items-center justify-between shadow-sm transition-all group text-left">
+                <span class="flex items-center gap-2">
+                  <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                  <span>Member Login &amp; Portal</span>
+                </span>
+                <span class="text-xs opacity-60 group-hover:translate-x-1 transition-transform">&rarr;</span>
+              </button>
+              <button onclick="openCertificateModal(); toggleMobileNav();" class="p-3 rounded-xl bg-amber-500/10 border border-amber-400/25 text-amber-200 hover:bg-amber-500/20 flex items-center justify-between transition-all group text-left">
+                <span class="flex items-center gap-2">
+                  <span class="text-sm">🎓</span>
+                  <span>Certificate Studio</span>
+                </span>
+                <span class="text-xs opacity-60 group-hover:translate-x-1 transition-transform">&rarr;</span>
+              </button>
+              <button onclick="openWelcomeLetter(); toggleMobileNav();" class="p-3 rounded-xl bg-white/5 border border-white/10 text-slate-200 hover:bg-white/10 flex items-center justify-between transition-all group text-left">
+                <span class="flex items-center gap-2">
+                  <span class="text-sm">📜</span>
+                  <span>Official Welcome Letter</span>
+                </span>
+                <span class="text-xs opacity-60 group-hover:translate-x-1 transition-transform">&rarr;</span>
+              </button>
+              <a href="https://ddmai.com/signup/?ref=DDMAI-V5H4QH" target="_blank" rel="noopener noreferrer" class="p-3 rounded-xl bg-white/5 border border-white/10 text-slate-200 hover:bg-white/10 flex items-center justify-between transition-all group col-span-2 lg:col-span-1">
+                <span class="flex items-center gap-2">
+                  <span class="text-sm">🤝</span>
+                  <span>Official Partner Signup</span>
+                </span>
+                <span class="text-xs opacity-60 group-hover:translate-x-1 transition-transform">&rarr;</span>
+              </a>
+            </div>
+          </div>
 
-        <!-- Section Navigation Links -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 text-xs">
-          <a href="#home" onclick="toggleMobileNav()" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
-            <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-            <span>Home</span>
-          </a>
-          <a href="#founder" onclick="toggleMobileNav()" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
-            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-            <span>Founder Profile</span>
-          </a>
-          <a href="#services" onclick="toggleMobileNav()" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
-            <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-            <span>AI &amp; Direct Marketing</span>
-          </a>
-          <a href="#plans" onclick="toggleMobileNav()" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
-            <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            <span>Affiliate &amp; Business Plans</span>
-          </a>
-          <a href="#masterclass" onclick="toggleMobileNav()" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
-            <svg class="w-4 h-4 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-            <span>Webinar &amp; Email Sequences</span>
-          </a>
-          <a href="#how-it-works" onclick="toggleMobileNav()" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
-            <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-            <span>How It Works</span>
-          </a>
-          <a href="#help" onclick="toggleMobileNav()" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
-            <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            <span>Help &amp; FAQ</span>
-          </a>
-        </div>
+          <!-- Column 2: Platform Section Directory -->
+          <div class="lg:col-span-5 space-y-3 pb-4 lg:pb-0 border-b lg:border-b-0 lg:border-r border-white/10 lg:pr-6">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-sky-300/90 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-sky-400"></span>
+              Platform Directory &amp; Solutions
+            </span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs">
+              <a href="#home" onclick="toggleMobileNav()" class="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-white/10 transition-colors">
+                <svg class="w-4 h-4 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                <div>
+                  <span class="font-bold block text-white">Home</span>
+                  <span class="text-[10px] text-slate-400">Launchpad &amp; Overview</span>
+                </div>
+              </a>
+              <a href="#founder" onclick="toggleMobileNav()" class="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-white/10 transition-colors">
+                <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                <div>
+                  <span class="font-bold block text-white">Founder Profile</span>
+                  <span class="text-[10px] text-slate-400">Veteran PankajBhai Umesh Gupta</span>
+                </div>
+              </a>
+              <a href="#services" onclick="toggleMobileNav()" class="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-white/10 transition-colors">
+                <svg class="w-4 h-4 text-sky-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                <div>
+                  <span class="font-bold block text-white">AI &amp; Direct Marketing</span>
+                  <span class="text-[10px] text-slate-400">Email automation &amp; funnel suites</span>
+                </div>
+              </a>
+              <a href="#plans" onclick="toggleMobileNav()" class="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-white/10 transition-colors">
+                <svg class="w-4 h-4 text-amber-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <div>
+                  <span class="font-bold block text-white">Affiliate Plans</span>
+                  <span class="text-[10px] text-slate-400">₹300 Affiliate &amp; 60% Business</span>
+                </div>
+              </a>
+              <a href="#masterclass" onclick="toggleMobileNav()" class="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-white/10 transition-colors">
+                <svg class="w-4 h-4 text-emerald-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                <div>
+                  <span class="font-bold block text-white">Webinar Sequences</span>
+                  <span class="text-[10px] text-slate-400">11-Day deep nurture engine</span>
+                </div>
+              </a>
+              <a href="#how-it-works" onclick="toggleMobileNav()" class="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-white/10 transition-colors">
+                <svg class="w-4 h-4 text-purple-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                <div>
+                  <span class="font-bold block text-white">How It Works</span>
+                  <span class="text-[10px] text-slate-400">Step-by-step launchpad guide</span>
+                </div>
+              </a>
+              <a href="#help" onclick="toggleMobileNav()" class="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-white/10 transition-colors sm:col-span-2">
+                <svg class="w-4 h-4 text-rose-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <div>
+                  <span class="font-bold block text-white">Help &amp; FAQ</span>
+                  <span class="text-[10px] text-slate-400">Frequently asked questions &amp; direct assistance</span>
+                </div>
+              </a>
+            </div>
+          </div>
 
-        <div class="pt-2 border-t border-white/10 flex items-center justify-between text-xs">
-          <span class="text-slate-400">Referral: <strong class="text-amber-300 font-mono">DDMAI-V5H4QH</strong></span>
-          <a href="https://web.whatsapp.com/send?phone=919638055552&text=Hello%20PankajBhai%2C%20I%20want%20to%20join%20Digital%20Direct%20Marketing%20AI" target="_blank" class="text-emerald-400 font-semibold flex items-center gap-1">
-            <span>WhatsApp +91 9638055552</span> &rarr;
-          </a>
+          <!-- Column 3: Direct Connect & Leadership Card -->
+          <div class="lg:col-span-3 space-y-3">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-300/90 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              Direct Headquarters Contact
+            </span>
+            <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 space-y-2.5 text-xs">
+              <div class="flex items-center gap-2.5">
+                <img src="assets/pankajbhai-portrait.jpg" alt="Veteran PankajBhai" class="w-9 h-9 rounded-full object-cover border border-amber-400/80">
+                <div>
+                  <span class="font-bold text-white block">Veteran PankajBhai Umesh Gupta</span>
+                  <span class="text-[10px] text-slate-400">Gandhinagar, Gujarat</span>
+                </div>
+              </div>
+              <div class="pt-2 border-t border-white/10 space-y-1.5 text-[11px]">
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-400">Referral Code:</span>
+                  <span class="font-mono font-bold text-amber-300 bg-amber-400/10 border border-amber-400/30 px-2 py-0.5 rounded">DDMAI-V5H4QH</span>
+                </div>
+                <a href="https://web.whatsapp.com/send?phone=919638055552&text=Hello%20PankajBhai%2C%20I%20want%20to%20join%20Digital%20Direct%20Marketing%20AI" target="_blank" class="w-full py-2 px-3 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/30 font-bold flex items-center justify-center gap-1.5 transition-all">
+                  <span>WhatsApp +91 9638055552</span> &rarr;
+                </a>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
