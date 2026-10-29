@@ -106,138 +106,235 @@
 </head>
 <body class="flex min-h-full flex-col bg-white text-slate-800 antialiased selection:bg-[#0756C8] selection:text-white">
 
-  <!-- TOP ANNOUNCEMENT & COMMUNITY STRIP -->
-  <div class="relative z-50 bg-[#030D24] text-xs text-slate-300 border-b border-white/10 px-4 py-2">
-    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
-      <div class="flex items-center gap-2">
-        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-          <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span> LIVE ECOSYSTEM
+    <!-- TOP ANNOUNCEMENT & COMMUNITY STRIP -->
+  <div class="relative z-50 bg-[#020817] text-xs text-slate-300 border-b border-white/10 px-4 py-2 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+      <!-- Left: Status & Founder Attribution -->
+      <div class="flex items-center gap-2.5 flex-wrap">
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 shadow-[0_0_12px_rgba(16,185,129,0.2)]">
+          <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          LIVE ECOSYSTEM
         </span>
-        <span class="hidden sm:inline text-slate-300">Direct Marketing AI & Tech — Founded by <strong>Veteran PankajBhai Umesh Gupta</strong></span>
+        <span class="text-slate-300 text-[11px] sm:text-xs">
+          Direct Marketing AI &amp; Tech &mdash; Founded by <strong class="text-white font-semibold">Veteran PankajBhai Umesh Gupta</strong>
+          <span class="hidden md:inline text-slate-400"> &bull; Gandhinagar, Gujarat</span>
+        </span>
       </div>
-      <div class="flex items-center gap-4 text-xs">
-        <a href="https://web.whatsapp.com/send?phone=919638055552&text=Hello%20PankajBhai%2C%20I%20want%20to%20join%20Digital%20Direct%20Marketing%20AI" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 flex items-center gap-1 font-medium transition-colors">
-          <svg class="w-3.5 h-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.592 2.654-.696c1.004.577 1.83.823 2.806.823 3.185 0 5.772-2.587 5.773-5.766.001-3.182-2.585-5.77-5.773-5.77zm4.27 7.954c-.18.508-.887.935-1.229.988-.344.053-.787.072-2.529-.652-2.091-.87-3.435-3.003-3.539-3.144-.105-.14-8.49e-4-.306.096-.464.089-.148.197-.336.296-.505.099-.168.132-.288.198-.48.066-.192.033-.36-.016-.456-.05-.096-.442-1.066-.606-1.46-.159-.384-.321-.332-.441-.338-.114-.006-.245-.007-.376-.007s-.344.048-.524.24c-.18.192-.688.672-.688 1.639 0 .967.704 1.902.803 2.035.098.133 1.385 2.115 3.356 2.966.469.203.835.324 1.121.415.471.15.9.129 1.239.078.378-.057 1.164-.476 1.328-.936.164-.46.164-.855.115-.936-.049-.081-.18-.13-.377-.229z"/></svg>
-          WhatsApp: +91 9638055552
+
+      <!-- Right: Direct Channels & Referral Code -->
+      <div class="flex items-center gap-3 sm:gap-4 text-[11px] sm:text-xs flex-wrap">
+        <!-- Direct Email -->
+        <a href="mailto:ddmai651@gmail.com" class="hidden lg:inline-flex items-center gap-1.5 text-slate-400 hover:text-amber-300 transition-colors">
+          <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          <span>ddmai651@gmail.com</span>
         </a>
-        <span class="text-slate-600">|</span>
-        <a href="https://ddmai.com/signup/?ref=DDMAI-V5H4QH" target="_blank" rel="noopener noreferrer" class="hover:text-accent-500 font-semibold text-accent-400 flex items-center gap-1 transition-colors">
-          Referral Code: <span class="bg-amber-400/20 px-1.5 py-0.5 rounded text-amber-300 font-mono">DDMAI-V5H4QH</span>
+        <span class="hidden lg:inline text-slate-700">|</span>
+
+        <!-- Direct WhatsApp Hotline -->
+        <a href="https://web.whatsapp.com/send?phone=919638055552&text=Hello%20PankajBhai%2C%20I%20want%20to%20join%20Digital%20Direct%20Marketing%20AI" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 flex items-center gap-1.5 font-medium text-slate-300 transition-colors group">
+          <svg class="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.592 2.654-.696c1.004.577 1.83.823 2.806.823 3.185 0 5.772-2.587 5.773-5.766.001-3.182-2.585-5.77-5.773-5.77zm4.27 7.954c-.18.508-.887.935-1.229.988-.344.053-.787.072-2.529-.652-2.091-.87-3.435-3.003-3.539-3.144-.105-.14-8.49e-4-.306.096-.464.089-.148.197-.336.296-.505.099-.168.132-.288.198-.48.066-.192.033-.36-.016-.456-.05-.096-.442-1.066-.606-1.46-.159-.384-.321-.332-.441-.338-.114-.006-.245-.007-.376-.007s-.344.048-.524.24c-.18.192-.688.672-.688 1.639 0 .967.704 1.902.803 2.035.098.133 1.385 2.115 3.356 2.966.469.203.835.324 1.121.415.471.15.9.129 1.239.078.378-.057 1.164-.476 1.328-.936.164-.46.164-.855.115-.936-.049-.081-.18-.13-.377-.229z"/></svg>
+          <span>WhatsApp: <strong class="text-emerald-400 font-semibold">+91 9638055552</strong></span>
+        </a>
+        <span class="text-slate-700">|</span>
+
+        <!-- Official Referral Code Chip -->
+        <a href="https://ddmai.com/signup/?ref=DDMAI-V5H4QH" target="_blank" rel="noopener noreferrer" class="hover:text-accent-400 font-medium text-slate-300 flex items-center gap-1.5 transition-colors group">
+          <span class="hidden xs:inline">Referral Code:</span>
+          <span class="inline-flex items-center gap-1 bg-amber-400/15 border border-amber-400/35 px-2 py-0.5 rounded-md text-amber-300 font-mono font-bold group-hover:bg-amber-400/25 group-hover:border-amber-400 transition-all shadow-sm">
+            <span>DDMAI-V5H4QH</span>
+            <svg class="w-3 h-3 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+          </span>
         </a>
       </div>
     </div>
   </div>
 
   <!-- PRIMARY STICKY NAVBAR (DDMAI Deep Blue Style) -->
-  <header class="sticky top-0 z-40 isolate shadow-[0_10px_28px_rgba(3,13,36,0.24)]">
+  <header class="sticky top-0 z-40 isolate shadow-[0_12px_32px_rgba(3,13,36,0.32)]">
     <!-- Tier 1: Brand & Actions -->
-    <div class="relative isolate border-b border-white/10 bg-gradient-to-r from-[#061B49] via-[#0A2A64] to-[#061B49]">
-      <div aria-hidden="true" class="pointer-events-none absolute inset-0 hero-pattern"></div>
+    <div class="relative isolate border-b border-white/10 bg-gradient-to-r from-[#061B49] via-[#0A2A64] to-[#061B49] backdrop-blur-md">
+      <div aria-hidden="true" class="pointer-events-none absolute inset-0 hero-pattern opacity-80"></div>
       <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         <div class="flex min-h-16 items-center justify-between gap-3 py-2 lg:min-h-[74px]">
           
           <!-- Logo & Brand Title -->
-          <a class="group inline-flex items-center gap-3" href="#home">
-            <img alt="Digital Direct Marketing AI Logo" width="48" height="48" 
-                 class="h-11 w-11 rounded-full object-cover border-2 border-accent-500/80 shadow-md transition-transform duration-200 group-hover:scale-105" 
-                 src="assets/ddmai-logo.jpg">
+          <a class="group inline-flex items-center gap-3" href="#home" title="Digital Direct Marketing AI Home">
+            <div class="relative">
+              <img alt="Digital Direct Marketing AI Logo" width="48" height="48" 
+                   class="h-11 w-11 sm:h-12 sm:w-12 rounded-full object-cover border-2 border-amber-400/80 shadow-[0_0_15px_rgba(255,209,102,0.35)] transition-transform duration-300 group-hover:scale-105 group-hover:rotate-1" 
+                   src="assets/ddmai-logo.jpg">
+              <span class="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full bg-emerald-500 border-2 border-[#061B49]" title="System Operational"></span>
+            </div>
             <span class="flex flex-col leading-tight">
-              <span class="font-display text-[18px] sm:text-[20px] font-extrabold tracking-tight text-white flex items-center gap-1">
-                DDM<span class="text-[#FFD166]">AI</span> 
-                <span class="text-xs px-2 py-0.5 rounded bg-white/10 text-slate-200 border border-white/20 uppercase tracking-widest hidden md:inline">Tech & Direct</span>
+              <span class="font-display text-[19px] sm:text-[22px] font-black tracking-tight text-white flex items-center gap-1.5">
+                DDM<span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FFD166] via-amber-300 to-[#FFE0A3]">AI</span> 
+                <span class="text-[10px] sm:text-xs px-2 py-0.5 rounded-full bg-white/10 text-slate-200 border border-white/20 uppercase tracking-widest font-sans font-bold hidden sm:inline shadow-sm">Tech &amp; Direct</span>
               </span>
-              <span class="text-[10px] font-medium tracking-wide text-accent-400">Digital Direct Marketing • Global World</span>
+              <span class="text-[10px] sm:text-[11px] font-medium tracking-wide text-amber-300/90">Digital Direct Marketing &bull; Global World</span>
             </span>
           </a>
 
           <!-- Middle Value Slogan (Desktop) -->
-          <p class="hidden flex-1 px-4 text-center text-xs lg:text-sm font-medium tracking-wide text-white/90 xl:block">
-            Direct Marketing AI • DDMAI Email Automation • High-Showup Webinars • Multi-Tenant Portals
-          </p>
+          <div class="hidden flex-1 px-4 text-center xl:block">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium tracking-wide text-white/90 shadow-inner">
+              <span class="h-1.5 w-1.5 rounded-full bg-amber-400"></span>
+              <p>Direct Marketing AI &bull; DDMAI Email Automation &bull; High-Showup Webinars &bull; Multi-Tenant Portals</p>
+            </div>
+          </div>
 
           <!-- Right Action Buttons -->
-          <div class="flex shrink-0 items-center gap-1.5 sm:gap-2.5">
-            <!-- 🔒 Admin Panel Button (Prominently visible) -->
-            <a href="admin.html" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-amber-300 border border-amber-400/50 bg-amber-400/15 hover:bg-amber-400/25 transition-all shadow-sm">
+          <div class="flex shrink-0 items-center gap-1.5 sm:gap-2">
+            <!-- 🔒 Admin Panel Button (Executive Gold styling) -->
+            <a href="admin.html" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-extrabold text-amber-300 border border-amber-400/60 bg-gradient-to-r from-amber-400/20 via-amber-500/15 to-amber-400/20 hover:from-amber-400/30 hover:to-amber-500/25 transition-all shadow-[0_0_12px_rgba(251,191,36,0.25)] hover:scale-[1.02]">
               <span class="h-2 w-2 rounded-full bg-amber-400 animate-pulse"></span>
               <span>🔒 Admin Panel</span>
             </a>
 
             <!-- 👤 Member Login Button -->
-            <button onclick="openUserLoginModal()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-white border border-white/20 bg-white/10 hover:bg-white/20 transition-all shadow-sm">
+            <button onclick="openUserLoginModal()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-white border border-white/25 bg-white/10 hover:bg-white/20 transition-all shadow-sm hover:scale-[1.02]">
               <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
               <span>Member Login</span>
             </button>
 
             <!-- 🎓 Certificate Generator Button -->
-            <button onclick="openCertificateModal()" class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-amber-200 border border-amber-400/30 bg-amber-500/10 hover:bg-amber-500/20 transition-all">
+            <button onclick="openCertificateModal()" class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-amber-200 border border-amber-400/30 bg-amber-500/10 hover:bg-amber-500/20 transition-all hover:scale-[1.02]">
               <span>🎓 Certificates</span>
             </button>
 
             <!-- Welcome Letter modal button (retained for test.cli) -->
-            <button onclick="openWelcomeLetter()" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-200 border border-white/20 bg-white/5 hover:bg-white/15 transition-all">
-              <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-              Welcome Letter
+            <button onclick="openWelcomeLetter()" class="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-200 border border-white/20 bg-white/5 hover:bg-white/15 transition-all">
+              <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              <span>Welcome Letter</span>
             </button>
 
+            <!-- Partner Signup Link -->
             <a href="https://ddmai.com/signup/?ref=DDMAI-V5H4QH" target="_blank" rel="noopener noreferrer" 
-               class="hidden xl:inline-flex items-center justify-center font-semibold text-xs sm:text-sm px-3.5 py-2 rounded-xl bg-white text-brand-800 hover:bg-brand-50 shadow-sm transition-all">
+               class="hidden 2xl:inline-flex items-center justify-center font-semibold text-xs px-3.5 py-2 rounded-xl bg-white text-[#061B49] hover:bg-amber-50 shadow-sm transition-all">
               Partner Signup
             </a>
 
+            <!-- Join Launchpad Hero CTA Button -->
             <button onclick="openWebinarModal()" 
-               class="inline-flex items-center justify-center font-bold text-xs sm:text-sm px-4 py-2 rounded-xl bg-[#FFD166] text-[#061B49] hover:bg-[#ffe0a3] shadow-gold transition-all">
+               class="inline-flex items-center justify-center font-black text-xs sm:text-sm px-3.5 sm:px-4 py-2 rounded-xl bg-gradient-to-r from-[#FFD166] via-amber-300 to-[#FFD166] text-[#061B49] hover:brightness-105 shadow-[0_0_20px_rgba(255,209,102,0.4)] transition-all hover:scale-[1.02]">
               Join Launchpad
+            </button>
+
+            <!-- Mobile Hamburger Toggle Button -->
+            <button onclick="toggleMobileNav()" id="mobile-menu-btn" aria-label="Toggle Navigation Menu"
+               class="lg:hidden inline-flex items-center justify-center p-2 rounded-xl text-slate-200 hover:text-white hover:bg-white/10 border border-white/15 transition-all">
+              <svg id="mobile-menu-icon-open" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+              <svg id="mobile-menu-icon-close" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- Mobile Navigation Drawer (Collapsible) -->
+    <div id="mobile-nav-drawer" class="hidden lg:hidden border-b border-white/15 bg-[#041334]/95 backdrop-blur-xl text-white transition-all">
+      <div class="max-w-7xl mx-auto px-4 py-4 space-y-4">
+        <!-- Quick Action Buttons on Mobile -->
+        <div class="grid grid-cols-2 gap-2 pb-3 border-b border-white/10 text-xs font-bold">
+          <a href="admin.html" target="_blank" class="p-2.5 rounded-xl bg-amber-400/15 border border-amber-400/40 text-amber-300 flex items-center justify-center gap-1.5 shadow-sm">
+            <span>🔒 Admin Panel</span>
+          </a>
+          <button onclick="openUserLoginModal(); toggleMobileNav();" class="p-2.5 rounded-xl bg-white/10 border border-white/20 text-white flex items-center justify-center gap-1.5 shadow-sm">
+            <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            <span>Member Login</span>
+          </button>
+          <button onclick="openCertificateModal(); toggleMobileNav();" class="p-2.5 rounded-xl bg-amber-500/10 border border-amber-400/20 text-amber-200 flex items-center justify-center gap-1.5">
+            <span>🎓 Certificates</span>
+          </button>
+          <button onclick="openWelcomeLetter(); toggleMobileNav();" class="p-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-300 flex items-center justify-center gap-1.5">
+            <span>📜 Welcome Letter</span>
+          </button>
+        </div>
+
+        <!-- Section Navigation Links -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 text-xs">
+          <a href="#home" onclick="toggleMobileNav()" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
+            <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+            <span>Home</span>
+          </a>
+          <a href="#founder" onclick="toggleMobileNav()" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
+            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            <span>Founder Profile</span>
+          </a>
+          <a href="#services" onclick="toggleMobileNav()" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
+            <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            <span>AI & Direct Marketing</span>
+          </a>
+          <a href="#plans" onclick="toggleMobileNav()" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
+            <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span>Affiliate & Business Plans</span>
+          </a>
+          <a href="#masterclass" onclick="toggleMobileNav()" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
+            <svg class="w-4 h-4 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            <span>Webinar & Email Sequences</span>
+          </a>
+          <a href="#how-it-works" onclick="toggleMobileNav()" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
+            <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <span>How It Works</span>
+          </a>
+          <a href="#help" onclick="toggleMobileNav()" class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
+            <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span>Help & FAQ</span>
+          </a>
+        </div>
+
+        <div class="pt-2 border-t border-white/10 flex items-center justify-between text-xs">
+          <span class="text-slate-400">Referral: <strong class="text-amber-300 font-mono">DDMAI-V5H4QH</strong></span>
+          <a href="https://web.whatsapp.com/send?phone=919638055552&text=Hello%20PankajBhai%2C%20I%20want%20to%20join%20Digital%20Direct%20Marketing%20AI" target="_blank" class="text-emerald-400 font-semibold flex items-center gap-1">
+            <span>WhatsApp +91 9638055552</span> &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+
     <!-- Tier 2: Category Navigation Bar (DDMAI Royal Blue Stripe) -->
-    <div class="relative isolate border-b border-white/15 bg-gradient-to-r from-[#0756C8] via-[#0749A7] to-[#07347F]">
+    <div class="relative isolate border-b border-white/15 bg-gradient-to-r from-[#0756C8] via-[#0749A7] to-[#07347F] shadow-inner">
       <nav class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-        <ul class="flex items-stretch overflow-x-auto no-scrollbar text-white divide-x divide-white/15">
+        <ul class="flex items-stretch overflow-x-auto no-scrollbar text-white divide-x divide-white/15 text-xs sm:text-[13px] font-semibold">
           <li class="shrink-0">
-            <a href="#home" class="flex items-center gap-2 px-4 py-3 text-xs sm:text-[13px] font-semibold hover:bg-[#061B49]/30 transition-colors">
-              <svg class="w-4 h-4 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-              Home
+            <a href="#home" class="flex items-center gap-2 px-4 py-3 hover:bg-white/10 transition-all group">
+              <svg class="w-4 h-4 opacity-80 group-hover:opacity-100 group-hover:scale-110 text-amber-300 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+              <span>Home</span>
             </a>
           </li>
           <li class="shrink-0">
-            <a href="#founder" class="flex items-center gap-2 px-4 py-3 text-xs sm:text-[13px] font-semibold hover:bg-[#061B49]/30 transition-colors">
-              <svg class="w-4 h-4 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-              Founder Profile
+            <a href="#founder" class="flex items-center gap-2 px-4 py-3 hover:bg-white/10 transition-all group">
+              <svg class="w-4 h-4 opacity-80 group-hover:opacity-100 group-hover:scale-110 text-emerald-300 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+              <span>Founder Profile</span>
             </a>
           </li>
           <li class="shrink-0">
-            <a href="#services" class="flex items-center gap-2 px-4 py-3 text-xs sm:text-[13px] font-semibold hover:bg-[#061B49]/30 transition-colors">
-              <svg class="w-4 h-4 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-              AI & Direct Marketing
+            <a href="#services" class="flex items-center gap-2 px-4 py-3 hover:bg-white/10 transition-all group">
+              <svg class="w-4 h-4 opacity-80 group-hover:opacity-100 group-hover:scale-110 text-sky-300 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              <span>AI & Direct Marketing</span>
             </a>
           </li>
           <li class="shrink-0">
-            <a href="#plans" class="flex items-center gap-2 px-4 py-3 text-xs sm:text-[13px] font-semibold hover:bg-[#061B49]/30 transition-colors">
-              <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              Affiliate & Business Plans
+            <a href="#plans" class="flex items-center gap-2 px-4 py-3 hover:bg-white/10 transition-all group">
+              <svg class="w-4 h-4 text-amber-300 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>Affiliate & Business Plans</span>
             </a>
           </li>
           <li class="shrink-0">
-            <a href="#masterclass" class="flex items-center gap-2 px-4 py-3 text-xs sm:text-[13px] font-semibold hover:bg-[#061B49]/30 transition-colors">
-              <svg class="w-4 h-4 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-              Webinar & Email Sequences
+            <a href="#masterclass" class="flex items-center gap-2 px-4 py-3 hover:bg-white/10 transition-all group">
+              <svg class="w-4 h-4 text-emerald-300 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              <span>Webinar & Email Sequences</span>
             </a>
           </li>
           <li class="shrink-0">
-            <a href="#how-it-works" class="flex items-center gap-2 px-4 py-3 text-xs sm:text-[13px] font-semibold hover:bg-[#061B49]/30 transition-colors">
-              <svg class="w-4 h-4 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-              How It Works
+            <a href="#how-it-works" class="flex items-center gap-2 px-4 py-3 hover:bg-white/10 transition-all group">
+              <svg class="w-4 h-4 opacity-80 group-hover:opacity-100 group-hover:scale-110 text-purple-300 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              <span>How It Works</span>
             </a>
           </li>
           <li class="shrink-0">
-            <a href="#help" class="flex items-center gap-2 px-4 py-3 text-xs sm:text-[13px] font-semibold hover:bg-[#061B49]/30 transition-colors">
-              <svg class="w-4 h-4 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              Help & FAQ
+            <a href="#help" class="flex items-center gap-2 px-4 py-3 hover:bg-white/10 transition-all group">
+              <svg class="w-4 h-4 opacity-80 group-hover:opacity-100 group-hover:scale-110 text-rose-300 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>Help & FAQ</span>
             </a>
           </li>
         </ul>
@@ -1796,6 +1893,26 @@
     }
 
     // Modals
+    
+    // Mobile navigation drawer toggle
+    function toggleMobileNav() {
+      const drawer = document.getElementById('mobile-nav-drawer');
+      const iconOpen = document.getElementById('mobile-menu-icon-open');
+      const iconClose = document.getElementById('mobile-menu-icon-close');
+      if (drawer) {
+        const isHidden = drawer.classList.contains('hidden');
+        if (isHidden) {
+          drawer.classList.remove('hidden');
+          if (iconOpen) iconOpen.classList.add('hidden');
+          if (iconClose) iconClose.classList.remove('hidden');
+        } else {
+          drawer.classList.add('hidden');
+          if (iconOpen) iconOpen.classList.remove('hidden');
+          if (iconClose) iconClose.classList.add('hidden');
+        }
+      }
+    }
+
     function openWebinarModal() {
       document.getElementById('webinar-modal').classList.remove('hidden');
     }
