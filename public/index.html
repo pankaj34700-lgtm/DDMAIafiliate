@@ -74,16 +74,11 @@
         linear-gradient(116deg, transparent 0 19%, rgba(7,86,200,0.24) 19.2% 29%, transparent 29.2% 100%), 
         linear-gradient(116deg, transparent 0 69%, rgba(7,86,200,0.12) 69.2% 78%, transparent 78.2% 100%);
     }
-        #main-header {
-      background-color: rgba(255, 255, 255, 0.98) !important;
-      border-bottom: 1px solid #e2e8f0 !important;
-      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05) !important;
-    }
-    #mobile-nav-drawer {
-      background-color: #ffffff !important;
-      color: #0f172a !important;
-      border-bottom: 1px solid #e2e8f0 !important;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15) !important;
+        #mobile-nav-drawer {
+      background-color: #030818 !important;
+      color: #ffffff !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+      box-shadow: 0 30px 60px -10px rgba(0, 0, 0, 0.85) !important;
     }
     .gold-shimmer {
       background: linear-gradient(90deg, #FFE0A3 0%, #FFD166 50%, #FFE0A3 100%);
@@ -118,42 +113,42 @@
 <body class="flex min-h-full flex-col bg-white text-slate-800 antialiased selection:bg-[#0756C8] selection:text-white">
 
       <!-- TOP ANNOUNCEMENT & COMMUNITY STRIP (Modern Sleek Utility Bar) -->
-  <div class="relative z-50 bg-slate-50 text-xs text-slate-700 border-b border-slate-200 px-4 py-2">
-    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2.5">
+  <div class="relative z-50 bg-[#020614] text-xs text-slate-300 border-b border-white/[0.08] px-4 py-2 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
       <!-- Left: Status & Founder Attribution -->
       <div class="flex items-center gap-2.5 flex-wrap">
-        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 shadow-xs">
-          <span class="h-2 w-2 rounded-full bg-emerald-600 animate-pulse"></span>
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 shadow-[0_0_12px_rgba(16,185,129,0.25)]">
+          <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
           LIVE ECOSYSTEM
         </span>
-        <span class="text-slate-700 text-[11px] sm:text-xs">
-          Direct Marketing AI &amp; Tech &mdash; Founded by <strong class="text-slate-900 font-bold">Veteran PankajBhai Umesh Gupta</strong>
-          <span class="hidden md:inline text-slate-500"> &bull; Gandhinagar, Gujarat</span>
+        <span class="text-slate-300 text-[11px] sm:text-xs">
+          Direct Marketing AI &amp; Tech &mdash; Founded by <strong class="text-white font-semibold">Veteran PankajBhai Umesh Gupta</strong>
+          <span class="hidden md:inline text-slate-400"> &bull; Gandhinagar, Gujarat</span>
         </span>
       </div>
 
       <!-- Right: Direct Channels & Referral Code -->
       <div class="flex items-center gap-3 sm:gap-4 text-[11px] sm:text-xs flex-wrap">
         <!-- Direct Email -->
-        <a href="mailto:ddmai651@gmail.com" class="hidden lg:inline-flex items-center gap-1.5 text-slate-600 hover:text-amber-700 transition-colors">
-          <svg class="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        <a href="mailto:ddmai651@gmail.com" class="hidden lg:inline-flex items-center gap-1.5 text-slate-400 hover:text-amber-300 transition-colors">
+          <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
           <span>ddmai651@gmail.com</span>
         </a>
-        <span class="hidden lg:inline text-slate-300">|</span>
+        <span class="hidden lg:inline text-slate-800">|</span>
 
         <!-- Direct WhatsApp Hotline -->
-        <a href="https://web.whatsapp.com/send?phone=919638055552&text=Hello%20PankajBhai%2C%20I%20want%20to%20join%20Digital%20Direct%20Marketing%20AI" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-700 flex items-center gap-1.5 font-medium text-slate-700 transition-colors group">
-          <svg class="w-3.5 h-3.5 text-emerald-600 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.592 2.654-.696c1.004.577 1.83.823 2.806.823 3.185 0 5.772-2.587 5.773-5.766.001-3.182-2.585-5.77-5.773-5.77zm4.27 7.954c-.18.508-.887.935-1.229.988-.344.053-.787.072-2.529-.652-2.091-.87-3.435-3.003-3.539-3.144-.105-.14-8.49e-4-.306.096-.464.089-.148.197-.336.296-.505.099-.168.132-.288.198-.48.066-.192.033-.36-.016-.456-.05-.096-.442-1.066-.606-1.46-.159-.384-.321-.332-.441-.338-.114-.006-.245-.007-.376-.007s-.344.048-.524.24c-.18.192-.688.672-.688 1.639 0 .967.704 1.902.803 2.035.098.133 1.385 2.115 3.356 2.966.469.203.835.324 1.121.415.471.15.9.129 1.239.078.378-.057 1.164-.476 1.328-.936.164-.46.164-.855.115-.936-.049-.081-.18-.13-.377-.229z"/></svg>
-          <span>WhatsApp: <strong class="text-emerald-700 font-bold">+91 9638055552</strong></span>
+        <a href="https://web.whatsapp.com/send?phone=919638055552&text=Hello%20PankajBhai%2C%20I%20want%20to%20join%20Digital%20Direct%20Marketing%20AI" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 flex items-center gap-1.5 font-medium text-slate-300 transition-colors group">
+          <svg class="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.592 2.654-.696c1.004.577 1.83.823 2.806.823 3.185 0 5.772-2.587 5.773-5.766.001-3.182-2.585-5.77-5.773-5.77zm4.27 7.954c-.18.508-.887.935-1.229.988-.344.053-.787.072-2.529-.652-2.091-.87-3.435-3.003-3.539-3.144-.105-.14-8.49e-4-.306.096-.464.089-.148.197-.336.296-.505.099-.168.132-.288.198-.48.066-.192.033-.36-.016-.456-.05-.096-.442-1.066-.606-1.46-.159-.384-.321-.332-.441-.338-.114-.006-.245-.007-.376-.007s-.344.048-.524.24c-.18.192-.688.672-.688 1.639 0 .967.704 1.902.803 2.035.098.133 1.385 2.115 3.356 2.966.469.203.835.324 1.121.415.471.15.9.129 1.239.078.378-.057 1.164-.476 1.328-.936.164-.46.164-.855.115-.936-.049-.081-.18-.13-.377-.229z"/></svg>
+          <span>WhatsApp: <strong class="text-emerald-400 font-semibold">+91 9638055552</strong></span>
         </a>
-        <span class="text-slate-300">|</span>
+        <span class="text-slate-800">|</span>
 
         <!-- Official Referral Code Chip -->
-        <a href="https://ddmai.com/signup/?ref=DDMAI-V5H4QH" target="_blank" rel="noopener noreferrer" class="hover:text-amber-800 font-medium text-slate-700 flex items-center gap-1.5 transition-colors group">
+        <a href="https://ddmai.com/signup/?ref=DDMAI-V5H4QH" target="_blank" rel="noopener noreferrer" class="hover:text-accent-400 font-medium text-slate-300 flex items-center gap-1.5 transition-colors group">
           <span class="hidden xs:inline">Referral:</span>
-          <span class="inline-flex items-center gap-1 bg-amber-100 border border-amber-300 px-2 py-0.5 rounded-md text-amber-900 font-mono font-bold group-hover:bg-amber-200 transition-all shadow-xs">
+          <span class="inline-flex items-center gap-1 bg-amber-400/15 border border-amber-400/35 px-2 py-0.5 rounded-md text-amber-300 font-mono font-bold group-hover:bg-amber-400/25 group-hover:border-amber-400 transition-all shadow-sm">
             <span>DDMAI-V5H4QH</span>
-            <svg class="w-3 h-3 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            <svg class="w-3 h-3 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
           </span>
         </a>
       </div>
@@ -161,8 +156,9 @@
   </div>
 
   <!-- PRIMARY STICKY NAVBAR (Ultra-Modern DDMAI Executive Glassmorphism) -->
-  <header id="main-header" class="sticky top-0 z-40 isolate shadow-xs bg-white/95 backdrop-blur-xl border-b border-slate-200">
-    <div class="relative isolate bg-white/95 backdrop-blur-xl">
+  <header class="sticky top-0 z-40 isolate shadow-[0_12px_36px_rgba(2,8,24,0.45)]">
+    <div class="relative isolate border-b border-white/[0.08] bg-[#040D24]/90 backdrop-blur-xl">
+      <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-gradient-to-r from-blue-900/10 via-transparent to-amber-500/5"></div>
       <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         <div class="flex h-16 sm:h-[72px] items-center justify-between gap-4">
           
@@ -170,75 +166,75 @@
           <a class="group inline-flex items-center gap-3 shrink-0" href="#home">
             <div class="relative shrink-0">
               <img alt="Digital Direct Marketing AI Logo" width="44" height="44" 
-                   class="h-10 w-10 sm:h-11 sm:w-11 rounded-full object-cover border-2 border-amber-400 shadow-sm transition-transform duration-300 group-hover:scale-105" 
+                   class="h-10 w-10 sm:h-11 sm:w-11 rounded-full object-cover border-2 border-amber-400/90 shadow-[0_0_16px_rgba(255,209,102,0.35)] transition-transform duration-300 group-hover:scale-105" 
                    src="assets/ddmai-logo.jpg">
-              <span class="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full bg-emerald-500 border-2 border-white"></span>
+              <span class="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full bg-emerald-500 border-2 border-[#040D24]"></span>
             </div>
             <div class="flex flex-col leading-tight">
               <div class="flex items-center gap-1.5 sm:gap-2">
-                <span class="font-display text-[18px] sm:text-[22px] font-black tracking-tight text-slate-900 flex items-center">
-                  DDM<span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600">AI</span>
+                <span class="font-display text-[18px] sm:text-[22px] font-black tracking-tight text-white flex items-center">
+                  DDM<span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FFD166] via-amber-300 to-[#FFE0A3]">AI</span>
                 </span>
-                <span class="text-[9px] sm:text-[10px] font-bold uppercase px-1.5 sm:px-2 py-0.5 rounded-md bg-amber-50 border border-amber-300 text-amber-800 tracking-wider hidden sm:inline-block">
+                <span class="text-[9px] sm:text-[10px] font-bold uppercase px-1.5 sm:px-2 py-0.5 rounded-md bg-amber-400/15 border border-amber-400/35 text-amber-300 tracking-wider hidden sm:inline-block">
                   Tech &amp; Direct
                 </span>
               </div>
-              <span class="text-[10px] sm:text-[11px] font-semibold tracking-wide text-slate-500 hidden sm:block">Digital Direct Marketing &bull; Global World</span>
+              <span class="text-[10px] sm:text-[11px] font-medium tracking-wide text-amber-200/80 hidden sm:block">Digital Direct Marketing &bull; Global World</span>
             </div>
           </a>
 
           <!-- Center: Clean Desktop Navigation Menu -->
           <nav class="hidden xl:flex items-center gap-1">
-            <a href="#home" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-all">
+            <a href="#home" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/[0.08] transition-all">
               Home
             </a>
-            <a href="#founder" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-all">
+            <a href="#founder" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/[0.08] transition-all">
               Founder
             </a>
-            <a href="#services" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-all">
+            <a href="#services" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/[0.08] transition-all">
               AI Solutions
             </a>
-            <a href="#plans" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-all">
+            <a href="#plans" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/[0.08] transition-all">
               Affiliate Plans
             </a>
-            <a href="#masterclass" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-all">
+            <a href="#masterclass" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/[0.08] transition-all">
               Masterclass
             </a>
-            <a href="#help" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-all">
+            <a href="#help" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/[0.08] transition-all">
               FAQ
             </a>
           </nav>
 
-          <!-- Right: Cohesive Executive Actions Suite -->
+          <!-- Right: Cohesive Executive Actions Suite (Guaranteed Zero Overflow Across ALL Devices) -->
           <div class="flex shrink-0 items-center gap-1.5 sm:gap-2">
             <!-- 🔒 Admin Panel (Executive Gold Pill - Tablet Landscape & Desktop) -->
-            <a href="admin.html" target="_blank" class="hidden md:inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-xs font-bold text-amber-900 border border-amber-300 bg-amber-50 hover:bg-amber-100 shadow-xs transition-all hover:scale-[1.02] whitespace-nowrap shrink-0">
-              <span class="h-2 w-2 rounded-full bg-amber-500 animate-pulse"></span>
+            <a href="admin.html" target="_blank" class="hidden md:inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-xs font-bold text-amber-300 border border-amber-400/40 bg-amber-400/10 hover:bg-amber-400/20 hover:border-amber-400/60 shadow-[0_0_14px_rgba(251,191,36,0.18)] transition-all hover:scale-[1.02] whitespace-nowrap shrink-0">
+              <span class="h-2 w-2 rounded-full bg-amber-400 animate-pulse"></span>
               <span>🔒 Admin Panel</span>
             </a>
 
             <!-- 👤 Member Login Button (Glass Pill - Desktop) -->
-            <button onclick="openUserLoginModal()" class="hidden lg:inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-xs font-bold text-slate-800 border border-slate-200 bg-slate-50 hover:bg-slate-100 transition-all shadow-xs hover:scale-[1.02] whitespace-nowrap shrink-0">
-              <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            <button onclick="openUserLoginModal()" class="hidden lg:inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-xs font-bold text-white border border-white/20 bg-white/[0.08] hover:bg-white/15 transition-all shadow-sm hover:scale-[1.02] whitespace-nowrap shrink-0">
+              <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
               <span>Member Login</span>
             </button>
 
-            <!-- Join Launchpad Hero CTA -->
+            <!-- Join Launchpad Hero CTA (Glowing Primary Trigger - Visible on Every Screen) -->
             <button onclick="openWebinarModal()" 
-               class="inline-flex items-center justify-center font-black text-xs sm:text-sm px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-gradient-to-r from-amber-400 via-amber-300 to-amber-400 text-slate-950 hover:brightness-105 shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap shrink-0">
+               class="inline-flex items-center justify-center font-black text-xs sm:text-sm px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-gradient-to-r from-[#FFD166] via-amber-300 to-[#FFD166] text-[#040D24] hover:brightness-105 shadow-[0_0_18px_rgba(255,209,102,0.35)] transition-all hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap shrink-0">
               <span>Join Launchpad</span>
             </button>
 
-            <!-- Hamburger Menu Toggle Button -->
+            <!-- Hamburger Menu Toggle Button (Prominently Visible & Guaranteed in Viewport on ALL Screens) -->
             <button onclick="toggleMobileNav()" id="mobile-menu-btn" aria-label="Toggle Platform Menu"
-               class="inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:py-2 rounded-xl text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 shadow-xs transition-all hover:scale-105 active:scale-95 cursor-pointer shrink-0 group">
+               class="inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:py-2 rounded-xl text-white bg-slate-800/90 hover:bg-slate-700/90 border border-amber-400/50 hover:border-amber-400 shadow-[0_0_12px_rgba(251,191,36,0.2)] transition-all hover:scale-105 active:scale-95 cursor-pointer shrink-0 group">
               <!-- 3-line Hamburger Icon -->
               <div class="w-4 h-3 flex flex-col justify-between items-center shrink-0">
-                <span class="w-full h-0.5 rounded-full bg-slate-800 group-hover:bg-slate-900 transition-colors"></span>
-                <span class="w-full h-0.5 rounded-full bg-amber-600 group-hover:bg-amber-700 transition-colors"></span>
-                <span class="w-full h-0.5 rounded-full bg-slate-800 group-hover:bg-slate-900 transition-colors"></span>
+                <span class="w-full h-0.5 rounded-full bg-amber-400 group-hover:bg-amber-300 transition-colors"></span>
+                <span class="w-full h-0.5 rounded-full bg-white group-hover:bg-amber-300 transition-colors"></span>
+                <span class="w-full h-0.5 rounded-full bg-amber-400 group-hover:bg-amber-300 transition-colors"></span>
               </div>
-              <span class="text-xs font-bold text-slate-800 group-hover:text-slate-900 hidden sm:inline tracking-wide">Menu</span>
+              <span class="text-xs font-bold text-amber-200 group-hover:text-amber-100 hidden sm:inline tracking-wide">Menu</span>
               <!-- Hidden SVGs for programmatic ID hooks -->
               <svg id="mobile-menu-icon-open" class="hidden" fill="none" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
               <svg id="mobile-menu-icon-close" class="hidden" fill="none" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
@@ -248,135 +244,158 @@
       </div>
     </div>
 
-    <!-- Executive Platform Drawer (Collapsible for Desktop & Mobile in Clean Light Theme) -->
-    <div id="mobile-nav-drawer" class="hidden border-b border-slate-200 text-slate-800 transition-all shadow-xl bg-white">
+    <!-- Executive Platform Drawer (Collapsible for Desktop & Mobile) -->
+    <div id="mobile-nav-drawer" class="hidden border-b border-white/15 text-white transition-all shadow-[0_25px_60px_rgba(0,0,0,0.85)]" style="background-color: #030818 !important; color: #ffffff !important;">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
           
           <!-- Column 1: Executive Portals & Management Hub -->
-          <div class="lg:col-span-4 space-y-3 pb-5 lg:pb-0 border-b lg:border-b-0 lg:border-r border-slate-200 lg:pr-6">
+          <div class="lg:col-span-4 space-y-3 pb-5 lg:pb-0 border-b lg:border-b-0 lg:border-r border-white/10 lg:pr-6">
             <div class="flex items-center gap-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-amber-500 shadow-xs"></span>
-              <span class="text-xs font-bold uppercase tracking-wider text-amber-900">Executive Portals &amp; Credentials</span>
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.8)]"></span>
+              <span class="text-xs font-bold uppercase tracking-wider text-amber-300">Executive Portals &amp; Credentials</span>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-2.5 pt-1 text-xs font-bold">
               <a href="admin.html" target="_blank" 
-                 class="p-3 rounded-xl flex items-center justify-between transition-all group shadow-xs hover:scale-[1.01] bg-amber-50 border border-amber-300 text-amber-900">
+                 class="p-3 rounded-xl flex items-center justify-between transition-all group shadow-sm hover:scale-[1.01]"
+                 style="background-color: rgba(245, 158, 11, 0.15) !important; border: 1px solid rgba(245, 158, 11, 0.45) !important; color: #fef08a !important;">
                 <span class="flex items-center gap-2.5">
                   <span class="text-base">🔒</span>
-                  <span class="font-bold text-amber-900 group-hover:text-amber-800">Executive Admin Panel</span>
+                  <span class="font-bold text-amber-200 group-hover:text-amber-100">Executive Admin Panel</span>
                 </span>
-                <span class="text-xs text-amber-700 group-hover:translate-x-1 transition-transform">&rarr;</span>
+                <span class="text-xs text-amber-300 group-hover:translate-x-1 transition-transform">&rarr;</span>
               </a>
 
               <button onclick="openUserLoginModal(); toggleMobileNav();" 
-                      class="p-3 rounded-xl flex items-center justify-between transition-all group text-left shadow-xs hover:scale-[1.01] bg-emerald-50 border border-emerald-300 text-emerald-900">
+                      class="p-3 rounded-xl flex items-center justify-between transition-all group text-left shadow-sm hover:scale-[1.01]"
+                      style="background-color: rgba(16, 185, 129, 0.15) !important; border: 1px solid rgba(16, 185, 129, 0.45) !important; color: #ffffff !important;">
                 <span class="flex items-center gap-2.5">
-                  <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                  <span class="font-bold text-emerald-900 group-hover:text-emerald-800">Member Login &amp; Portal</span>
+                  <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                  <span class="font-bold text-emerald-200 group-hover:text-emerald-100">Member Login &amp; Portal</span>
                 </span>
-                <span class="text-xs text-emerald-700 group-hover:translate-x-1 transition-transform">&rarr;</span>
+                <span class="text-xs text-emerald-300 group-hover:translate-x-1 transition-transform">&rarr;</span>
               </button>
 
               <button onclick="openCertificateModal(); toggleMobileNav();" 
-                      class="p-3 rounded-xl flex items-center justify-between transition-all group text-left shadow-xs hover:scale-[1.01] bg-indigo-50 border border-indigo-300 text-indigo-900">
+                      class="p-3 rounded-xl flex items-center justify-between transition-all group text-left shadow-sm hover:scale-[1.01]"
+                      style="background-color: rgba(99, 102, 241, 0.18) !important; border: 1px solid rgba(129, 140, 248, 0.4) !important; color: #ffffff !important;">
                 <span class="flex items-center gap-2.5">
                   <span class="text-base">🎓</span>
-                  <span class="font-bold text-indigo-900 group-hover:text-indigo-800">Certificate Studio</span>
+                  <span class="font-bold text-indigo-200 group-hover:text-indigo-100">Certificate Studio</span>
                 </span>
-                <span class="text-xs text-indigo-700 group-hover:translate-x-1 transition-transform">&rarr;</span>
+                <span class="text-xs text-indigo-300 group-hover:translate-x-1 transition-transform">&rarr;</span>
               </button>
 
               <button onclick="openWelcomeLetter(); toggleMobileNav();" 
-                      class="p-3 rounded-xl flex items-center justify-between transition-all group text-left shadow-xs hover:scale-[1.01] bg-sky-50 border border-sky-300 text-sky-900">
+                      class="p-3 rounded-xl flex items-center justify-between transition-all group text-left shadow-sm hover:scale-[1.01]"
+                      style="background-color: rgba(14, 165, 233, 0.15) !important; border: 1px solid rgba(56, 189, 248, 0.4) !important; color: #ffffff !important;">
                 <span class="flex items-center gap-2.5">
                   <span class="text-base">📜</span>
-                  <span class="font-bold text-sky-900 group-hover:text-sky-800">Official Welcome Letter</span>
+                  <span class="font-bold text-sky-200 group-hover:text-sky-100">Official Welcome Letter</span>
                 </span>
-                <span class="text-xs text-sky-700 group-hover:translate-x-1 transition-transform">&rarr;</span>
+                <span class="text-xs text-sky-300 group-hover:translate-x-1 transition-transform">&rarr;</span>
               </button>
 
               <a href="https://ddmai.com/signup/?ref=DDMAI-V5H4QH" target="_blank" rel="noopener noreferrer" 
-                 class="p-3 rounded-xl flex items-center justify-between transition-all group shadow-xs hover:scale-[1.01] sm:col-span-2 lg:col-span-1 bg-slate-50 border border-slate-300 text-slate-900">
+                 class="p-3 rounded-xl flex items-center justify-between transition-all group shadow-sm hover:scale-[1.01] sm:col-span-2 lg:col-span-1"
+                 style="background-color: rgba(255, 255, 255, 0.08) !important; border: 1px solid rgba(255, 255, 255, 0.25) !important; color: #ffffff !important;">
                 <span class="flex items-center gap-2.5">
                   <span class="text-base">🤝</span>
-                  <span class="font-bold text-slate-900 group-hover:text-amber-800">Official Partner Signup</span>
+                  <span class="font-bold text-white group-hover:text-amber-200">Official Partner Signup</span>
                 </span>
-                <span class="text-xs text-slate-600 group-hover:translate-x-1 transition-transform">&rarr;</span>
+                <span class="text-xs text-slate-300 group-hover:translate-x-1 transition-transform">&rarr;</span>
               </a>
             </div>
           </div>
 
           <!-- Column 2: Platform Section Directory -->
-          <div class="lg:col-span-5 space-y-3 pb-5 lg:pb-0 border-b lg:border-b-0 lg:border-r border-slate-200 lg:pr-6">
+          <div class="lg:col-span-5 space-y-3 pb-5 lg:pb-0 border-b lg:border-b-0 lg:border-r border-white/10 lg:pr-6">
             <div class="flex items-center gap-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-xs"></span>
-              <span class="text-xs font-bold uppercase tracking-wider text-blue-900">Platform Directory &amp; Solutions</span>
+              <span class="w-2.5 h-2.5 rounded-full bg-sky-400 shadow-[0_0_10px_rgba(56,189,248,0.8)]"></span>
+              <span class="text-xs font-bold uppercase tracking-wider text-sky-300">Platform Directory &amp; Solutions</span>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
               <a href="#home" onclick="toggleMobileNav()" 
-                 class="flex items-center gap-3 p-2.5 rounded-xl transition-all group hover:scale-[1.01] bg-slate-50 hover:bg-slate-100 border border-slate-200">
-                <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 bg-amber-100 text-amber-700">
-                  <svg class="w-4 h-4 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                 class="flex items-center gap-3 p-2.5 rounded-xl transition-all group hover:scale-[1.01]"
+                 style="background-color: rgba(255, 255, 255, 0.05) !important; border: 1px solid rgba(255, 255, 255, 0.1) !important;">
+                <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background-color: rgba(245, 158, 11, 0.2);">
+                  <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                 </div>
                 <div>
-                  <span class="font-bold block text-slate-900 text-xs group-hover:text-amber-800">Home Launchpad</span>
-                  <span class="text-[10px] text-slate-500 block">System overview &amp; gateway</span>
+                  <span class="font-bold block text-white text-xs group-hover:text-amber-200">Home Launchpad</span>
+                  <span class="text-[10px] text-slate-300 block">System overview &amp; gateway</span>
                 </div>
               </a>
 
               <a href="#founder" onclick="toggleMobileNav()" 
-                 class="flex items-center gap-3 p-2.5 rounded-xl transition-all group hover:scale-[1.01] bg-slate-50 hover:bg-slate-100 border border-slate-200">
-                <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 bg-emerald-100 text-emerald-700">
-                  <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                 class="flex items-center gap-3 p-2.5 rounded-xl transition-all group hover:scale-[1.01]"
+                 style="background-color: rgba(255, 255, 255, 0.05) !important; border: 1px solid rgba(255, 255, 255, 0.1) !important;">
+                <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background-color: rgba(16, 185, 129, 0.2);">
+                  <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                 </div>
                 <div>
-                  <span class="font-bold block text-slate-900 text-xs group-hover:text-emerald-800">Founder Profile</span>
-                  <span class="text-[10px] text-slate-500 block">Veteran PankajBhai Umesh Gupta</span>
+                  <span class="font-bold block text-white text-xs group-hover:text-emerald-200">Founder Profile</span>
+                  <span class="text-[10px] text-slate-300 block">Veteran PankajBhai Umesh Gupta</span>
                 </div>
               </a>
 
               <a href="#services" onclick="toggleMobileNav()" 
-                 class="flex items-center gap-3 p-2.5 rounded-xl transition-all group hover:scale-[1.01] bg-slate-50 hover:bg-slate-100 border border-slate-200">
-                <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 bg-sky-100 text-sky-700">
-                  <svg class="w-4 h-4 text-sky-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                 class="flex items-center gap-3 p-2.5 rounded-xl transition-all group hover:scale-[1.01]"
+                 style="background-color: rgba(255, 255, 255, 0.05) !important; border: 1px solid rgba(255, 255, 255, 0.1) !important;">
+                <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background-color: rgba(56, 189, 248, 0.2);">
+                  <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                 </div>
                 <div>
-                  <span class="font-bold block text-slate-900 text-xs group-hover:text-sky-800">AI &amp; Direct Marketing</span>
-                  <span class="text-[10px] text-slate-500 block">Email automation &amp; funnel suites</span>
+                  <span class="font-bold block text-white text-xs group-hover:text-sky-200">AI &amp; Direct Marketing</span>
+                  <span class="text-[10px] text-slate-300 block">Email automation &amp; funnel suites</span>
                 </div>
               </a>
 
               <a href="#plans" onclick="toggleMobileNav()" 
-                 class="flex items-center gap-3 p-2.5 rounded-xl transition-all group hover:scale-[1.01] bg-slate-50 hover:bg-slate-100 border border-slate-200">
-                <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 bg-amber-100 text-amber-700">
-                  <svg class="w-4 h-4 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                 class="flex items-center gap-3 p-2.5 rounded-xl transition-all group hover:scale-[1.01]"
+                 style="background-color: rgba(255, 255, 255, 0.05) !important; border: 1px solid rgba(255, 255, 255, 0.1) !important;">
+                <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background-color: rgba(251, 191, 36, 0.2);">
+                  <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 </div>
                 <div>
-                  <span class="font-bold block text-slate-900 text-xs group-hover:text-amber-800">Affiliate Plans</span>
-                  <span class="text-[10px] text-slate-500 block">₹300 Affiliate &amp; 60% Business</span>
+                  <span class="font-bold block text-white text-xs group-hover:text-amber-200">Affiliate Plans</span>
+                  <span class="text-[10px] text-slate-300 block">₹300 Affiliate &amp; 60% Business</span>
                 </div>
               </a>
 
               <a href="#masterclass" onclick="toggleMobileNav()" 
-                 class="flex items-center gap-3 p-2.5 rounded-xl transition-all group hover:scale-[1.01] bg-slate-50 hover:bg-slate-100 border border-slate-200">
-                <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 bg-emerald-100 text-emerald-700">
-                  <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                 class="flex items-center gap-3 p-2.5 rounded-xl transition-all group hover:scale-[1.01]"
+                 style="background-color: rgba(255, 255, 255, 0.05) !important; border: 1px solid rgba(255, 255, 255, 0.1) !important;">
+                <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background-color: rgba(52, 211, 153, 0.2);">
+                  <svg class="w-4 h-4 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
                 </div>
                 <div>
-                  <span class="font-bold block text-slate-900 text-xs group-hover:text-emerald-800">Webinar Sequences</span>
-                  <span class="text-[10px] text-slate-500 block">11-Day deep nurture engine</span>
+                  <span class="font-bold block text-white text-xs group-hover:text-emerald-200">Webinar Sequences</span>
+                  <span class="text-[10px] text-slate-300 block">11-Day deep nurture engine</span>
+                </div>
+              </a>
+
+              <a href="#how-it-works" onclick="toggleMobileNav()" 
+                 class="flex items-center gap-3 p-2.5 rounded-xl transition-all group hover:scale-[1.01]"
+                 style="background-color: rgba(255, 255, 255, 0.05) !important; border: 1px solid rgba(255, 255, 255, 0.1) !important;">
+                <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background-color: rgba(168, 85, 247, 0.2);">
+                  <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                </div>
+                <div>
+                  <span class="font-bold block text-white text-xs group-hover:text-purple-200">How It Works</span>
+                  <span class="text-[10px] text-slate-300 block">Step-by-step launchpad guide</span>
                 </div>
               </a>
 
               <a href="#help" onclick="toggleMobileNav()" 
-                 class="flex items-center gap-3 p-2.5 rounded-xl transition-all group hover:scale-[1.01] sm:col-span-2 bg-slate-50 hover:bg-slate-100 border border-slate-200">
-                <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 bg-rose-100 text-rose-700">
-                  <svg class="w-4 h-4 text-rose-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                 class="flex items-center gap-3 p-2.5 rounded-xl transition-all group hover:scale-[1.01] sm:col-span-2"
+                 style="background-color: rgba(255, 255, 255, 0.05) !important; border: 1px solid rgba(255, 255, 255, 0.1) !important;">
+                <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background-color: rgba(244, 63, 94, 0.2);">
+                  <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 </div>
                 <div>
-                  <span class="font-bold block text-slate-900 text-xs group-hover:text-rose-800">Help &amp; FAQ</span>
-                  <span class="text-[10px] text-slate-500 block">Frequently asked questions &amp; direct assistance</span>
+                  <span class="font-bold block text-white text-xs group-hover:text-rose-200">Help &amp; FAQ</span>
+                  <span class="text-[10px] text-slate-300 block">Frequently asked questions &amp; direct assistance</span>
                 </div>
               </a>
             </div>
@@ -385,33 +404,35 @@
           <!-- Column 3: Direct Connect & Leadership Card -->
           <div class="lg:col-span-3 space-y-3">
             <div class="flex items-center gap-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-xs"></span>
-              <span class="text-xs font-bold uppercase tracking-wider text-emerald-900">Direct Headquarters Contact</span>
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.8)]"></span>
+              <span class="text-xs font-bold uppercase tracking-wider text-emerald-300">Direct Headquarters Contact</span>
             </div>
             
-            <div class="p-4 rounded-2xl space-y-3 text-xs bg-slate-50 border border-slate-200">
+            <div class="p-4 rounded-2xl space-y-3 text-xs"
+                 style="background-color: rgba(255, 255, 255, 0.06) !important; border: 1px solid rgba(255, 255, 255, 0.15) !important;">
               <!-- Founder Profile Card -->
               <div class="flex items-center gap-3">
                 <img src="assets/founder-pankajbhai.jpg" alt="Veteran PankajBhai Umesh Gupta" 
-                     class="w-11 h-11 rounded-full object-cover border-2 border-amber-400 shadow-xs shrink-0">
+                     class="w-11 h-11 rounded-full object-cover border-2 border-amber-400 shadow-[0_0_12px_rgba(251,191,36,0.4)] shrink-0">
                 <div class="leading-tight">
-                  <span class="font-bold text-slate-900 block text-xs">Veteran PankajBhai Umesh Gupta</span>
-                  <span class="text-[11px] text-slate-600 block">Gandhinagar, Gujarat</span>
-                  <span class="text-[10px] text-amber-700 font-semibold block mt-0.5">Founder &bull; Indian Army Veteran</span>
+                  <span class="font-bold text-white block text-xs">Veteran PankajBhai Umesh Gupta</span>
+                  <span class="text-[11px] text-slate-300 block">Gandhinagar, Gujarat</span>
+                  <span class="text-[10px] text-amber-300 font-semibold block mt-0.5">Founder &bull; Indian Army Veteran</span>
                 </div>
               </div>
 
               <!-- Referral Code & WhatsApp Direct Link -->
-              <div class="pt-3 border-t border-slate-200 space-y-2.5 text-xs">
-                <div class="flex items-center justify-between gap-2 p-2 rounded-lg bg-white border border-slate-200">
-                  <span class="text-slate-600 text-[11px] font-medium">Referral Code:</span>
-                  <span class="font-mono font-bold text-amber-900 bg-amber-100 border border-amber-300 px-2 py-0.5 rounded text-xs">DDMAI-V5H4QH</span>
+              <div class="pt-3 border-t border-white/10 space-y-2.5 text-xs">
+                <div class="flex items-center justify-between gap-2 p-2 rounded-lg" style="background-color: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.08);">
+                  <span class="text-slate-300 text-[11px] font-medium">Referral Code:</span>
+                  <span class="font-mono font-bold text-amber-300 bg-amber-400/20 border border-amber-400/40 px-2 py-0.5 rounded text-xs">DDMAI-V5H4QH</span>
                 </div>
 
                 <a href="https://web.whatsapp.com/send?phone=919638055552&text=Hello%20PankajBhai%2C%20I%20want%20to%20join%20Digital%20Direct%20Marketing%20AI" 
                    target="_blank" rel="noopener noreferrer"
-                   class="w-full py-2.5 px-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all hover:scale-[1.02] shadow-xs bg-emerald-600 hover:bg-emerald-500 text-white">
-                  <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.592 2.654-.696c1.004.577 1.83.823 2.806.823 3.185 0 5.772-2.587 5.773-5.766.001-3.182-2.585-5.77-5.773-5.77zm4.27 7.954c-.18.508-.887.935-1.229.988-.344.053-.787.072-2.529-.652-2.091-.87-3.435-3.003-3.539-3.144-.105-.14-8.49e-4-.306.096-.464.089-.148.197-.336.296-.505.099-.168.132-.288.198-.48.066-.192.033-.36-.016-.456-.05-.096-.442-1.066-.606-1.46-.159-.384-.321-.332-.441-.338-.114-.006-.245-.007-.376-.007s-.344.048-.524.24c-.18.192-.688.672-.688 1.639 0 .967.704 1.902.803 2.035.098.133 1.385 2.115 3.356 2.966.469.203.835.324 1.121.415.471.15.9.129 1.239.078.378-.057 1.164-.476 1.328-.936.164-.46.164-.855.115-.936-.049-.081-.18-.13-.377-.229z"/></svg>
+                   class="w-full py-2.5 px-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all hover:scale-[1.02] shadow-sm"
+                   style="background-color: #10b981 !important; color: #041f14 !important; border: 1px solid #34d399 !important;">
+                  <svg class="w-4 h-4 text-[#041f14]" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.592 2.654-.696c1.004.577 1.83.823 2.806.823 3.185 0 5.772-2.587 5.773-5.766.001-3.182-2.585-5.77-5.773-5.77zm4.27 7.954c-.18.508-.887.935-1.229.988-.344.053-.787.072-2.529-.652-2.091-.87-3.435-3.003-3.539-3.144-.105-.14-8.49e-4-.306.096-.464.089-.148.197-.336.296-.505.099-.168.132-.288.198-.48.066-.192.033-.36-.016-.456-.05-.096-.442-1.066-.606-1.46-.159-.384-.321-.332-.441-.338-.114-.006-.245-.007-.376-.007s-.344.048-.524.24c-.18.192-.688.672-.688 1.639 0 .967.704 1.902.803 2.035.098.133 1.385 2.115 3.356 2.966.469.203.835.324 1.121.415.471.15.9.129 1.239.078.378-.057 1.164-.476 1.328-.936.164-.46.164-.855.115-.936-.049-.081-.18-.13-.377-.229z"/></svg>
                   <span>WhatsApp: +91 9638055552</span> &rarr;
                 </a>
               </div>
@@ -423,69 +444,69 @@
     </div>
   </header>
 
-  <!-- HERO SECTION WITH DUAL BRANDING & SEARCH FILTER (Prestigious Light Theme) -->
-  <section id="home" class="relative overflow-hidden bg-gradient-to-b from-slate-50 via-blue-50/40 to-white text-slate-900 pt-10 pb-16 lg:pb-24 border-b border-slate-200">
-    <div aria-hidden="true" class="pointer-events-none absolute inset-0 opacity-40 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:16px_16px]"></div>
+  <!-- HERO SECTION WITH DUAL BRANDING & SEARCH FILTER -->
+  <section id="home" class="relative overflow-hidden bg-gradient-to-b from-[#061B49] via-[#0A2A64] to-[#07347F] text-white pt-10 pb-16 lg:pb-24">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-0 hero-pattern opacity-90"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
       
       <div class="grid lg:grid-cols-12 gap-10 items-center">
         <!-- Left Hero Copy -->
         <div class="lg:col-span-7 space-y-6">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 border border-amber-300 text-amber-900 shadow-xs">
-            <span class="h-2 w-2 rounded-full bg-amber-500 animate-pulse"></span>
-            Built for Direct Marketers, Solopreneurs &amp; Educators
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-white/10 border border-white/20 text-[#FFE0A3]">
+            <span class="h-2 w-2 rounded-full bg-[#FFD166]"></span>
+            Built for Direct Marketers, Solopreneurs & Educators
           </div>
 
-          <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-slate-900">
+          <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
             Direct Marketing. <br/>
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-indigo-700 to-amber-600">
-              Supercharged with AI &amp; Tech.
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FFD166] via-amber-200 to-white">
+              Supercharged with AI & Tech.
             </span>
           </h1>
 
-          <p class="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl">
-            Welcome to the official portal of <strong>Digital Direct Marketing &ndash; AI &amp; Tech</strong>. We empower business owners, coaches, and marketers with cutting-edge <strong>DDMAI email automation</strong>, 11-day high-converting nurture sequences, high show-up webinar systems, and multi-tenant website portals.
+          <p class="text-base sm:text-lg text-slate-200 leading-relaxed max-w-2xl">
+            Welcome to the official portal of <strong>Digital Direct Marketing – AI & Tech</strong>. We empower business owners, coaches, and marketers with cutting-edge <strong>DDMAI email automation</strong>, 11-day high-converting nurture sequences, high show-up webinar systems, and multi-tenant website portals.
           </p>
 
           <div class="flex flex-wrap items-center gap-4 pt-2">
             <button onclick="openWebinarModal()" 
-                    class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-amber-400 via-amber-300 to-amber-400 hover:brightness-105 text-slate-950 font-extrabold text-base shadow-md transition-all flex items-center gap-2">
+                    class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#FFD166] to-[#E4B75A] text-[#061B49] font-bold text-base shadow-gold hover:opacity-95 transition-all flex items-center gap-2">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
               AI Income Freedom Masterclass
             </button>
 
             <a href="https://web.whatsapp.com/send?phone=919638055552&text=Hello%20Veteran%20PankajBhai%2C%20I%20am%20interested%20in%20your%20Digital%20Direct%20Marketing%20AI%20system" 
                target="_blank" rel="noopener noreferrer"
-               class="px-5 py-3.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-800 font-bold text-base shadow-xs transition-all flex items-center gap-2">
-              <svg class="w-5 h-5 text-emerald-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.592 2.654-.696c1.004.577 1.83.823 2.806.823 3.185 0 5.772-2.587 5.773-5.766.001-3.182-2.585-5.77-5.773-5.77zm4.27 7.954c-.18.508-.887.935-1.229.988-.344.053-.787.072-2.529-.652-2.091-.87-3.435-3.003-3.539-3.144-.105-.14-8.49e-4-.306.096-.464.089-.148.197-.336.296-.505.099-.168.132-.288.198-.48.066-.192.033-.36-.016-.456-.05-.096-.442-1.066-.606-1.46-.159-.384-.321-.332-.441-.338-.114-.006-.245-.007-.376-.007s-.344.048-.524.24c-.18.192-.688.672-.688 1.639 0 .967.704 1.902.803 2.035.098.133 1.385 2.115 3.356 2.966.469.203.835.324 1.121.415.471.15.9.129 1.239.078.378-.057 1.164-.476 1.328-.936.164-.46.164-.855.115-.936-.049-.081-.18-.13-.377-.229z"/></svg>
+               class="px-5 py-3.5 rounded-xl border border-white/30 bg-white/10 hover:bg-white/20 text-white font-semibold text-base transition-all flex items-center gap-2">
+              <svg class="w-5 h-5 text-emerald-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.592 2.654-.696c1.004.577 1.83.823 2.806.823 3.185 0 5.772-2.587 5.773-5.766.001-3.182-2.585-5.77-5.773-5.77zm4.27 7.954c-.18.508-.887.935-1.229.988-.344.053-.787.072-2.529-.652-2.091-.87-3.435-3.003-3.539-3.144-.105-.14-8.49e-4-.306.096-.464.089-.148.197-.336.296-.505.099-.168.132-.288.198-.48.066-.192.033-.36-.016-.456-.05-.096-.442-1.066-.606-1.46-.159-.384-.321-.332-.441-.338-.114-.006-.245-.007-.376-.007s-.344.048-.524.24c-.18.192-.688.672-.688 1.639 0 .967.704 1.902.803 2.035.098.133 1.385 2.115 3.356 2.966.469.203.835.324 1.121.415.471.15.9.129 1.239.078.378-.057 1.164-.476 1.328-.936.164-.46.164-.855.115-.936-.049-.081-.18-.13-.377-.229z"/></svg>
               Connect on WhatsApp
             </a>
           </div>
 
           <!-- Feature Pills -->
-          <div class="grid grid-cols-3 gap-3 pt-4 border-t border-slate-200 text-xs text-slate-600">
+          <div class="grid grid-cols-3 gap-3 pt-4 border-t border-white/10 text-xs text-slate-300">
             <div>
-              <p class="font-extrabold text-slate-900 text-sm">₹1,999 / Year</p>
-              <p class="text-[11px] text-slate-500">Free Ready Portal + Domain Setup</p>
+              <p class="font-bold text-white text-sm">₹1,999 / Year</p>
+              <p class="text-[11px] text-slate-300">Free Ready Portal + Domain Setup</p>
             </div>
             <div>
-              <p class="font-extrabold text-slate-900 text-sm">11-Day Nurture</p>
-              <p class="text-[11px] text-slate-500">DDMAI Email Conversion System</p>
+              <p class="font-bold text-white text-sm">11-Day Nurture</p>
+              <p class="text-[11px] text-slate-300">DDMAI Email Conversion System</p>
             </div>
             <div>
-              <p class="font-extrabold text-slate-900 text-sm font-mono">DDMAI-V5H4QH</p>
-              <p class="text-[11px] text-slate-500">Active Direct Referral Program</p>
+              <p class="font-bold text-white text-sm">DDMAI-V5H4QH</p>
+              <p class="text-[11px] text-slate-300">Active Direct Referral Program</p>
             </div>
           </div>
         </div>
 
-        <!-- Right Quick Action Widget -->
+        <!-- Right Quick Action Widget (Clone of DDMAI Tabbed Filter) -->
         <div class="lg:col-span-5">
-          <div class="rounded-2xl border border-slate-200 bg-white p-6 text-slate-900 shadow-xl">
+          <div class="rounded-2xl border border-white/20 bg-white/95 backdrop-blur-md p-6 text-slate-900 shadow-2xl">
             <div class="flex items-center justify-between pb-4 border-b border-slate-100">
               <div class="flex items-center gap-2">
                 <span class="h-3 w-3 rounded-full bg-emerald-500 animate-ping"></span>
-                <h3 class="font-display font-bold text-base text-slate-900">Direct Marketing Discovery</h3>
+                <h3 class="font-display font-bold text-base text-[#061B49]">Direct Marketing Discovery</h3>
               </div>
               <span class="text-[11px] font-semibold bg-brand-50 text-brand-700 px-2 py-0.5 rounded border border-brand-200">
                 AI Driven
@@ -495,7 +516,7 @@
             <!-- Tab Switcher -->
             <div class="flex gap-1 p-1 mt-4 rounded-xl bg-slate-100 text-xs font-semibold">
               <button onclick="switchHeroTab('tools')" id="tab-btn-tools" class="flex-1 py-2 rounded-lg bg-brand-600 text-white shadow-sm transition-all text-center">
-                AI Tech &amp; Tools
+                AI Tech & Tools
               </button>
               <button onclick="switchHeroTab('coaching')" id="tab-btn-coaching" class="flex-1 py-2 rounded-lg text-slate-600 hover:text-slate-900 transition-all text-center">
                 Coaching Portals
@@ -509,20 +530,21 @@
               <div>
                 <label class="block font-semibold text-slate-700 mb-1">Select Marketing Objective</label>
                 <select id="hero-objective" class="w-full h-10 px-3 rounded-lg border border-slate-200 bg-white font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500">
-                  <option value="lead-gen">Automate Leads &amp; Student Inquiries</option>
-                  <option value="webinar-funnel">11-Day Webinar Nurture Sequence</option>
-                  <option value="coaching-portal">Launch White-Label Coaching Portal</option>
-                  <option value="affiliate-income">Earn ₹300-₹500 / Referral Program</option>
+                  <option value="all">All Objectives & Automation</option>
+                  <option value="webinar">Maximize Webinar Show-Up Rate</option>
+                  <option value="email">11-Day DDMAI Email Nurture Sequence</option>
+                  <option value="portal">Coaching Center Portal (₹1,999/yr)</option>
+                  <option value="affiliate">Earn Direct & Binary Commissions</option>
                 </select>
               </div>
 
               <div>
-                <label class="block font-semibold text-slate-700 mb-1">Your Industry / Sector</label>
-                <select id="hero-industry" class="w-full h-10 px-3 rounded-lg border border-slate-200 bg-white font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500">
-                  <option value="coaching">Education, Tutors &amp; Institutes</option>
-                  <option value="realestate">Direct Real Estate &amp; Builders</option>
-                  <option value="consulting">Solopreneurs &amp; Business Consultants</option>
-                  <option value="ecommerce">Digital Products &amp; Direct Sales</option>
+                <label class="block font-semibold text-slate-700 mb-1">Audience Segment / Role</label>
+                <select id="hero-role" class="w-full h-10 px-3 rounded-lg border border-slate-200 bg-white font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                  <option value="all">Any Segment (Teachers, Marketers, Parents)</option>
+                  <option value="coaching">Coaching Centre / Teacher</option>
+                  <option value="direct">Direct Marketer / Solopreneur</option>
+                  <option value="partner">Digital Business Partner</option>
                 </select>
               </div>
 
@@ -536,7 +558,7 @@
 
               <button onclick="triggerFilterScroll()" class="w-full py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 mt-4">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                Search Solutions &amp; Kits
+                Search Solutions & Kits
               </button>
             </div>
 
