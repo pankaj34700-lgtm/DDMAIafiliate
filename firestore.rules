@@ -12,23 +12,28 @@ service cloud.firestore {
     }
 
     // 1. Webinar Leads Collection
-    // Public can CREATE leads with required fields (name, phone, email, referralCode).
-    // Enforces DDMAI referral binding and input sanitization.
+    // Public can create leads strictly adhering to DDMAI schema & referral binding.
+    // Updates are locked to preserve the mandatory referral code and contact integrity.
     match /webinar_leads/{leadId} {
       allow create: if isValidString(request.resource.data, 'name', 2, 100)
                     && (hasField(request.resource.data, 'phone') && request.resource.data.phone is string && request.resource.data.phone.size() >= 8)
                     && (hasField(request.resource.data, 'email') && request.resource.data.email is string && request.resource.data.email.size() >= 5)
                     && request.resource.data.referralCode == "DDMAI-V5H4QH";
       
-      // Reading allowed for CRM and admin dashboard
+      // Reading allowed for CRM & dashboard display
       allow read: if true;
 
-      // Update and delete allowed for lead status management
-      allow update, delete: if true;
+      // Update allowed only when preserving DDMAI referral binding
+      allow update: if request.resource.data.referralCode == "DDMAI-V5H4QH"
+                    && isValidString(request.resource.data, 'name', 2, 100);
+
+      // Deletion permitted for administrative cleanup
+      allow delete: if true;
     }
 
     // 2. Coaching Portals Collection
-    // Public can apply for turnkey portals (packageFee 1999, referralCode DDMAI-V5H4QH).
+    // Public can apply for turnkey portals (packageFee exactly 1999, referralCode DDMAI-V5H4QH).
+    // Updates are locked to preserve the mandatory package fee and referral binding.
     match /coaching_portals/{portalId} {
       allow create: if isValidString(request.resource.data, 'instituteName', 2, 120)
                     && (hasField(request.resource.data, 'packageFee') && request.resource.data.packageFee == 1999)
@@ -37,29 +42,44 @@ service cloud.firestore {
       // Reading allowed for public showcase & admin approval engine
       allow read: if true;
 
-      // Updating status (approve/pause) and management
-      allow update, delete: if true;
+      // Update allowed only when preserving packageFee 1999 and referral binding
+      allow update: if (hasField(request.resource.data, 'packageFee') && request.resource.data.packageFee == 1999)
+                    && request.resource.data.referralCode == "DDMAI-V5H4QH";
+
+      // Deletion permitted for administrative cleanup
+      allow delete: if true;
     }
 
     // 3. Solutions Catalog
-    // Public can view catalog; writes allowed for sync/management
+    // Public catalog: Readable by all.
+    // Writes are schema-validated: Requires title and annualFee.
+    // Deletions are strictly LOCKED (cannot delete catalog items).
     match /solutions_catalog/{solutionId} {
       allow read: if true;
-      allow write: if true;
+      allow create, update: if isValidString(request.resource.data, 'title', 2, 120)
+                            && hasField(request.resource.data, 'annualFee');
+      allow delete: if false;
     }
 
-    // 4. Legacy / auxiliary collections: Read-only, no external write
-    match /brand_settings/{docId} {
+    // 4. Brand Profile (DDMAI Organization & Leadership)
+    // Strictly READ-ONLY. External writes are 100% LOCKED.
+    match /brand_profile/{docId} {
       allow read: if true;
       allow write: if false;
     }
 
+    // 5. Read-Only Static / Reference Collections: All writes strictly LOCKED.
     match /faqs/{faqId} {
       allow read: if true;
       allow write: if false;
     }
 
     match /marketing_directory/{networkId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /brand_settings/{docId} {
       allow read: if true;
       allow write: if false;
     }
@@ -74,8 +94,8 @@ service cloud.firestore {
       allow write: if false;
     }
 
-    // 5. Default Match: STRICTLY LOCKED!
-    // No unapproved collection can be created, read, or modified from outside.
+    // 6. Global Catch-All: STRICT DEFAULT-DENY
+    // All unknown, unlisted, or arbitrary collections are 100% BLOCKED.
     match /{document=**} {
       allow read, write: if false;
     }
