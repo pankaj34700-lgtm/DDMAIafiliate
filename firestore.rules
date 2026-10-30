@@ -2,102 +2,107 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Helper functions for schema validation
-    function hasField(data, field) {
-      return field in data;
+    // Default deny for all unmatched paths
+    match /{document=**} {
+      allow read, write: if false;
     }
 
-    function isValidString(data, field, minLen, maxLen) {
-      return hasField(data, field) && data[field] is string && data[field].size() >= minLen && data[field].size() <= maxLen;
-    }
-
-    // 1. Webinar Leads Collection
-    // Public can create leads strictly adhering to DDMAI schema & referral binding.
-    // Updates are locked to preserve the mandatory referral code and contact integrity.
-    match /webinar_leads/{leadId} {
-      allow create: if isValidString(request.resource.data, 'name', 2, 100)
-                    && (hasField(request.resource.data, 'phone') && request.resource.data.phone is string && request.resource.data.phone.size() >= 8)
-                    && (hasField(request.resource.data, 'email') && request.resource.data.email is string && request.resource.data.email.size() >= 5)
-                    && request.resource.data.referralCode == "DDMAI-V5H4QH";
-      
-      // Reading allowed for CRM & dashboard display
-      allow read: if true;
-
-      // Update allowed only when preserving DDMAI referral binding
-      allow update: if request.resource.data.referralCode == "DDMAI-V5H4QH"
-                    && isValidString(request.resource.data, 'name', 2, 100);
-
-      // Deletion permitted for administrative cleanup
-      allow delete: if true;
-    }
-
-    // 2. Coaching Portals Collection
-    // Public can apply for turnkey portals (packageFee exactly 1999, referralCode DDMAI-V5H4QH).
-    // Updates are locked to preserve the mandatory package fee and referral binding.
-    match /coaching_portals/{portalId} {
-      allow create: if isValidString(request.resource.data, 'instituteName', 2, 120)
-                    && (hasField(request.resource.data, 'packageFee') && request.resource.data.packageFee == 1999)
-                    && request.resource.data.referralCode == "DDMAI-V5H4QH";
-
-      // Reading allowed for public showcase & admin approval engine
-      allow read: if true;
-
-      // Update allowed only when preserving packageFee 1999 and referral binding
-      allow update: if (hasField(request.resource.data, 'packageFee') && request.resource.data.packageFee == 1999)
-                    && request.resource.data.referralCode == "DDMAI-V5H4QH";
-
-      // Deletion permitted for administrative cleanup
-      allow delete: if true;
-    }
-
-    // 3. Solutions Catalog
-    // Public catalog: Readable by all.
-    // Writes are schema-validated: Requires title and annualFee.
-    // Deletions are strictly LOCKED (cannot delete catalog items).
-    match /solutions_catalog/{solutionId} {
-      allow read: if true;
-      allow create, update: if isValidString(request.resource.data, 'title', 2, 120)
-                            && hasField(request.resource.data, 'annualFee');
-      allow delete: if false;
-    }
-
-    // 4. Brand Profile (DDMAI Organization & Leadership)
-    // Strictly READ-ONLY. External writes are 100% LOCKED.
-    match /brand_profile/{docId} {
-      allow read: if true;
-      allow write: if false;
-    }
-
-    // 5. Read-Only Static / Reference Collections: All writes strictly LOCKED.
-    match /faqs/{faqId} {
-      allow read: if true;
-      allow write: if false;
-    }
-
-    match /marketing_directory/{networkId} {
-      allow read: if true;
-      allow write: if false;
-    }
-
+    // ==========================================
+    // 1. BRAND SETTINGS & PROFILE (Read-Only)
+    // ==========================================
     match /brand_settings/{docId} {
       allow read: if true;
       allow write: if false;
     }
 
+    match /brand_profile/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // ==========================================
+    // 2. SOLUTIONS & CATALOG (Read-Only)
+    // ==========================================
     match /solutions/{solutionId} {
       allow read: if true;
       allow write: if false;
     }
 
-    match /users/{userId} {
+    match /solutions_catalog/{solutionId} {
       allow read: if true;
       allow write: if false;
     }
 
-    // 6. Global Catch-All: STRICT DEFAULT-DENY
-    // All unknown, unlisted, or arbitrary collections are 100% BLOCKED.
-    match /{document=**} {
+    // ==========================================
+    // 3. MARKETING DIRECTORY & FAQS (Read-Only)
+    // ==========================================
+    match /marketing_directory/{networkId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /faqs/{faqId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // ==========================================
+    // 4. USERS COLLECTION (Strictly Denied)
+    // ==========================================
+    match /users/{userId} {
       allow read, write: if false;
+    }
+
+    // ==========================================
+    // 5. WEBINAR LEADS (Strict Validation, No Deletion)
+    // ==========================================
+    function isValidLeadCreate() {
+      let data = request.resource.data;
+      return data.keys().hasOnly([
+          'name', 'phone', 'email', 'objective', 'industry',
+          'referralCode', 'createdAt', 'registeredAt', 'source', 'status',
+          'notes', 'tags'
+        ])
+        && data.name is string && data.name.size() > 0 && data.name.size() <= 120
+        && data.phone is string && data.phone.size() >= 7 && data.phone.size() <= 25
+        && (!('email' in data) || (data.email is string && data.email.size() <= 120))
+        && (!('referralCode' in data) || (data.referralCode is string && data.referralCode.size() <= 50));
+    }
+
+    match /webinar_leads/{leadId} {
+      // Allow read for live admin CRM
+      allow read: if true;
+      // Allow create only if schema matches strict rules
+      allow create: if isValidLeadCreate();
+      // Allow admin status / notes update, but prevent changing student identity
+      allow update: if request.resource.data.name == resource.data.name
+        && request.resource.data.phone == resource.data.phone;
+      // Prohibit unauthenticated deletion of leads (Zero Data Loss)
+      allow delete: if false;
+    }
+
+    // ==========================================
+    // 6. COACHING PORTALS (Schema Validation, No Deletion)
+    // ==========================================
+    function isValidPortalCreate() {
+      let data = request.resource.data;
+      return data.keys().hasOnly([
+          'instituteName', 'directorName', 'contactPhone', 'city',
+          'domainRequested', 'category', 'status', 'createdAt', 'source',
+          'features', 'notes', 'customSubdomain'
+        ])
+        && data.instituteName is string && data.instituteName.size() > 0 && data.instituteName.size() <= 150
+        && data.contactPhone is string && data.contactPhone.size() >= 7 && data.contactPhone.size() <= 25
+        && (data.status == 'pending' || data.status == 'active');
+    }
+
+    match /coaching_portals/{portalId} {
+      allow read: if true;
+      allow create: if isValidPortalCreate();
+      // Allow updates to status (e.g. approve portal) but prevent changing original institute
+      allow update: if request.resource.data.instituteName == resource.data.instituteName;
+      // Prohibit arbitrary deletion of portals
+      allow delete: if false;
     }
   }
 }
