@@ -214,9 +214,9 @@
             </a>
 
             <!-- 👤 Member Login Button (Glass Pill - Desktop) -->
-            <button onclick="openUserLoginModal()" class="hidden lg:inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-xs font-bold text-white border border-white/20 bg-white/[0.08] hover:bg-white/15 transition-all shadow-sm hover:scale-[1.02] whitespace-nowrap shrink-0">
-              <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-              <span>Member Login</span>
+            <button onclick="handleMemberNavClick()" id="header-member-btn" class="hidden lg:inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-xs font-bold text-white border border-white/20 bg-white/[0.08] hover:bg-white/15 transition-all shadow-sm hover:scale-[1.02] whitespace-nowrap shrink-0 cursor-pointer">
+              <svg id="header-member-icon" class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+              <span id="header-member-text">Member Login</span>
             </button>
 
             <!-- Join Launchpad Hero CTA (Glowing Primary Trigger - Visible on Every Screen) -->
@@ -266,12 +266,12 @@
                 <span class="text-xs text-amber-300 group-hover:translate-x-1 transition-transform">&rarr;</span>
               </a>
 
-              <button onclick="openUserLoginModal(); toggleMobileNav();" 
-                      class="p-3 rounded-xl flex items-center justify-between transition-all group text-left shadow-sm hover:scale-[1.01]"
+              <button onclick="handleMemberNavClick(); toggleMobileNav();" id="drawer-member-btn" 
+                      class="p-3 rounded-xl flex items-center justify-between transition-all group text-left shadow-sm hover:scale-[1.01] cursor-pointer"
                       style="background-color: rgba(16, 185, 129, 0.15) !important; border: 1px solid rgba(16, 185, 129, 0.45) !important; color: #ffffff !important;">
                 <span class="flex items-center gap-2.5">
                   <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                  <span class="font-bold text-emerald-200 group-hover:text-emerald-100">Member Login &amp; Portal</span>
+                  <span id="drawer-member-text" class="font-bold text-emerald-200 group-hover:text-emerald-100">Member Login &amp; Portal</span>
                 </span>
                 <span class="text-xs text-emerald-300 group-hover:translate-x-1 transition-transform">&rarr;</span>
               </button>
@@ -2248,8 +2248,58 @@
     }
 
     // ================= USER LOGIN & DASHBOARD MODALS =================
-    function openUserLoginModal() {
+    function handleMemberNavClick() {
+      const session = getValidMemberSession();
+      if (session) {
+        // User is logged in within 24h! Open dashboard directly without asking for login!
+        openUserDashboardModal();
+      } else {
+        // Not logged in or expired: open login modal
+        openUserLoginModal(true);
+      }
+    }
+
+    function openUserLoginModal(force) {
+      const session = getValidMemberSession();
+      if (session && !force) {
+        // Already logged in within 24 hrs -> open dashboard directly!
+        openUserDashboardModal();
+        return;
+      }
       document.getElementById('user-login-modal').classList.remove('hidden');
+    }
+
+    function syncHeaderAuthState() {
+      const session = getValidMemberSession();
+      const headerText = document.getElementById('header-member-text');
+      const drawerText = document.getElementById('drawer-member-text');
+      const floatingText = document.getElementById('floating-member-text');
+      const headerBtn = document.getElementById('header-member-btn');
+
+      if (session) {
+        const displayName = session.name ? session.name.split(' ')[0] : 'Member';
+        if (headerText) {
+          headerText.innerHTML = '<span class="text-emerald-300 font-extrabold flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>' + displayName + ' (Dashboard)</span>';
+        }
+        if (drawerText) {
+          drawerText.innerText = '👤 Member Dashboard (' + displayName + ')';
+        }
+        if (floatingText) {
+          floatingText.innerText = '👤 Dashboard (' + displayName + ')';
+        }
+        if (headerBtn) {
+          headerBtn.classList.remove('border-white/20', 'bg-white/[0.08]');
+          headerBtn.classList.add('border-emerald-400/60', 'bg-emerald-500/20', 'text-emerald-200');
+        }
+      } else {
+        if (headerText) headerText.innerText = 'Member Login';
+        if (drawerText) drawerText.innerText = 'Member Login & Portal';
+        if (floatingText) floatingText.innerText = '👤 Member Portal Login';
+        if (headerBtn) {
+          headerBtn.classList.remove('border-emerald-400/60', 'bg-emerald-500/20', 'text-emerald-200');
+          headerBtn.classList.add('border-white/20', 'bg-white/[0.08]');
+        }
+      }
     }
 
     function closeUserLoginModal() {
@@ -2285,8 +2335,7 @@
       userData.loginTimestamp = Date.now();
       userData.expiresAt = Date.now() + (24 * 60 * 60 * 1000);
       localStorage.setItem('ddmai_user_auth', JSON.stringify(userData));
-      closeUserLoginModal();
-      openWelcomeModal(userData.name);
+      closeUserLoginModal(); syncHeaderAuthState(); openWelcomeModal(userData.name);
     }
 
     // ================= GOOGLE AUTHENTICATION INTEGRATION =================
@@ -2372,8 +2421,7 @@
       userData.loginTimestamp = Date.now();
       userData.expiresAt = Date.now() + (24 * 60 * 60 * 1000);
       localStorage.setItem('ddmai_user_auth', JSON.stringify(userData));
-      closeUserLoginModal();
-      openWelcomeModal(userData.name);
+      closeUserLoginModal(); syncHeaderAuthState(); openWelcomeModal(userData.name);
     }
 
     function handleUserLoginForm(e) {
@@ -2393,8 +2441,7 @@
       userData.loginTimestamp = Date.now();
       userData.expiresAt = Date.now() + (24 * 60 * 60 * 1000);
       localStorage.setItem('ddmai_user_auth', JSON.stringify(userData));
-      closeUserLoginModal();
-      openWelcomeModal(userData.name);
+      closeUserLoginModal(); syncHeaderAuthState(); openWelcomeModal(userData.name);
     }
 
     function openWelcomeModal(name) {
@@ -2423,7 +2470,7 @@
         if (data.loginTimestamp) {
           const elapsed = now - data.loginTimestamp;
           if (elapsed > 24 * 60 * 60 * 1000) {
-            localStorage.removeItem('ddmai_user_auth');
+            localStorage.removeItem('ddmai_user_auth'); syncHeaderAuthState();
             return null;
           }
         } else {
@@ -2545,7 +2592,7 @@
     }
 
     function handleUserLogout() {
-      localStorage.removeItem('ddmai_user_auth');
+      localStorage.removeItem('ddmai_user_auth'); syncHeaderAuthState();
       closeUserDashboardModal();
       showDashToast('Logged out of Member Portal', '🚪');
       setTimeout(function() {
@@ -2717,6 +2764,12 @@
       const menu = document.getElementById('quick-dock-menu');
       if (menu) menu.classList.toggle('hidden');
     }
+
+    // ================= AUTO INITIALIZE AUTH STATE =================
+    syncHeaderAuthState();
+    document.addEventListener('DOMContentLoaded', syncHeaderAuthState);
+    window.addEventListener('load', syncHeaderAuthState);
+
 
   </script>
 
@@ -3276,8 +3329,8 @@
       <a href="admin.html" target="_blank" class="px-4 py-2 rounded-2xl bg-slate-900/95 text-amber-300 border border-amber-400/50 text-xs font-bold shadow-2xl flex items-center gap-2 hover:scale-105 transition-transform backdrop-blur-md">
         <span>🔒 Admin Control Panel</span>
       </a>
-      <button onclick="openUserLoginModal()" class="px-4 py-2 rounded-2xl bg-slate-900/95 text-white border border-white/20 text-xs font-bold shadow-2xl flex items-center gap-2 hover:scale-105 transition-transform backdrop-blur-md">
-        <span>👤 Member Portal Login</span>
+      <button onclick="handleMemberNavClick()" id="floating-member-btn" class="px-4 py-2 rounded-2xl bg-slate-900/95 text-white border border-white/20 text-xs font-bold shadow-2xl flex items-center gap-2 hover:scale-105 transition-transform backdrop-blur-md cursor-pointer">
+        <span id="floating-member-text">👤 Member Portal Login</span>
       </button>
       <button onclick="openCertificateModal()" class="px-4 py-2 rounded-2xl bg-slate-900/95 text-amber-200 border border-amber-400/30 text-xs font-bold shadow-2xl flex items-center gap-2 hover:scale-105 transition-transform backdrop-blur-md">
         <span>🎓 Official Certificates</span>
