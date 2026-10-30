@@ -2,52 +2,82 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Helper functions
-    function isAuthenticated() {
-      return request.auth != null;
+    // Helper functions for schema validation
+    function hasField(data, field) {
+      return field in data;
     }
 
-    // 1. Brand info & Site Configuration (Public Read, Admin Write)
+    function isValidString(data, field, minLen, maxLen) {
+      return hasField(data, field) && data[field] is string && data[field].size() >= minLen && data[field].size() <= maxLen;
+    }
+
+    // 1. Webinar Leads Collection
+    // Public can CREATE leads with required fields (name, phone, email, referralCode).
+    // Enforces DDMAI referral binding and input sanitization.
+    match /webinar_leads/{leadId} {
+      allow create: if isValidString(request.resource.data, 'name', 2, 100)
+                    && (hasField(request.resource.data, 'phone') && request.resource.data.phone is string && request.resource.data.phone.size() >= 8)
+                    && (hasField(request.resource.data, 'email') && request.resource.data.email is string && request.resource.data.email.size() >= 5)
+                    && request.resource.data.referralCode == "DDMAI-V5H4QH";
+      
+      // Reading allowed for CRM and admin dashboard
+      allow read: if true;
+
+      // Update and delete allowed for lead status management
+      allow update, delete: if true;
+    }
+
+    // 2. Coaching Portals Collection
+    // Public can apply for turnkey portals (packageFee 1999, referralCode DDMAI-V5H4QH).
+    match /coaching_portals/{portalId} {
+      allow create: if isValidString(request.resource.data, 'instituteName', 2, 120)
+                    && (hasField(request.resource.data, 'packageFee') && request.resource.data.packageFee == 1999)
+                    && request.resource.data.referralCode == "DDMAI-V5H4QH";
+
+      // Reading allowed for public showcase & admin approval engine
+      allow read: if true;
+
+      // Updating status (approve/pause) and management
+      allow update, delete: if true;
+    }
+
+    // 3. Solutions Catalog
+    // Public can view catalog; writes allowed for sync/management
+    match /solutions_catalog/{solutionId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // 4. Legacy / auxiliary collections: Read-only, no external write
     match /brand_settings/{docId} {
       allow read: if true;
-      allow write: if true;
+      allow write: if false;
     }
 
-    // 2. Solutions & Packages Catalog (Public Read)
-    match /solutions/{solutionId} {
+    match /faqs/{faqId} {
       allow read: if true;
-      allow write: if true;
+      allow write: if false;
     }
 
-    // 3. Marketing Directory (Public Read)
     match /marketing_directory/{networkId} {
       allow read: if true;
-      allow write: if true;
+      allow write: if false;
     }
 
-    // 4. Webinar Leads (Public Create, Admin Read)
-    match /webinar_leads/{leadId} {
-      allow read, write: if true;
+    match /solutions/{solutionId} {
+      allow read: if true;
+      allow write: if false;
     }
 
-    // 5. Coaching Portals (Public Read & Create, Admin Approve)
-    match /coaching_portals/{portalId} {
-      allow read, write: if true;
-    }
-
-    // 6. FAQs (Public Read)
-    match /faqs/{faqId} {
-      allow read, write: if true;
-    }
-
-    // 7. Users collection
     match /users/{userId} {
-      allow read, write: if true;
+      allow read: if true;
+      allow write: if false;
     }
 
-    // Default match
+    // 5. Default Match: STRICTLY LOCKED!
+    // No unapproved collection can be created, read, or modified from outside.
     match /{document=**} {
-      allow read, write: if true;
+      allow read, write: if false;
     }
   }
 }
