@@ -3,6 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- PWA Manifest & Mobile App Configuration -->
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icon-512.png">
+  <link rel="apple-touch-icon" href="/assets/icon-192.png">
+  <meta name="theme-color" content="#040D24">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="DDMAI">
   <title>DDMAI Cloud Executive Admin Suite | Veteran PankajBhai Umesh Gupta</title>
   <meta name="description" content="Next-Gen Executive Admin Control Center for Digital Direct Marketing – AI & Tech (DDMAI). 5-Minute Portal Approvals, Interactive CRM, Visual Analytics, WhatsApp Broadcast Suite, and Email Funnel Architecture.">
   <link rel="icon" type="image/jpeg" href="assets/ddmai-logo.jpg">
@@ -2341,6 +2350,16 @@
       checkAuthOnLoad();
       applyBroadcastTemplate();
     });
+  </script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js')
+          .then(function(reg) { console.log('DDMAI Admin PWA SW registered:', reg.scope); })
+          .catch(function(err) { console.warn('PWA SW notice:', err); });
+      });
+    }
   </script>
 </body>
 </html>

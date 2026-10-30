@@ -113,10 +113,52 @@ assert(fs.existsSync(path.join(playwrightCliDir, 'playwright-runner.js')), 'play
 assert(fs.existsSync(path.join(playwrightCliDir, 'admin-test.js')), 'playwright.cli contains "admin-test.js"');
 assert(fs.existsSync(path.join(playwrightCliDir, 'member-and-cert-test.js')), 'playwright.cli contains "member-and-cert-test.js"');
 assert(fs.existsSync(path.join(playwrightCliDir, 'mobile-runner.js')), 'playwright.cli contains "mobile-runner.js" (Pixel 7 Android audit)');
+assert(fs.existsSync(path.join(playwrightCliDir, 'pwa-test.js')), 'playwright.cli contains "pwa-test.js" (PWA automation suite)');
 assert(fs.existsSync(path.join(playwrightCliDir, 'run-all-playwright.js')), 'playwright.cli contains "run-all-playwright.js" master orchestrator');
 assert(fs.existsSync(path.join(playwrightCliDir, 'run-playwright.bat')), 'playwright.cli contains 1-click launcher "run-playwright.bat"');
 
 assert(!fs.existsSync(obsoletePlaywriteDir), 'Legacy duplicate "playwrite.cli" is fully cleaned/removed');
+
+// 7. PROGRESSIVE WEB APP (PWA) VERIFICATION
+console.log('\n\x1b[36m[Group 7] Progressive Web App (PWA) System Verification\x1b[0m');
+const manifestPath = path.join(rootDir, 'manifest.json');
+const swPath = path.join(rootDir, 'sw.js');
+const icon192 = path.join(rootDir, 'assets', 'icon-192.png');
+const icon512 = path.join(rootDir, 'assets', 'icon-512.png');
+const pubManifest = path.join(rootDir, 'public', 'manifest.json');
+const pubSw = path.join(rootDir, 'public', 'sw.js');
+
+assert(fs.existsSync(manifestPath), 'manifest.json exists at root');
+assert(fs.existsSync(pubManifest), 'public/manifest.json is synchronized');
+assert(fs.existsSync(swPath), 'sw.js exists at root');
+assert(fs.existsSync(pubSw), 'public/sw.js is synchronized');
+assert(fs.existsSync(icon192), 'assets/icon-192.png exists');
+assert(fs.existsSync(icon512), 'assets/icon-512.png exists');
+
+let manifestJson = null;
+try {
+  manifestJson = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+} catch (e) {}
+
+assert(manifestJson !== null, 'manifest.json is valid parseable JSON');
+assert(manifestJson && manifestJson.display === 'standalone', 'PWA display mode is "standalone"');
+assert(manifestJson && manifestJson.short_name === 'DDMAI', 'PWA short_name is "DDMAI"');
+assert(manifestJson && Array.isArray(manifestJson.icons) && manifestJson.icons.length >= 2, 'PWA icons array configured with 192px and 512px assets');
+
+const swContent = fs.existsSync(swPath) ? fs.readFileSync(swPath, 'utf8') : '';
+assert(swContent.includes('addEventListener(\'fetch\'') || swContent.includes('addEventListener("fetch"'), 'Service worker implements fetch handler');
+assert(swContent.includes('caches.open'), 'Service worker implements cache storage');
+
+assert(indexContent.includes('rel="manifest"') && indexContent.includes('/manifest.json'), 'index.html links to manifest.json');
+assert(indexContent.includes('navigator.serviceWorker.register'), 'index.html registers service worker');
+assert(indexContent.includes('id="header-pwa-install-btn"'), 'index.html includes 1-click header PWA install button');
+assert(indexContent.includes('id="drawer-pwa-install-btn"'), 'index.html includes 1-click drawer PWA install button');
+assert(indexContent.includes('triggerPwaInstall'), 'index.html implements triggerPwaInstall() function');
+
+assert(userDashContent.includes('rel="manifest"'), 'user-dashboard.html includes PWA manifest link');
+assert(userDashContent.includes('navigator.serviceWorker.register'), 'user-dashboard.html registers service worker');
+assert(adminContent.includes('rel="manifest"'), 'admin.html includes PWA manifest link');
+assert(adminContent.includes('navigator.serviceWorker.register'), 'admin.html registers service worker');
 
 // SUMMARY REPORT
 console.log('\n======================================================');
