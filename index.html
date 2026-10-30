@@ -2490,10 +2490,14 @@
         waBtn.href = "https://wa.me/919638055552?text=" + waMsg;
       }
 
+      // Reset interactive state
+      toggleDomainEdit(false);
+      toggleReferralQr(false);
+
       document.getElementById('user-dashboard-modal').classList.remove('hidden');
     }
 
-        function closeUserDashboardModal() {
+    function closeUserDashboardModal() {
       const modal = document.getElementById('user-dashboard-modal');
       if (modal) modal.classList.add('hidden');
     }
@@ -2501,41 +2505,135 @@
     function handleUserLogout() {
       localStorage.removeItem('ddmai_user_auth');
       closeUserDashboardModal();
-      alert("Logged out of Member Portal successfully!");
+      showDashToast('Logged out of Member Portal', '🚪');
+      setTimeout(function() {
+        alert('Logged out of Member Portal successfully!');
+      }, 300);
     }
 
-    function editMemberDomain() {
-      const current = document.getElementById('modal-dash-domain-text').innerText.replace('https://', '').replace('http://', '');
-      const newDomain = prompt("Enter your desired custom domain or subdomain:", current);
-      if (newDomain && newDomain.trim().length > 3) {
-        const cleanDomain = newDomain.trim().toLowerCase().replace(/^https?:\/\//, '');
-        let userData = {};
-        try {
-          userData = JSON.parse(localStorage.getItem('ddmai_user_auth') || '{}');
-        } catch(e) {}
-        userData.domain = cleanDomain;
-        localStorage.setItem('ddmai_user_auth', JSON.stringify(userData));
-        alert("Domain updated successfully! Routing active for: https://" + cleanDomain);
-        openUserDashboardModal();
+    function showDashToast(msg, icon) {
+      let toast = document.getElementById('dash-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'dash-toast';
+        toast.className = 'pointer-events-none fixed bottom-6 left-1/2 -translate-x-1/2 z-[70] hidden opacity-0 translate-y-3 transition-all duration-300 bg-slate-900/95 border border-amber-400/60 text-white px-4 py-2 rounded-2xl shadow-2xl flex items-center gap-2 text-xs font-bold backdrop-blur-xl';
+        toast.innerHTML = '<span id="dash-toast-icon">✨</span><span id="dash-toast-msg">Copied!</span>';
+        document.body.appendChild(toast);
+      }
+      const msgEl = document.getElementById('dash-toast-msg');
+      const iconEl = document.getElementById('dash-toast-icon');
+      if (msgEl) msgEl.innerText = msg;
+      if (iconEl && icon) iconEl.innerText = icon;
+      toast.classList.remove('hidden');
+      setTimeout(function() {
+        toast.classList.remove('opacity-0', 'translate-y-3');
+        toast.classList.add('opacity-100', 'translate-y-0');
+      }, 20);
+      setTimeout(function() {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'translate-y-3');
+        setTimeout(function() { toast.classList.add('hidden'); }, 300);
+      }, 2600);
+    }
+
+    function toggleDomainEdit(show) {
+      const displayBox = document.getElementById('modal-dash-domain-display-box');
+      const editBox = document.getElementById('modal-dash-domain-edit-box');
+      const input = document.getElementById('modal-dash-domain-input');
+      const domainText = document.getElementById('modal-dash-domain-text');
+      if (show) {
+        if (displayBox) displayBox.classList.add('hidden');
+        if (editBox) editBox.classList.remove('hidden');
+        if (input && domainText) {
+          input.value = domainText.innerText.replace(/^https?:\/\//, '').replace(/\/$/, '');
+          input.focus();
+        }
+      } else {
+        if (editBox) editBox.classList.add('hidden');
+        if (displayBox) displayBox.classList.remove('hidden');
       }
     }
 
+    function saveMemberDomainInline() {
+      const input = document.getElementById('modal-dash-domain-input');
+      if (!input) return;
+      const val = input.value.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/\/$/, '');
+      if (val.length < 3) {
+        alert('Please enter a valid domain or subdomain (at least 3 characters).');
+        return;
+      }
+      let userData = {};
+      try {
+        userData = JSON.parse(localStorage.getItem('ddmai_user_auth') || '{}');
+      } catch(e) {}
+      userData.domain = val;
+      localStorage.setItem('ddmai_user_auth', JSON.stringify(userData));
+      
+      const domainText = document.getElementById('modal-dash-domain-text');
+      const portalLink = document.getElementById('modal-dash-portal-link');
+      if (domainText) domainText.innerText = 'https://' + val;
+      if (portalLink) portalLink.href = 'https://' + val;
+
+      toggleDomainEdit(false);
+      showDashToast('Domain updated: https://' + val, '🌐');
+    }
+
+    function editMemberDomain() {
+      toggleDomainEdit(true);
+    }
+
+    function copyMemberDomain() {
+      const domainText = document.getElementById('modal-dash-domain-text');
+      const val = domainText ? domainText.innerText : 'https://apexscience.in';
+      navigator.clipboard.writeText(val).then(function() {
+        showDashToast('Portal link copied to clipboard!', '📋');
+      }).catch(function() {
+        showDashToast('Copied: ' + val, '📋');
+      });
+    }
+
+    function copyMemberId() {
+      const memberIdEl = document.getElementById('modal-dash-member-id');
+      const val = memberIdEl ? memberIdEl.innerText : 'DDMAI-G-7821';
+      navigator.clipboard.writeText(val).then(function() {
+        showDashToast('Member ID copied: ' + val, '🆔');
+      }).catch(function() {
+        showDashToast('ID: ' + val, '🆔');
+      });
+    }
+
+    function toggleReferralQr(force) {
+      const qrBox = document.getElementById('modal-dash-qr-container');
+      if (!qrBox) return;
+      if (typeof force === 'boolean') {
+        if (force) qrBox.classList.remove('hidden');
+        else qrBox.classList.add('hidden');
+      } else {
+        qrBox.classList.toggle('hidden');
+      }
+    }
+
+    function shareReferralOnWhatsApp() {
+      const refUrl = 'https://ddmai.com/signup/?ref=DDMAI-V5H4QH';
+      const msg = encodeURIComponent("🚀 *Namaste!* Join me on *DDMAI* - India's Premier Digital Direct Marketing & AI Platform founded by Veteran PankajBhai Umesh Gupta.\n\nClaim your Turnkey Coaching Website Portal & VIP Masterclass Pass here:\n👉 " + refUrl);
+      window.open('https://api.whatsapp.com/send?text=' + msg, '_blank');
+    }
+
     function copyMemberReferralLink(btn) {
-      const link = "https://ddmai.com/signup/?ref=DDMAI-V5H4QH";
+      const link = 'https://ddmai.com/signup/?ref=DDMAI-V5H4QH';
       navigator.clipboard.writeText(link).then(function() {
+        showDashToast('Referral link copied! Ready to share.', '✨');
         if (btn) {
           const orig = btn.innerText;
-          btn.innerText = "✓ Copied!";
+          btn.innerText = '✓ Copied!';
           btn.classList.add('text-emerald-400');
           setTimeout(function() {
             btn.innerText = orig;
             btn.classList.remove('text-emerald-400');
           }, 2000);
-        } else {
-          alert("Official referral link copied to clipboard: " + link);
         }
       }).catch(function() {
-        prompt("Copy your referral link:", link);
+        prompt('Copy your referral link:', link);
       });
     }
 
@@ -2757,132 +2855,249 @@
   </div>
 
     <!-- ================= IN-PAGE USER DASHBOARD MODAL ================= -->
-  <div id="user-dashboard-modal" class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-md p-4 overflow-y-auto flex items-center justify-center text-white">
-    <div class="w-full max-w-4xl bg-gradient-to-b from-[#091533] via-[#050D24] to-[#020614] border border-amber-400/40 rounded-3xl p-6 sm:p-8 shadow-[0_25px_70px_rgba(0,0,0,0.85)] relative my-8">
+  <div id="user-dashboard-modal" class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-md p-3 sm:p-4 overflow-y-auto flex items-center justify-center text-white">
+    <!-- Outer Executive Card with Ambient Glow -->
+    <div class="w-full max-w-4xl bg-gradient-to-b from-[#0b1329] via-[#050918] to-[#02050f] border border-amber-400/40 rounded-3xl p-5 sm:p-7 shadow-[0_25px_80px_rgba(0,0,0,0.95)] relative my-6 sm:my-8 overflow-hidden">
       
+      <!-- Ambient Radial Backdrops -->
+      <div class="absolute -top-32 -right-32 w-80 h-80 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-32 -left-32 w-80 h-80 bg-blue-600/15 rounded-full blur-3xl pointer-events-none"></div>
+
       <!-- Modal Header -->
-      <div class="flex items-start sm:items-center justify-between pb-5 border-b border-white/10 gap-4">
-        <div class="flex items-center gap-3.5">
-          <!-- Dynamic Avatar / Photo -->
-          <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-amber-300 p-0.5 shrink-0 shadow-lg shadow-amber-500/20">
-            <div id="modal-dash-avatar-container" class="w-full h-full bg-slate-950 rounded-2xl flex items-center justify-center overflow-hidden">
-              <img id="modal-dash-avatar-img" src="" alt="User Avatar" class="hidden w-full h-full object-cover">
-              <span id="modal-dash-avatar-initials" class="text-lg font-black text-amber-300">PG</span>
+      <div class="relative z-10 flex items-start sm:items-center justify-between pb-5 border-b border-white/10 gap-3">
+        <div class="flex items-center gap-3.5 min-w-0">
+          <!-- Dynamic Avatar / Photo with Online Pulse Beacon -->
+          <div class="relative shrink-0">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-amber-500 via-amber-300 to-amber-200 p-0.5 shadow-lg shadow-amber-500/25">
+              <div id="modal-dash-avatar-container" class="w-full h-full bg-slate-950 rounded-2xl flex items-center justify-center overflow-hidden">
+                <img id="modal-dash-avatar-img" src="" alt="User Avatar" class="hidden w-full h-full object-cover">
+                <span id="modal-dash-avatar-initials" class="text-xl font-black text-amber-300">PG</span>
+              </div>
             </div>
+            <!-- Online Beacon -->
+            <span class="w-3.5 h-3.5 rounded-full bg-emerald-400 border-2 border-slate-950 absolute -bottom-0.5 -right-0.5 shadow-[0_0_8px_rgba(16,185,129,0.9)]" title="Online & Synced"></span>
           </div>
-          <div>
+
+          <div class="min-w-0">
+            <!-- Header Title & Badges -->
             <div class="flex items-center gap-2 flex-wrap">
-              <h3 class="font-extrabold text-lg text-white tracking-tight">DDMAI Member &amp; Portal Dashboard</h3>
-              <span id="modal-dash-google-badge" class="hidden px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-400/40 flex items-center gap-1.5">
+              <h3 class="font-extrabold text-base sm:text-lg text-white tracking-tight flex items-center gap-1.5">
+                <span>DDMAI Member &amp; Portal Dashboard</span>
+              </h3>
+              <!-- Google Verified Badge -->
+              <span id="modal-dash-google-badge" class="hidden px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/15 text-blue-300 border border-blue-400/40 flex items-center gap-1 shadow-sm">
                 <svg class="w-3 h-3 shrink-0" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
                 <span>Google Verified</span>
               </span>
-              <span class="text-xs text-slate-400 font-mono">ID: <strong id="modal-dash-member-id" class="text-amber-300 font-bold">DDMAI-G-7821</strong></span>
+              <!-- VIP Partner Pill -->
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-400/10 text-amber-300 border border-amber-400/30 flex items-center gap-1">
+                <span>⭐ Founding VIP</span>
+              </span>
             </div>
-            <p class="text-xs text-slate-300 mt-0.5">Welcome, <span id="modal-dash-user-name" class="text-amber-300 font-extrabold text-sm">Pankaj Gupta</span> &bull; <span id="modal-dash-role" class="text-slate-300">Google Verified Partner</span></p>
-            <p id="modal-dash-user-email" class="text-sky-300 font-mono text-[11px] mt-0.5 hidden flex items-center gap-1"></p>
+
+            <!-- Welcome Greeting & Member ID -->
+            <div class="flex items-center gap-2 flex-wrap text-xs text-slate-300 mt-1">
+              <span>Welcome, <strong id="modal-dash-user-name" class="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-300 to-amber-100 font-extrabold text-sm">Pankaj Gupta</strong></span>
+              <span class="text-slate-500">&bull;</span>
+              <span id="modal-dash-role" class="text-slate-300">Google Verified Partner</span>
+              <span class="text-slate-500">&bull;</span>
+              <!-- Member ID with Click to Copy -->
+              <button onclick="copyMemberId()" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] font-mono text-amber-300 transition-all hover:scale-105 cursor-pointer" title="Click to copy Member ID">
+                <span>ID:</span>
+                <strong id="modal-dash-member-id" class="font-bold">DDMAI-G-7821</strong>
+                <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              </button>
+            </div>
+
+            <!-- User Email (if available) -->
+            <p id="modal-dash-user-email" class="text-sky-300 font-mono text-[11px] mt-1 hidden flex items-center gap-1.5"></p>
           </div>
         </div>
-        <button onclick="closeUserDashboardModal()" class="text-slate-400 hover:text-white text-2xl p-1.5 rounded-xl hover:bg-white/10 transition-colors">&times;</button>
+
+        <!-- Sleek Close Button -->
+        <button onclick="closeUserDashboardModal()" aria-label="Close dashboard"
+          class="w-9 h-9 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer shrink-0">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
       </div>
 
-      <!-- 4 Quick KPI Badges -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 my-5 text-xs">
-        <div class="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-emerald-500/40 transition-all">
-          <span class="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">Portal Status</span>
-          <span class="text-emerald-400 font-extrabold text-xs mt-1 flex items-center gap-1.5">
+      <!-- 4 High-Tech Executive Metric Cards -->
+      <div class="relative z-10 grid grid-cols-2 lg:grid-cols-4 gap-3 my-5 text-xs">
+        
+        <!-- Metric 1: Portal Status -->
+        <div class="p-3.5 rounded-2xl bg-slate-900/60 border border-white/10 border-t-2 border-t-emerald-500/80 hover:border-emerald-500/40 transition-all shadow-md group">
+          <div class="flex items-center justify-between">
+            <span class="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">Portal Status</span>
+            <div class="w-6 h-6 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xs">🌐</div>
+          </div>
+          <span class="text-emerald-400 font-extrabold text-xs sm:text-sm mt-1.5 flex items-center gap-1.5">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             Approved &amp; Live
           </span>
-          <span class="text-[10px] text-slate-500 block mt-0.5">Custom Domain Routing Active</span>
+          <span class="text-[10px] text-slate-500 block mt-1">Edge CDN &bull; SSL Active</span>
         </div>
 
-        <div class="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-amber-500/40 transition-all">
-          <span class="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">Available Credits</span>
-          <span id="modal-dash-credits" class="text-amber-300 font-extrabold text-xs mt-1 block">25 Starter Credits</span>
-          <span class="text-[10px] text-amber-400/80 block mt-0.5">Anti-Spam Verified Balance</span>
+        <!-- Metric 2: Available Credits -->
+        <div class="p-3.5 rounded-2xl bg-slate-900/60 border border-white/10 border-t-2 border-t-amber-500/80 hover:border-amber-500/40 transition-all shadow-md group">
+          <div class="flex items-center justify-between">
+            <span class="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">Available Credits</span>
+            <div class="w-6 h-6 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center text-xs">⚡</div>
+          </div>
+          <span id="modal-dash-credits" class="text-amber-300 font-extrabold text-xs sm:text-sm mt-1.5 block">25 Starter Credits</span>
+          <span class="text-[10px] text-amber-400/70 block mt-1">Anti-Spam Verified</span>
         </div>
 
-        <div class="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-indigo-500/40 transition-all">
-          <span class="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">Masterclass Pass</span>
-          <span class="text-indigo-300 font-extrabold text-xs mt-1 flex items-center gap-1">
-            <span>🎟️</span> VIP Seat Confirmed
+        <!-- Metric 3: Masterclass VIP Pass -->
+        <div class="p-3.5 rounded-2xl bg-slate-900/60 border border-white/10 border-t-2 border-t-indigo-500/80 hover:border-indigo-500/40 transition-all shadow-md group">
+          <div class="flex items-center justify-between">
+            <span class="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">Masterclass Pass</span>
+            <div class="w-6 h-6 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-xs">🎟️</div>
+          </div>
+          <span class="text-indigo-300 font-extrabold text-xs sm:text-sm mt-1.5 flex items-center gap-1">
+            VIP Seat Confirmed
           </span>
-          <span class="text-[10px] text-slate-500 block mt-0.5">11-Day Email Engine Nurture</span>
+          <span class="text-[10px] text-slate-500 block mt-1">11-Day Engine Nurture</span>
         </div>
 
-        <div class="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-amber-400/40 transition-all">
-          <span class="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">Partner Referral</span>
-          <span class="text-amber-400 font-mono font-extrabold text-xs mt-1 block">DDMAI-V5H4QH</span>
-          <span class="text-[10px] text-slate-500 block mt-0.5">Veteran PankajBhai Network</span>
+        <!-- Metric 4: Partner Referral Code -->
+        <div class="p-3.5 rounded-2xl bg-slate-900/60 border border-white/10 border-t-2 border-t-amber-400/80 hover:border-amber-400/40 transition-all shadow-md group">
+          <div class="flex items-center justify-between">
+            <span class="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">Partner Referral</span>
+            <div class="w-6 h-6 rounded-lg bg-amber-400/10 text-amber-400 flex items-center justify-center text-xs">🤝</div>
+          </div>
+          <span class="text-amber-400 font-mono font-extrabold text-xs sm:text-sm mt-1.5 block">DDMAI-V5H4QH</span>
+          <span class="text-[10px] text-slate-500 block mt-1">₹300/Lead + 60% Share</span>
         </div>
       </div>
 
-      <!-- Main Actions Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+      <!-- Main Two-Column Workspace -->
+      <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
         
-        <!-- Coaching Portal Card -->
-        <div class="p-5 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-amber-400/30 transition-all space-y-3.5">
-          <div class="flex items-center justify-between">
-            <h4 class="font-extrabold text-white text-sm flex items-center gap-2">
-              <span class="text-base">🏫</span>
-              <span>Turnkey Website Portal</span>
-            </h4>
-            <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold uppercase tracking-wider">Live &bull; Active</span>
+        <!-- Left Column: Turnkey Website Portal & Domain Suite -->
+        <div class="p-5 rounded-2xl bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/10 hover:border-amber-400/40 transition-all space-y-4 shadow-xl flex flex-col justify-between">
+          <div class="space-y-3.5">
+            <div class="flex items-center justify-between">
+              <h4 class="font-extrabold text-white text-sm flex items-center gap-2">
+                <span class="text-base">🏫</span>
+                <span>Turnkey Website Portal</span>
+              </h4>
+              <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-bold uppercase tracking-wider flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                Live &bull; Active
+              </span>
+            </div>
+
+            <div class="text-[11px] text-slate-300 space-y-1">
+              <p><strong>Registered Portal:</strong> <span id="modal-dash-institute-name" class="text-white font-semibold">Apex Science Academy</span></p>
+              <p class="text-slate-400">Zero hosting &amp; CMS fees. SSL secured by DDMAI Cloud.</p>
+            </div>
+
+            <!-- Domain Display Box (Normal Mode) -->
+            <div id="modal-dash-domain-display-box" class="p-3 rounded-xl bg-slate-950/80 border border-white/15 text-xs font-mono text-amber-300 flex items-center justify-between gap-2 overflow-hidden shadow-inner">
+              <div class="flex items-center gap-1.5 min-w-0">
+                <span class="text-emerald-400 text-xs">🔒</span>
+                <span id="modal-dash-domain-text" class="truncate font-bold text-amber-200">https://apexscience.in</span>
+              </div>
+              <div class="flex items-center gap-2 shrink-0">
+                <button onclick="copyMemberDomain()" class="text-[11px] px-2 py-0.5 rounded bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white transition-all font-sans cursor-pointer" title="Copy domain URL">
+                  Copy
+                </button>
+                <button onclick="toggleDomainEdit(true)" class="text-[11px] px-2 py-0.5 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-400/30 transition-all font-sans cursor-pointer flex items-center gap-1">
+                  <span>Edit</span> ✏️
+                </button>
+              </div>
+            </div>
+
+            <!-- Domain Inline Edit Form (Hidden by default, expands on Edit click) -->
+            <div id="modal-dash-domain-edit-box" class="hidden p-3.5 rounded-xl bg-slate-950 border border-amber-400/50 space-y-2 shadow-2xl">
+              <div class="flex items-center justify-between text-[11px]">
+                <span class="font-bold text-amber-300">Edit Custom Domain / Subdomain:</span>
+                <span class="text-[10px] text-slate-400">Point CNAME to ddmaiaffiliate.web.app</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <input type="text" id="modal-dash-domain-input" 
+                  class="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs font-mono text-white focus:outline-none focus:border-amber-400" 
+                  placeholder="e.g. apexscience.in or myname.ddmaiaffiliate.web.app">
+                <button onclick="saveMemberDomainInline()" 
+                  class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-400 text-slate-950 font-bold text-xs hover:brightness-105 cursor-pointer whitespace-nowrap">
+                  Save &amp; Bind
+                </button>
+                <button onclick="toggleDomainEdit(false)" 
+                  class="px-2.5 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white text-xs cursor-pointer">
+                  Cancel
+                </button>
+              </div>
+            </div>
           </div>
 
-          <div class="text-[11px] text-slate-300 space-y-1">
-            <p><strong>Registered Portal:</strong> <span id="modal-dash-institute-name" class="text-white font-semibold">Apex Science Academy</span></p>
-            <p class="text-slate-400">Zero hosting &amp; CMS fees. SSL secured by DDMAI Cloud.</p>
-          </div>
-
-          <!-- Dynamic Domain Box -->
-          <div class="p-3 rounded-xl bg-black/40 border border-white/10 text-xs font-mono text-amber-300 flex items-center justify-between gap-2 overflow-hidden">
-            <span id="modal-dash-domain-text" class="truncate font-bold">https://apexscience.in</span>
-            <button onclick="editMemberDomain()" title="Edit custom domain" class="text-[11px] text-amber-400 hover:text-amber-200 underline shrink-0 font-sans cursor-pointer">
-              Edit ✏️
-            </button>
-          </div>
-
-          <!-- Action Buttons -->
-          <div class="flex flex-wrap items-center gap-2.5 pt-1">
+          <!-- Action Buttons Row -->
+          <div class="flex flex-wrap items-center gap-2.5 pt-2">
             <a id="modal-dash-portal-link" href="https://apexscience.in" target="_blank"
-              class="flex-1 py-2 px-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-extrabold text-xs shadow-md transition-all text-center">
-              Visit Live Portal &rarr;
+              class="flex-1 py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:brightness-110 text-slate-950 font-extrabold text-xs shadow-lg shadow-amber-500/20 transition-all hover:scale-[1.01] active:scale-[0.99] text-center flex items-center justify-center gap-1.5">
+              <span>Visit Live Portal</span>
+              <span>&rarr;</span>
             </a>
             <button onclick="openCertificateModal()" 
-              class="py-2 px-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold text-xs transition-all flex items-center gap-1.5 cursor-pointer">
+              class="py-2.5 px-3.5 rounded-xl bg-slate-800/90 hover:bg-slate-700/90 text-slate-200 border border-slate-700 hover:border-amber-400/40 font-bold text-xs transition-all flex items-center gap-1.5 cursor-pointer shadow-md">
               <span>🎓</span> Print Certificate
             </button>
           </div>
         </div>
 
-        <!-- Marketing & WhatsApp Toolkit Card -->
-        <div class="p-5 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-emerald-400/30 transition-all space-y-3.5">
-          <div class="flex items-center justify-between">
-            <h4 class="font-extrabold text-white text-sm flex items-center gap-2">
-              <span class="text-base">📢</span>
-              <span>WhatsApp Direct Launch Kit</span>
-            </h4>
-            <span class="text-amber-400 font-bold text-[10px] bg-amber-400/10 px-2 py-0.5 rounded-full border border-amber-400/20">1-Click Fast Connect</span>
+        <!-- Right Column: Marketing & WhatsApp Toolkit Card -->
+        <div class="p-5 rounded-2xl bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/10 hover:border-emerald-400/40 transition-all space-y-4 shadow-xl flex flex-col justify-between">
+          <div class="space-y-3.5">
+            <div class="flex items-center justify-between">
+              <h4 class="font-extrabold text-white text-sm flex items-center gap-2">
+                <span class="text-base">📢</span>
+                <span>WhatsApp Direct Launch Kit</span>
+              </h4>
+              <span class="text-amber-400 font-bold text-[10px] bg-amber-400/10 px-2.5 py-0.5 rounded-full border border-amber-400/30 flex items-center gap-1">
+                <span>⚡ 1-Click Fast Connect</span>
+              </span>
+            </div>
+
+            <p class="text-slate-300 text-[11px] leading-relaxed">
+              Share your official referral link to onboard affiliates, students, and coaching inquiries:
+            </p>
+
+            <!-- Referral Link with 1-Click Copy -->
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-950/80 border border-white/15 text-xs font-mono text-slate-300 shadow-inner">
+              <span class="truncate text-amber-200 font-bold" id="modal-dash-ref-url">https://ddmai.com/signup/?ref=DDMAI-V5H4QH</span>
+              <button onclick="copyMemberReferralLink(this)" class="px-3 py-1 rounded-lg bg-gradient-to-r from-amber-500 to-amber-400 text-slate-950 font-extrabold text-[11px] ml-2 shrink-0 transition-all hover:brightness-105 active:scale-95 cursor-pointer shadow-sm">
+                Copy
+              </button>
+            </div>
+
+            <!-- Dynamic QR Code Drawer (Expandable) -->
+            <div id="modal-dash-qr-container" class="hidden p-3.5 rounded-xl bg-slate-950 border border-emerald-500/40 text-center space-y-2">
+              <div class="flex items-center justify-between text-[11px] pb-1 border-b border-slate-800">
+                <span class="font-bold text-emerald-300">Scan QR Code with Phone:</span>
+                <button onclick="toggleReferralQr(false)" class="text-slate-400 hover:text-white">&times;</button>
+              </div>
+              <div class="flex items-center justify-center py-1">
+                <img id="modal-dash-qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=https%3A%2F%2Fddmai.com%2Fsignup%2F%3Fref%3DDDMAI-V5H4QH" alt="Referral QR Code" class="w-32 h-32 rounded-xl border border-white/20 p-1.5 bg-white shadow-xl">
+              </div>
+              <p class="text-[10px] text-slate-400">Display this QR code to prospects for instant affiliate enrollment</p>
+            </div>
           </div>
 
-          <p class="text-slate-300 text-[11px] leading-relaxed">
-            Share your official referral link to onboard affiliates, students, and coaching inquiries:
-          </p>
+          <!-- Action Buttons (WhatsApp Share & Mentor Walkthrough) -->
+          <div class="space-y-2 pt-2">
+            <div class="grid grid-cols-2 gap-2">
+              <button onclick="shareReferralOnWhatsApp()" 
+                class="py-2.5 px-3 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 font-bold text-xs flex items-center justify-center gap-1.5 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer">
+                <span>📲 Share on WhatsApp</span>
+              </button>
+              <button onclick="toggleReferralQr()" 
+                class="py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer">
+                <span>📱 View QR Code</span>
+              </button>
+            </div>
 
-          <!-- Referral Link with 1-Click Copy -->
-          <div class="flex items-center justify-between p-3 rounded-xl bg-black/40 border border-white/10 text-xs font-mono text-slate-300">
-            <span class="truncate" id="modal-dash-ref-url">https://ddmai.com/signup/?ref=DDMAI-V5H4QH</span>
-            <button onclick="copyMemberReferralLink(this)" class="px-2.5 py-1 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-[11px] ml-2 shrink-0 transition-all cursor-pointer">
-              Copy
-            </button>
-          </div>
-
-          <!-- Direct Mentor WhatsApp Button -->
-          <div class="pt-1">
+            <!-- Direct Mentor WhatsApp Button -->
             <a id="modal-dash-wa-btn" href="https://wa.me/919638055552?text=Namaste%20Veteran%20PankajBhai,%20I%20am%20logged%20into%20my%20DDMAI%20dashboard" target="_blank"
-              class="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20 transition-all">
+              class="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20 transition-all hover:scale-[1.01] active:scale-[0.99]">
               <span>💬</span> Direct WhatsApp Mentor Walkthrough
             </a>
           </div>
@@ -2891,20 +3106,26 @@
       </div>
 
       <!-- Footer Bar -->
-      <div class="mt-6 pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
+      <div class="relative z-10 mt-6 pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
         <a href="user-dashboard.html" target="_blank" 
-          class="font-bold text-amber-300 hover:text-amber-200 flex items-center gap-1.5 transition-colors">
+          class="font-bold text-amber-300 hover:text-amber-200 flex items-center gap-1.5 transition-colors group">
           <span>🚀 Open Fullscreen Executive Dashboard</span>
-          <span>&rarr;</span>
+          <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>
         </a>
         <div class="flex items-center gap-4">
-          <button onclick="openUserDashboardModal()" class="text-slate-400 hover:text-slate-200 transition-colors flex items-center gap-1 cursor-pointer">
+          <button onclick="openUserDashboardModal(); showDashToast('Live data refreshed!', '↻');" class="text-slate-400 hover:text-slate-200 transition-colors flex items-center gap-1 cursor-pointer">
             <span>↻</span> Refresh Live Data
           </button>
-          <button onclick="handleUserLogout()" class="text-rose-400 hover:text-rose-300 font-semibold transition-colors cursor-pointer">
-            Log Out
+          <button onclick="handleUserLogout()" class="text-rose-400 hover:text-rose-300 font-semibold transition-colors cursor-pointer flex items-center gap-1">
+            <span>🚪</span> Log Out
           </button>
         </div>
+      </div>
+
+      <!-- Sleek Floating Toast Notification -->
+      <div id="dash-toast" class="pointer-events-none fixed bottom-6 left-1/2 -translate-x-1/2 z-[70] hidden opacity-0 translate-y-3 transition-all duration-300 bg-slate-900/95 border border-amber-400/60 text-white px-4 py-2 rounded-2xl shadow-2xl flex items-center gap-2 text-xs font-bold backdrop-blur-xl">
+        <span id="dash-toast-icon">✨</span>
+        <span id="dash-toast-msg">Copied to clipboard!</span>
       </div>
 
     </div>
