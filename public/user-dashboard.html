@@ -753,6 +753,19 @@
       window.open(waUrl, '_blank');
     }
 
+    function editMemberDomain() {
+      const current = (currentUser && currentUser.domain) ? currentUser.domain : "apexscience.in";
+      const newDomain = prompt("Enter your desired custom domain or subdomain:", current);
+      if (newDomain && newDomain.trim().length > 3) {
+        const cleanDomain = newDomain.trim().toLowerCase().replace(/^https?:\/\//, '');
+        currentUser.domain = cleanDomain;
+        localStorage.setItem('ddmai_user_auth', JSON.stringify(currentUser));
+        showToast("Domain updated successfully! Routing active for: https://" + cleanDomain, "success");
+        renderUserUI();
+        updateCertificatePreview();
+      }
+    }
+
     function handleUserLogout() {
       localStorage.removeItem('ddmai_user_auth');
       showToast("Logged out successfully", "info");
