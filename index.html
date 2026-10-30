@@ -2124,46 +2124,107 @@
     }
 
     // Refresh Admin Portals
+    // Refresh Admin Portals (Connected to Cloud Firestore & Local Fallback)
     function refreshAdminPortals() {
       const container = document.getElementById('admin-portals-list');
-      const item = window.lastSubmittedPortal || {
-        instituteName: "Apex Science Academy",
-        directorName: "Sharma Sir",
-        contactPhone: "9876543210",
-        city: "Gandhinagar",
-        domainRequested: "apexacademy.in",
-        status: "pending"
-      };
+      if (!container) return;
 
-      const isApproved = item.status === 'approved';
-      const badgeClass = isApproved ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800';
-      const statusText = isApproved ? 'APPROVED & LIVE' : 'PENDING 5-MIN APPROVAL';
-
-      let actionHtml = '';
-      if (isApproved) {
-        actionHtml = '<span class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-bold text-xs">✓ Active Live in Portal</span>';
-      } else {
-        actionHtml = '<button onclick="approvePortal(this)" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-md transition-all">Approve & Activate (Yes) &rarr;</button>';
+      function renderPortalsList(portals) {
+        if (!portals || portals.length === 0) {
+          container.innerHTML = '<div class="p-4 text-center text-slate-500 text-xs">No coaching portal applications found in database.</div>';
+          return;
+        }
+        container.innerHTML = portals.map(function(item) {
+          const isApproved = item.status === 'approved';
+          const badgeClass = isApproved ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800';
+          const statusText = isApproved ? 'APPROVED & LIVE' : 'PENDING 5-MIN APPROVAL';
+          let actionHtml = '';
+          if (isApproved) {
+            actionHtml = '<span class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-bold text-xs">✓ Active Live in Portal</span>';
+          } else {
+            actionHtml = '<button onclick="approvePortalDoc(\'' + (item.id || '') + '\', this)" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-md transition-all">Approve & Activate (Yes) &rarr;</button>';
+          }
+          return '<div class="p-4 rounded-2xl border border-amber-200 bg-amber-50/60 space-y-3 mb-3">' +
+            '<div class="flex items-start justify-between">' +
+              '<div>' +
+                '<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ' + badgeClass + '">' + statusText + '</span>' +
+                '<h4 class="font-extrabold text-sm text-[#061B49] mt-1">' + (item.instituteName || 'Turnkey Coaching Center') + '</h4>' +
+                '<p class="text-xs text-slate-500">Director: ' + (item.directorName || 'N/A') + ' • ' + (item.city || 'Gujarat') + '</p>' +
+              '</div>' +
+              '<span class="text-xs font-mono font-bold text-brand-700 bg-white px-2 py-1 rounded border">₹1,999/yr</span>' +
+            '</div>' +
+            '<div class="text-xs text-slate-600 bg-white p-2.5 rounded-xl border border-slate-200 space-y-1">' +
+              '<p><strong>Domain:</strong> <span class="font-mono text-brand-600">' + (item.domainRequested || 'pending-domain.in') + '</span></p>' +
+              '<p><strong>Phone:</strong> ' + (item.contactPhone || 'N/A') + '</p>' +
+            '</div>' +
+            '<div class="flex items-center justify-between pt-1">' +
+              '<span class="text-[11px] text-slate-500">Setting: Admin Approval</span>' +
+              actionHtml +
+            '</div>' +
+          '</div>';
+        }).join('');
       }
 
-      container.innerHTML = '<div class="p-4 rounded-2xl border border-amber-200 bg-amber-50/60 space-y-3">' +
-        '<div class="flex items-start justify-between">' +
-          '<div>' +
-            '<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ' + badgeClass + '">' + statusText + '</span>' +
-            '<h4 class="font-extrabold text-sm text-[#061B49] mt-1">' + item.instituteName + '</h4>' +
-            '<p class="text-xs text-slate-500">Director: ' + item.directorName + ' • ' + item.city + '</p>' +
-          '</div>' +
-          '<span class="text-xs font-mono font-bold text-brand-700 bg-white px-2 py-1 rounded border">₹1,999/yr</span>' +
-        '</div>' +
-        '<div class="text-xs text-slate-600 bg-white p-2.5 rounded-xl border border-slate-200 space-y-1">' +
-          '<p><strong>Domain:</strong> <span class="font-mono text-brand-600">' + item.domainRequested + '</span></p>' +
-          '<p><strong>Phone:</strong> ' + item.contactPhone + '</p>' +
-        '</div>' +
-        '<div class="flex items-center justify-between pt-1">' +
-          '<span class="text-[11px] text-slate-500">Setting: Admin Approval</span>' +
-          actionHtml +
-        '</div>' +
-      '</div>';
+      if (db) {
+        db.collection('coaching_portals').get().then(function(snapshot) {
+          if (!snapshot.empty) {
+            const list = [];
+            snapshot.forEach(function(doc) {
+              list.push(Object.assign({ id: doc.id }, doc.data()));
+            });
+            renderPortalsList(list);
+          } else if (window.lastSubmittedPortal) {
+            renderPortalsList([window.lastSubmittedPortal]);
+          } else {
+            renderPortalsList([{
+              instituteName: "Apex Science Academy",
+              directorName: "Sharma Sir",
+              contactPhone: "9876543210",
+              city: "Gandhinagar",
+              domainRequested: "apexacademy.in",
+              status: "pending"
+            }]);
+          }
+        }).catch(function(err) {
+          console.warn("Firestore query error, using local fallback:", err);
+          renderPortalsList([window.lastSubmittedPortal || {
+            instituteName: "Apex Science Academy",
+            directorName: "Sharma Sir",
+            contactPhone: "9876543210",
+            city: "Gandhinagar",
+            domainRequested: "apexacademy.in",
+            status: "pending"
+          }]);
+        });
+      } else {
+        renderPortalsList([window.lastSubmittedPortal || {
+          instituteName: "Apex Science Academy",
+          directorName: "Sharma Sir",
+          contactPhone: "9876543210",
+          city: "Gandhinagar",
+          domainRequested: "apexacademy.in",
+          status: "pending"
+        }]);
+      }
+    }
+
+    function approvePortalDoc(docId, btn) {
+      if (btn) btn.innerText = "Activating...";
+      if (db && docId) {
+        db.collection('coaching_portals').doc(docId).update({
+          status: "approved",
+          approvedAt: new Date().toISOString(),
+          approvedBy: "Veteran PankajBhai Umesh Gupta"
+        }).then(function() {
+          alert("Success! Coaching Portal has been Approved by Admin (Veteran PankajBhai Umesh Gupta). Custom domain routing active!");
+          refreshAdminPortals();
+        }).catch(function(err) {
+          console.error("Firestore update failed:", err);
+          approvePortal(btn);
+        });
+      } else {
+        approvePortal(btn);
+      }
     }
 
     function approvePortal(btn) {
