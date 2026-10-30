@@ -2282,6 +2282,8 @@
         };
       }
 
+      userData.loginTimestamp = Date.now();
+      userData.expiresAt = Date.now() + (24 * 60 * 60 * 1000);
       localStorage.setItem('ddmai_user_auth', JSON.stringify(userData));
       closeUserLoginModal();
       openWelcomeModal(userData.name);
@@ -2367,6 +2369,8 @@
         memberId: 'DDMAI-G-' + (user.uid ? user.uid.substring(0, 8).toUpperCase() : Math.floor(1000 + Math.random() * 9000))
       };
 
+      userData.loginTimestamp = Date.now();
+      userData.expiresAt = Date.now() + (24 * 60 * 60 * 1000);
       localStorage.setItem('ddmai_user_auth', JSON.stringify(userData));
       closeUserLoginModal();
       openWelcomeModal(userData.name);
@@ -2386,6 +2390,8 @@
         credits: 20
       };
 
+      userData.loginTimestamp = Date.now();
+      userData.expiresAt = Date.now() + (24 * 60 * 60 * 1000);
       localStorage.setItem('ddmai_user_auth', JSON.stringify(userData));
       closeUserLoginModal();
       openWelcomeModal(userData.name);
@@ -2406,6 +2412,32 @@
       openUserDashboardModal();
     }
 
+    // ================= 24-HOUR SESSION MANAGEMENT =================
+    function getValidMemberSession() {
+      try {
+        const stored = localStorage.getItem('ddmai_user_auth');
+        if (!stored) return null;
+        const data = JSON.parse(stored);
+        const now = Date.now();
+        // Check 24-hour expiration (86,400,000 ms = 24 hrs)
+        if (data.loginTimestamp) {
+          const elapsed = now - data.loginTimestamp;
+          if (elapsed > 24 * 60 * 60 * 1000) {
+            localStorage.removeItem('ddmai_user_auth');
+            return null;
+          }
+        } else {
+          // Backward compatibility: set 24h window
+          data.loginTimestamp = now;
+          data.expiresAt = now + (24 * 60 * 60 * 1000);
+          localStorage.setItem('ddmai_user_auth', JSON.stringify(data));
+        }
+        return data;
+      } catch (e) {
+        return null;
+      }
+    }
+
     function openUserDashboardModal() {
       let userData = {
         name: "Apex Science Academy",
@@ -2415,12 +2447,11 @@
         memberId: "DDMAI-MEM-8421",
         status: "approved"
       };
-      try {
-        const stored = localStorage.getItem('ddmai_user_auth');
-        if (stored) {
-          userData = Object.assign({}, userData, JSON.parse(stored));
-        }
-      } catch (e) {}
+
+      const session = getValidMemberSession();
+      if (session) {
+        userData = Object.assign({}, userData, session);
+      }
 
       const nameEl = document.getElementById('modal-dash-user-name');
       const roleEl = document.getElementById('modal-dash-role');
@@ -2434,6 +2465,7 @@
       const avatarInitials = document.getElementById('modal-dash-avatar-initials');
       const avatarImg = document.getElementById('modal-dash-avatar-img');
       const waBtn = document.getElementById('modal-dash-wa-btn');
+      const timerEl = document.getElementById('modal-dash-session-timer');
 
       const cleanName = userData.name || "Valued Member";
       const domain = userData.domain || (cleanName.toLowerCase().replace(/[^a-z0-9]/g, '') + '.ddmaiaffiliate.web.app');
@@ -2482,6 +2514,16 @@
         avatarInitials.innerText = initials.toUpperCase();
         if (avatarImg) avatarImg.classList.add('hidden');
         avatarInitials.classList.remove('hidden');
+      }
+
+      // 24-Hour Session Timer Display
+      if (timerEl && userData.loginTimestamp) {
+        const remainingMs = Math.max(0, (24 * 60 * 60 * 1000) - (Date.now() - userData.loginTimestamp));
+        const hours = Math.floor(remainingMs / (60 * 60 * 1000));
+        const mins = Math.floor((remainingMs % (60 * 60 * 1000)) / (60 * 1000));
+        timerEl.innerText = '24h Active (' + hours + 'h ' + mins + 'm left)';
+      } else if (timerEl) {
+        timerEl.innerText = '24h Session Active';
       }
 
       // WhatsApp Mentor button with personal name and email
@@ -2854,176 +2896,181 @@
     </div>
   </div>
 
-    <!-- ================= IN-PAGE USER DASHBOARD MODAL ================= -->
-  <div id="user-dashboard-modal" class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-md p-3 sm:p-4 overflow-y-auto flex items-center justify-center text-white">
-    <!-- Outer Executive Card with Ambient Glow -->
-    <div class="w-full max-w-4xl bg-gradient-to-b from-[#0b1329] via-[#050918] to-[#02050f] border border-amber-400/40 rounded-3xl p-5 sm:p-7 shadow-[0_25px_80px_rgba(0,0,0,0.95)] relative my-6 sm:my-8 overflow-hidden">
+    <!-- ================= IN-PAGE USER DASHBOARD MODAL (LIGHT THEME) ================= -->
+  <div id="user-dashboard-modal" class="fixed inset-0 z-50 hidden bg-slate-950/75 backdrop-blur-md p-3 sm:p-4 overflow-y-auto flex items-center justify-center text-slate-800">
+    <!-- Outer Executive Light Card with Ambient Subtle Glow -->
+    <div class="w-full max-w-4xl bg-[#ffffff] border border-amber-500/40 rounded-3xl p-5 sm:p-7 shadow-[0_25px_80px_rgba(15,23,42,0.22)] relative my-6 sm:my-8 overflow-hidden text-slate-800">
       
-      <!-- Ambient Radial Backdrops -->
-      <div class="absolute -top-32 -right-32 w-80 h-80 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"></div>
-      <div class="absolute -bottom-32 -left-32 w-80 h-80 bg-blue-600/15 rounded-full blur-3xl pointer-events-none"></div>
+      <!-- Ambient Radial Highlights -->
+      <div class="absolute -top-32 -right-32 w-80 h-80 bg-amber-400/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-32 -left-32 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
       <!-- Modal Header -->
-      <div class="relative z-10 flex items-start sm:items-center justify-between pb-5 border-b border-white/10 gap-3">
+      <div class="relative z-10 flex items-start sm:items-center justify-between pb-5 border-b border-slate-200 gap-3">
         <div class="flex items-center gap-3.5 min-w-0">
           <!-- Dynamic Avatar / Photo with Online Pulse Beacon -->
           <div class="relative shrink-0">
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-amber-500 via-amber-300 to-amber-200 p-0.5 shadow-lg shadow-amber-500/25">
-              <div id="modal-dash-avatar-container" class="w-full h-full bg-slate-950 rounded-2xl flex items-center justify-center overflow-hidden">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-amber-500 via-amber-400 to-amber-300 p-0.5 shadow-md shadow-amber-500/20">
+              <div id="modal-dash-avatar-container" class="w-full h-full bg-slate-900 rounded-2xl flex items-center justify-center overflow-hidden">
                 <img id="modal-dash-avatar-img" src="" alt="User Avatar" class="hidden w-full h-full object-cover">
                 <span id="modal-dash-avatar-initials" class="text-xl font-black text-amber-300">PG</span>
               </div>
             </div>
             <!-- Online Beacon -->
-            <span class="w-3.5 h-3.5 rounded-full bg-emerald-400 border-2 border-slate-950 absolute -bottom-0.5 -right-0.5 shadow-[0_0_8px_rgba(16,185,129,0.9)]" title="Online & Synced"></span>
+            <span class="w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-white absolute -bottom-0.5 -right-0.5 shadow-[0_0_8px_rgba(16,185,129,0.8)]" title="Online & 24h Synced"></span>
           </div>
 
           <div class="min-w-0">
             <!-- Header Title & Badges -->
             <div class="flex items-center gap-2 flex-wrap">
-              <h3 class="font-extrabold text-base sm:text-lg text-white tracking-tight flex items-center gap-1.5">
+              <h3 class="font-extrabold text-base sm:text-lg text-slate-900 tracking-tight flex items-center gap-1.5">
                 <span>DDMAI Member &amp; Portal Dashboard</span>
               </h3>
               <!-- Google Verified Badge -->
-              <span id="modal-dash-google-badge" class="hidden px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/15 text-blue-300 border border-blue-400/40 flex items-center gap-1 shadow-sm">
+              <span id="modal-dash-google-badge" class="hidden px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200/90 flex items-center gap-1 shadow-xs">
                 <svg class="w-3 h-3 shrink-0" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
                 <span>Google Verified</span>
               </span>
               <!-- VIP Partner Pill -->
-              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-400/10 text-amber-300 border border-amber-400/30 flex items-center gap-1">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-300 flex items-center gap-1">
                 <span>⭐ Founding VIP</span>
+              </span>
+              <!-- 24-Hour Active Session Badge -->
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-300 flex items-center gap-1.5 shadow-xs">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span id="modal-dash-session-timer">24h Session Active</span>
               </span>
             </div>
 
             <!-- Welcome Greeting & Member ID -->
-            <div class="flex items-center gap-2 flex-wrap text-xs text-slate-300 mt-1">
-              <span>Welcome, <strong id="modal-dash-user-name" class="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-300 to-amber-100 font-extrabold text-sm">Pankaj Gupta</strong></span>
-              <span class="text-slate-500">&bull;</span>
-              <span id="modal-dash-role" class="text-slate-300">Google Verified Partner</span>
-              <span class="text-slate-500">&bull;</span>
+            <div class="flex items-center gap-2 flex-wrap text-xs text-slate-600 mt-1">
+              <span>Welcome, <strong id="modal-dash-user-name" class="text-amber-800 font-extrabold text-sm">Pankaj Gupta</strong></span>
+              <span class="text-slate-300">&bull;</span>
+              <span id="modal-dash-role" class="text-slate-600">Google Verified Partner</span>
+              <span class="text-slate-300">&bull;</span>
               <!-- Member ID with Click to Copy -->
-              <button onclick="copyMemberId()" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] font-mono text-amber-300 transition-all hover:scale-105 cursor-pointer" title="Click to copy Member ID">
+              <button onclick="copyMemberId()" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 border border-slate-200 text-[11px] font-mono text-slate-800 transition-all hover:scale-105 cursor-pointer shadow-xs" title="Click to copy Member ID">
                 <span>ID:</span>
-                <strong id="modal-dash-member-id" class="font-bold">DDMAI-G-7821</strong>
-                <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                <strong id="modal-dash-member-id" class="font-bold text-amber-800">DDMAI-G-7821</strong>
+                <svg class="w-3 h-3 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
               </button>
             </div>
 
             <!-- User Email (if available) -->
-            <p id="modal-dash-user-email" class="text-sky-300 font-mono text-[11px] mt-1 hidden flex items-center gap-1.5"></p>
+            <p id="modal-dash-user-email" class="text-sky-700 font-mono text-[11px] mt-1 hidden flex items-center gap-1.5"></p>
           </div>
         </div>
 
         <!-- Sleek Close Button -->
         <button onclick="closeUserDashboardModal()" aria-label="Close dashboard"
-          class="w-9 h-9 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer shrink-0">
+          class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-500 hover:text-slate-900 flex items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer shrink-0">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
 
-      <!-- 4 High-Tech Executive Metric Cards -->
+      <!-- 4 High-Tech Executive Metric Cards (Light Theme) -->
       <div class="relative z-10 grid grid-cols-2 lg:grid-cols-4 gap-3 my-5 text-xs">
         
         <!-- Metric 1: Portal Status -->
-        <div class="p-3.5 rounded-2xl bg-slate-900/60 border border-white/10 border-t-2 border-t-emerald-500/80 hover:border-emerald-500/40 transition-all shadow-md group">
+        <div class="p-3.5 rounded-2xl bg-slate-50/90 border border-slate-200 border-t-2 border-t-emerald-500 hover:border-emerald-400 transition-all shadow-xs group">
           <div class="flex items-center justify-between">
-            <span class="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">Portal Status</span>
-            <div class="w-6 h-6 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xs">🌐</div>
+            <span class="text-slate-500 block text-[10px] uppercase font-bold tracking-wider">Portal Status</span>
+            <div class="w-6 h-6 rounded-lg bg-emerald-100/70 text-emerald-700 flex items-center justify-center text-xs font-bold">🌐</div>
           </div>
-          <span class="text-emerald-400 font-extrabold text-xs sm:text-sm mt-1.5 flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="text-emerald-700 font-extrabold text-xs sm:text-sm mt-1.5 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
             Approved &amp; Live
           </span>
           <span class="text-[10px] text-slate-500 block mt-1">Edge CDN &bull; SSL Active</span>
         </div>
 
         <!-- Metric 2: Available Credits -->
-        <div class="p-3.5 rounded-2xl bg-slate-900/60 border border-white/10 border-t-2 border-t-amber-500/80 hover:border-amber-500/40 transition-all shadow-md group">
+        <div class="p-3.5 rounded-2xl bg-slate-50/90 border border-slate-200 border-t-2 border-t-amber-500 hover:border-amber-400 transition-all shadow-xs group">
           <div class="flex items-center justify-between">
-            <span class="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">Available Credits</span>
-            <div class="w-6 h-6 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center text-xs">⚡</div>
+            <span class="text-slate-500 block text-[10px] uppercase font-bold tracking-wider">Available Credits</span>
+            <div class="w-6 h-6 rounded-lg bg-amber-100/70 text-amber-700 flex items-center justify-center text-xs font-bold">⚡</div>
           </div>
-          <span id="modal-dash-credits" class="text-amber-300 font-extrabold text-xs sm:text-sm mt-1.5 block">25 Starter Credits</span>
-          <span class="text-[10px] text-amber-400/70 block mt-1">Anti-Spam Verified</span>
+          <span id="modal-dash-credits" class="text-amber-800 font-extrabold text-xs sm:text-sm mt-1.5 block">25 Starter Credits</span>
+          <span class="text-[10px] text-amber-700/80 block mt-1">Anti-Spam Verified</span>
         </div>
 
         <!-- Metric 3: Masterclass VIP Pass -->
-        <div class="p-3.5 rounded-2xl bg-slate-900/60 border border-white/10 border-t-2 border-t-indigo-500/80 hover:border-indigo-500/40 transition-all shadow-md group">
+        <div class="p-3.5 rounded-2xl bg-slate-50/90 border border-slate-200 border-t-2 border-t-indigo-500 hover:border-indigo-400 transition-all shadow-xs group">
           <div class="flex items-center justify-between">
-            <span class="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">Masterclass Pass</span>
-            <div class="w-6 h-6 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-xs">🎟️</div>
+            <span class="text-slate-500 block text-[10px] uppercase font-bold tracking-wider">Masterclass Pass</span>
+            <div class="w-6 h-6 rounded-lg bg-indigo-100/70 text-indigo-700 flex items-center justify-center text-xs font-bold">🎟️</div>
           </div>
-          <span class="text-indigo-300 font-extrabold text-xs sm:text-sm mt-1.5 flex items-center gap-1">
+          <span class="text-indigo-800 font-extrabold text-xs sm:text-sm mt-1.5 flex items-center gap-1">
             VIP Seat Confirmed
           </span>
           <span class="text-[10px] text-slate-500 block mt-1">11-Day Engine Nurture</span>
         </div>
 
         <!-- Metric 4: Partner Referral Code -->
-        <div class="p-3.5 rounded-2xl bg-slate-900/60 border border-white/10 border-t-2 border-t-amber-400/80 hover:border-amber-400/40 transition-all shadow-md group">
+        <div class="p-3.5 rounded-2xl bg-slate-50/90 border border-slate-200 border-t-2 border-t-amber-600 hover:border-amber-500 transition-all shadow-xs group">
           <div class="flex items-center justify-between">
-            <span class="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">Partner Referral</span>
-            <div class="w-6 h-6 rounded-lg bg-amber-400/10 text-amber-400 flex items-center justify-center text-xs">🤝</div>
+            <span class="text-slate-500 block text-[10px] uppercase font-bold tracking-wider">Partner Referral</span>
+            <div class="w-6 h-6 rounded-lg bg-amber-100/70 text-amber-800 flex items-center justify-center text-xs font-bold">🤝</div>
           </div>
-          <span class="text-amber-400 font-mono font-extrabold text-xs sm:text-sm mt-1.5 block">DDMAI-V5H4QH</span>
+          <span class="text-amber-900 font-mono font-extrabold text-xs sm:text-sm mt-1.5 block">DDMAI-V5H4QH</span>
           <span class="text-[10px] text-slate-500 block mt-1">₹300/Lead + 60% Share</span>
         </div>
       </div>
 
-      <!-- Main Two-Column Workspace -->
+      <!-- Main Two-Column Workspace (Light Theme) -->
       <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
         
         <!-- Left Column: Turnkey Website Portal & Domain Suite -->
-        <div class="p-5 rounded-2xl bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/10 hover:border-amber-400/40 transition-all space-y-4 shadow-xl flex flex-col justify-between">
+        <div class="p-5 rounded-2xl bg-slate-50/80 border border-slate-200 hover:border-amber-400/60 transition-all space-y-4 shadow-xs flex flex-col justify-between">
           <div class="space-y-3.5">
             <div class="flex items-center justify-between">
-              <h4 class="font-extrabold text-white text-sm flex items-center gap-2">
+              <h4 class="font-extrabold text-slate-900 text-sm flex items-center gap-2">
                 <span class="text-base">🏫</span>
                 <span>Turnkey Website Portal</span>
               </h4>
-              <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-bold uppercase tracking-wider flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200 font-bold uppercase tracking-wider flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                 Live &bull; Active
               </span>
             </div>
 
-            <div class="text-[11px] text-slate-300 space-y-1">
-              <p><strong>Registered Portal:</strong> <span id="modal-dash-institute-name" class="text-white font-semibold">Apex Science Academy</span></p>
-              <p class="text-slate-400">Zero hosting &amp; CMS fees. SSL secured by DDMAI Cloud.</p>
+            <div class="text-[11px] text-slate-600 space-y-1">
+              <p><strong>Registered Portal:</strong> <span id="modal-dash-institute-name" class="text-slate-900 font-bold">Apex Science Academy</span></p>
+              <p class="text-slate-500">Zero hosting &amp; CMS fees. SSL secured by DDMAI Cloud.</p>
             </div>
 
             <!-- Domain Display Box (Normal Mode) -->
-            <div id="modal-dash-domain-display-box" class="p-3 rounded-xl bg-slate-950/80 border border-white/15 text-xs font-mono text-amber-300 flex items-center justify-between gap-2 overflow-hidden shadow-inner">
+            <div id="modal-dash-domain-display-box" class="p-3 rounded-xl bg-white border border-slate-300 text-xs font-mono text-slate-900 flex items-center justify-between gap-2 overflow-hidden shadow-xs">
               <div class="flex items-center gap-1.5 min-w-0">
-                <span class="text-emerald-400 text-xs">🔒</span>
-                <span id="modal-dash-domain-text" class="truncate font-bold text-amber-200">https://apexscience.in</span>
+                <span class="text-emerald-600 text-xs font-bold">🔒</span>
+                <span id="modal-dash-domain-text" class="truncate font-bold text-slate-900">https://apexscience.in</span>
               </div>
               <div class="flex items-center gap-2 shrink-0">
-                <button onclick="copyMemberDomain()" class="text-[11px] px-2 py-0.5 rounded bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white transition-all font-sans cursor-pointer" title="Copy domain URL">
+                <button onclick="copyMemberDomain()" class="text-[11px] px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 transition-all font-sans font-bold cursor-pointer border border-slate-200" title="Copy domain URL">
                   Copy
                 </button>
-                <button onclick="toggleDomainEdit(true)" class="text-[11px] px-2 py-0.5 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-400/30 transition-all font-sans cursor-pointer flex items-center gap-1">
+                <button onclick="toggleDomainEdit(true)" class="text-[11px] px-2.5 py-1 rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 transition-all font-sans font-bold cursor-pointer flex items-center gap-1">
                   <span>Edit</span> ✏️
                 </button>
               </div>
             </div>
 
             <!-- Domain Inline Edit Form (Hidden by default, expands on Edit click) -->
-            <div id="modal-dash-domain-edit-box" class="hidden p-3.5 rounded-xl bg-slate-950 border border-amber-400/50 space-y-2 shadow-2xl">
+            <div id="modal-dash-domain-edit-box" class="hidden p-3.5 rounded-xl bg-white border border-amber-400 space-y-2 shadow-md">
               <div class="flex items-center justify-between text-[11px]">
-                <span class="font-bold text-amber-300">Edit Custom Domain / Subdomain:</span>
-                <span class="text-[10px] text-slate-400">Point CNAME to ddmaiaffiliate.web.app</span>
+                <span class="font-bold text-amber-900">Edit Custom Domain / Subdomain:</span>
+                <span class="text-[10px] text-slate-500">Point CNAME to ddmaiaffiliate.web.app</span>
               </div>
               <div class="flex items-center gap-2">
                 <input type="text" id="modal-dash-domain-input" 
-                  class="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs font-mono text-white focus:outline-none focus:border-amber-400" 
+                  class="flex-1 bg-slate-50 border border-slate-300 rounded-lg px-3 py-1.5 text-xs font-mono text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white" 
                   placeholder="e.g. apexscience.in or myname.ddmaiaffiliate.web.app">
                 <button onclick="saveMemberDomainInline()" 
-                  class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-400 text-slate-950 font-bold text-xs hover:brightness-105 cursor-pointer whitespace-nowrap">
+                  class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-400 text-slate-950 font-bold text-xs hover:brightness-105 cursor-pointer whitespace-nowrap shadow-xs">
                   Save &amp; Bind
                 </button>
                 <button onclick="toggleDomainEdit(false)" 
-                  class="px-2.5 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white text-xs cursor-pointer">
+                  class="px-2.5 py-1.5 rounded-lg bg-slate-200 text-slate-700 hover:text-slate-900 text-xs cursor-pointer">
                   Cancel
                 </button>
               </div>
@@ -3033,52 +3080,52 @@
           <!-- Action Buttons Row -->
           <div class="flex flex-wrap items-center gap-2.5 pt-2">
             <a id="modal-dash-portal-link" href="https://apexscience.in" target="_blank"
-              class="flex-1 py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:brightness-110 text-slate-950 font-extrabold text-xs shadow-lg shadow-amber-500/20 transition-all hover:scale-[1.01] active:scale-[0.99] text-center flex items-center justify-center gap-1.5">
+              class="flex-1 py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:brightness-105 text-slate-950 font-black text-xs shadow-md shadow-amber-500/20 transition-all hover:scale-[1.01] active:scale-[0.99] text-center flex items-center justify-center gap-1.5">
               <span>Visit Live Portal</span>
               <span>&rarr;</span>
             </a>
             <button onclick="openCertificateModal()" 
-              class="py-2.5 px-3.5 rounded-xl bg-slate-800/90 hover:bg-slate-700/90 text-slate-200 border border-slate-700 hover:border-amber-400/40 font-bold text-xs transition-all flex items-center gap-1.5 cursor-pointer shadow-md">
+              class="py-2.5 px-3.5 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-bold text-xs transition-all flex items-center gap-1.5 cursor-pointer shadow-xs">
               <span>🎓</span> Print Certificate
             </button>
           </div>
         </div>
 
         <!-- Right Column: Marketing & WhatsApp Toolkit Card -->
-        <div class="p-5 rounded-2xl bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/10 hover:border-emerald-400/40 transition-all space-y-4 shadow-xl flex flex-col justify-between">
+        <div class="p-5 rounded-2xl bg-slate-50/80 border border-slate-200 hover:border-emerald-400/60 transition-all space-y-4 shadow-xs flex flex-col justify-between">
           <div class="space-y-3.5">
             <div class="flex items-center justify-between">
-              <h4 class="font-extrabold text-white text-sm flex items-center gap-2">
+              <h4 class="font-extrabold text-slate-900 text-sm flex items-center gap-2">
                 <span class="text-base">📢</span>
                 <span>WhatsApp Direct Launch Kit</span>
               </h4>
-              <span class="text-amber-400 font-bold text-[10px] bg-amber-400/10 px-2.5 py-0.5 rounded-full border border-amber-400/30 flex items-center gap-1">
+              <span class="text-amber-900 font-bold text-[10px] bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-200 flex items-center gap-1">
                 <span>⚡ 1-Click Fast Connect</span>
               </span>
             </div>
 
-            <p class="text-slate-300 text-[11px] leading-relaxed">
+            <p class="text-slate-600 text-[11px] leading-relaxed">
               Share your official referral link to onboard affiliates, students, and coaching inquiries:
             </p>
 
             <!-- Referral Link with 1-Click Copy -->
-            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-950/80 border border-white/15 text-xs font-mono text-slate-300 shadow-inner">
-              <span class="truncate text-amber-200 font-bold" id="modal-dash-ref-url">https://ddmai.com/signup/?ref=DDMAI-V5H4QH</span>
-              <button onclick="copyMemberReferralLink(this)" class="px-3 py-1 rounded-lg bg-gradient-to-r from-amber-500 to-amber-400 text-slate-950 font-extrabold text-[11px] ml-2 shrink-0 transition-all hover:brightness-105 active:scale-95 cursor-pointer shadow-sm">
+            <div class="flex items-center justify-between p-3 rounded-xl bg-white border border-slate-300 text-xs font-mono text-slate-900 shadow-xs">
+              <span class="truncate text-slate-900 font-bold" id="modal-dash-ref-url">https://ddmai.com/signup/?ref=DDMAI-V5H4QH</span>
+              <button onclick="copyMemberReferralLink(this)" class="px-3 py-1 rounded-lg bg-gradient-to-r from-amber-500 to-amber-400 text-slate-950 font-extrabold text-[11px] ml-2 shrink-0 transition-all hover:brightness-105 active:scale-95 cursor-pointer shadow-xs">
                 Copy
               </button>
             </div>
 
             <!-- Dynamic QR Code Drawer (Expandable) -->
-            <div id="modal-dash-qr-container" class="hidden p-3.5 rounded-xl bg-slate-950 border border-emerald-500/40 text-center space-y-2">
-              <div class="flex items-center justify-between text-[11px] pb-1 border-b border-slate-800">
-                <span class="font-bold text-emerald-300">Scan QR Code with Phone:</span>
-                <button onclick="toggleReferralQr(false)" class="text-slate-400 hover:text-white">&times;</button>
+            <div id="modal-dash-qr-container" class="hidden p-3.5 rounded-xl bg-white border border-emerald-300 text-center space-y-2 shadow-sm">
+              <div class="flex items-center justify-between text-[11px] pb-1 border-b border-slate-100">
+                <span class="font-bold text-emerald-800">Scan QR Code with Phone:</span>
+                <button onclick="toggleReferralQr(false)" class="text-slate-400 hover:text-slate-700 font-bold text-sm">&times;</button>
               </div>
               <div class="flex items-center justify-center py-1">
-                <img id="modal-dash-qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=https%3A%2F%2Fddmai.com%2Fsignup%2F%3Fref%3DDDMAI-V5H4QH" alt="Referral QR Code" class="w-32 h-32 rounded-xl border border-white/20 p-1.5 bg-white shadow-xl">
+                <img id="modal-dash-qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=https%3A%2F%2Fddmai.com%2Fsignup%2F%3Fref%3DDDMAI-V5H4QH" alt="Referral QR Code" class="w-32 h-32 rounded-xl border border-slate-200 p-1.5 bg-white shadow-sm">
               </div>
-              <p class="text-[10px] text-slate-400">Display this QR code to prospects for instant affiliate enrollment</p>
+              <p class="text-[10px] text-slate-500">Display this QR code to prospects for instant affiliate enrollment</p>
             </div>
           </div>
 
@@ -3086,18 +3133,18 @@
           <div class="space-y-2 pt-2">
             <div class="grid grid-cols-2 gap-2">
               <button onclick="shareReferralOnWhatsApp()" 
-                class="py-2.5 px-3 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 font-bold text-xs flex items-center justify-center gap-1.5 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer">
+                class="py-2.5 px-3 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold text-xs flex items-center justify-center gap-1.5 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer shadow-xs">
                 <span>📲 Share on WhatsApp</span>
               </button>
               <button onclick="toggleReferralQr()" 
-                class="py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer">
+                class="py-2.5 px-3 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-bold text-xs flex items-center justify-center gap-1.5 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer shadow-xs">
                 <span>📱 View QR Code</span>
               </button>
             </div>
 
             <!-- Direct Mentor WhatsApp Button -->
             <a id="modal-dash-wa-btn" href="https://wa.me/919638055552?text=Namaste%20Veteran%20PankajBhai,%20I%20am%20logged%20into%20my%20DDMAI%20dashboard" target="_blank"
-              class="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20 transition-all hover:scale-[1.01] active:scale-[0.99]">
+              class="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold text-xs flex items-center justify-center gap-2 shadow-md shadow-emerald-600/20 transition-all hover:scale-[1.01] active:scale-[0.99]">
               <span>💬</span> Direct WhatsApp Mentor Walkthrough
             </a>
           </div>
@@ -3105,18 +3152,22 @@
 
       </div>
 
-      <!-- Footer Bar -->
-      <div class="relative z-10 mt-6 pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
+      <!-- Footer Bar (Light Theme) -->
+      <div class="relative z-10 mt-6 pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
         <a href="user-dashboard.html" target="_blank" 
-          class="font-bold text-amber-300 hover:text-amber-200 flex items-center gap-1.5 transition-colors group">
+          class="font-extrabold text-amber-800 hover:text-amber-900 flex items-center gap-1.5 transition-colors group">
           <span>🚀 Open Fullscreen Executive Dashboard</span>
           <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>
         </a>
-        <div class="flex items-center gap-4">
-          <button onclick="openUserDashboardModal(); showDashToast('Live data refreshed!', '↻');" class="text-slate-400 hover:text-slate-200 transition-colors flex items-center gap-1 cursor-pointer">
+        <div class="flex items-center gap-3">
+          <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+            <span>24h Login Active</span>
+          </span>
+          <button onclick="openUserDashboardModal(); showDashToast('Live data refreshed!', '↻');" class="text-slate-500 hover:text-slate-800 transition-colors flex items-center gap-1 cursor-pointer">
             <span>↻</span> Refresh Live Data
           </button>
-          <button onclick="handleUserLogout()" class="text-rose-400 hover:text-rose-300 font-semibold transition-colors cursor-pointer flex items-center gap-1">
+          <button onclick="handleUserLogout()" class="text-rose-600 hover:text-rose-700 font-bold transition-colors cursor-pointer flex items-center gap-1">
             <span>🚪</span> Log Out
           </button>
         </div>

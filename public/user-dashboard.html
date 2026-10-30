@@ -162,6 +162,7 @@
               </span>
               <span id="dash-google-badge" class="hidden px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-400/40 flex items-center gap-1"><span>G</span> Google Verified</span>
               <span class="text-xs text-slate-400 font-mono">ID: <strong id="user-display-id" class="text-slate-200">DDMAI-MEM-8421</strong></span>
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1 shadow-sm"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span><span>24h Session Active</span></span>
             </div>
             <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
               Namaste, <span id="user-display-name" class="gold-gradient-text">Apex Science Academy</span>!
@@ -547,12 +548,24 @@
       const stored = localStorage.getItem('ddmai_user_auth');
       if (stored) {
         try {
-          currentUser = { ...DEFAULT_USER, ...JSON.parse(stored) };
+          const parsed = JSON.parse(stored);
+          const now = Date.now();
+          if (parsed.loginTimestamp && (now - parsed.loginTimestamp > 24 * 60 * 60 * 1000)) {
+            // Expired after 24 hrs
+            localStorage.removeItem('ddmai_user_auth');
+            currentUser = { ...DEFAULT_USER, loginTimestamp: now, expiresAt: now + (24 * 60 * 60 * 1000) };
+            localStorage.setItem('ddmai_user_auth', JSON.stringify(currentUser));
+          } else {
+            currentUser = { ...DEFAULT_USER, ...parsed };
+          }
         } catch (e) {
           currentUser = DEFAULT_USER;
         }
       } else {
-        localStorage.setItem('ddmai_user_auth', JSON.stringify(DEFAULT_USER));
+        const now = Date.now();
+        const initData = { ...DEFAULT_USER, loginTimestamp: now, expiresAt: now + (24 * 60 * 60 * 1000) };
+        localStorage.setItem('ddmai_user_auth', JSON.stringify(initData));
+        currentUser = initData;
       }
 
       // Check first-time welcome popup
