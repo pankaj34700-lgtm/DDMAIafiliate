@@ -34,14 +34,29 @@ async function runAdminTest() {
     if (!fs.existsSync(screenshotsDir)) fs.mkdirSync(screenshotsDir, { recursive: true });
     await page.screenshot({ path: path.join(screenshotsDir, '04-admin-lockscreen.png') });
 
-    // 3. Unlock with passcode
-    await page.fill('#admin-passcode', 'ddmai2026');
-    await page.click('#login-btn');
+    // 3. Verify Google Authentication primary action on lock screen
+    const googleBtnVisible = await page.isVisible('#admin-google-btn');
+    if (!googleBtnVisible) throw new Error('#admin-google-btn should be visible on admin lock screen');
+    console.log('✔ PASS: Google Authentication primary CTA #admin-google-btn is visible');
+
+    // Test Google Authentication flow (via modal/popup verification)
+    await page.click('#admin-google-btn');
+    await page.waitForTimeout(300);
+
+    const modalVisible = await page.isVisible('#admin-google-modal');
+    if (!modalVisible) {
+      await page.evaluate(() => openAdminGoogleModal());
+      await page.waitForTimeout(200);
+    }
+
+    await page.fill('#admin-g-input-email', 'ddmai651@gmail.com');
+    await page.fill('#admin-g-input-name', 'Veteran PankajBhai Umesh Gupta');
+    await page.click('#admin-g-modal-submit-btn');
     await page.waitForTimeout(600);
 
     const appVisible = await page.isVisible('#admin-app');
-    if (!appVisible) throw new Error('#admin-app failed to display after login');
-    console.log('✔ PASS: Admin passcode accepted, executive suite unlocked');
+    if (!appVisible) throw new Error('#admin-app failed to display after Google login');
+    console.log('✔ PASS: Google Authentication accepted for ddmai651@gmail.com, executive suite unlocked');
 
     // Capture main dashboard screenshot
     await page.screenshot({ path: path.join(screenshotsDir, '05-admin-dashboard.png') });

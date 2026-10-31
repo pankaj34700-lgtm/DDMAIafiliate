@@ -219,6 +219,19 @@ assert(rootSignupHtml.includes('id="google-signup-btn"'), 'signup.html is synchr
 assert(pubSignupIndexHtml.includes('id="google-signup-btn"'), 'public/signup/index.html is synchronized with Google authentication CTA');
 assert(pubSignupHtml.includes('id="google-signup-btn"'), 'public/signup.html is synchronized with Google authentication CTA');
 
+// Admin Executive Google Authentication
+const pubAdminPath = path.join(rootDir, 'public', 'admin.html');
+assert(fs.existsSync(pubAdminPath), 'public/admin.html exists');
+const pubAdminContent = fs.readFileSync(pubAdminPath, 'utf8');
+
+assert(adminContent.includes('id="admin-google-btn"'), 'admin.html includes id="admin-google-btn" primary Google Auth CTA');
+assert(adminContent.includes('loginAdminWithGoogle'), 'admin.html implements loginAdminWithGoogle() function');
+assert(adminContent.includes('verifyAndAuthorizeGoogleAdmin'), 'admin.html implements verifyAndAuthorizeGoogleAdmin()');
+assert(adminContent.includes('id="admin-google-modal"'), 'admin.html includes fallback modal id="admin-google-modal"');
+assert(adminContent.includes('id="header-google-admin-badge"'), 'admin.html includes Google Verified badge in executive bar');
+assert(adminContent.includes('ddmai651@gmail.com'), 'admin.html configures authorized founder email ddmai651@gmail.com');
+assert(pubAdminContent.includes('id="admin-google-btn"'), 'public/admin.html is synchronized with Google Authentication');
+
 // SUMMARY REPORT
 console.log('\n======================================================');
 console.log(`  SUMMARY: Total Tests: ${totalTests} | Passed: ${passedTests} | Failed: ${failedTests}`);

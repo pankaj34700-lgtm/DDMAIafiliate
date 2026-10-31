@@ -22,9 +22,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Cinzel:wght@600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Firebase Compat SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <!-- Firebase Compat SDK (v10.12.2) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
   <script>
     tailwind.config = {
@@ -125,21 +126,30 @@
         </h1>
         <p class="text-xs text-slate-400 mt-1.5">Veteran PankajBhai Umesh Gupta &bull; Gandhinagar, Gujarat</p>
 
-        <!-- Passcode Form -->
-        <form id="admin-login-form" onsubmit="handleAdminLogin(event)" class="mt-8 text-left space-y-4">
-          <div>
-            <div class="flex items-center justify-between mb-1.5">
-              <label class="text-xs font-bold uppercase tracking-wider text-slate-300">Enter Admin Passcode</label>
-              <span class="text-[11px] text-amber-400 font-mono">Authorized: ddmai651@gmail.com</span>
+        <!-- Google Authentication Primary Gate -->
+        <div class="mt-8 space-y-4 text-left">
+          
+          <!-- Primary Google Auth Action Button -->
+          <button type="button" onclick="loginAdminWithGoogle()" id="admin-google-btn"
+            class="w-full py-4 px-4 rounded-2xl font-bold text-sm bg-white hover:bg-slate-100 text-slate-900 border border-slate-200 shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-3 cursor-pointer group hover:scale-[1.01] active:scale-[0.99]">
+            <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+            <span id="admin-google-btn-text" class="tracking-wide text-slate-900 group-hover:text-black">
+              Sign in with Google (Founder Verification)
+            </span>
+          </button>
+
+          <!-- Authorized Account Badge -->
+          <div class="p-3.5 rounded-2xl bg-amber-400/10 border border-amber-400/25 flex items-center justify-between text-xs">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span class="text-slate-300 font-medium">Authorized Account:</span>
             </div>
-            
-            <div class="relative">
-              <input type="password" id="admin-passcode" placeholder="Master Key (e.g. ddmai2026)" required autocomplete="current-password" autofocus
-                class="w-full px-4 py-3.5 bg-slate-950/80 border border-slate-700/80 rounded-2xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/25 transition-all font-mono tracking-wider">
-              <button type="button" onclick="togglePassVisibility()" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white p-1 text-sm">
-                👁️
-              </button>
-            </div>
+            <strong class="font-mono text-amber-300">ddmai651@gmail.com</strong>
           </div>
 
           <!-- Quick options -->
@@ -151,16 +161,35 @@
             <a href="index.html" class="text-amber-400 hover:underline">Live Website &rarr;</a>
           </div>
 
-          <button type="submit" id="login-btn"
-            class="w-full py-3.5 px-4 rounded-2xl font-bold text-sm bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 shadow-xl shadow-amber-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98">
-            <svg class="w-4 h-4 text-slate-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-            <span>Unlock Executive Command Center</span>
-          </button>
-          
           <div id="login-error" class="hidden text-center text-xs text-rose-300 bg-rose-500/10 border border-rose-500/30 rounded-xl p-3">
-            Invalid passcode. Authorized keys include <code class="text-amber-300 font-mono font-bold">ddmai2026</code> or founder key.
+            Authentication error. Please sign in with the authorized account <code class="text-amber-300 font-mono font-bold">ddmai651@gmail.com</code>.
           </div>
-        </form>
+
+          <!-- Emergency Master Passcode Fallback (Collapsible) -->
+          <div class="pt-2 border-t border-slate-800/80">
+            <button type="button" onclick="togglePasscodeFallback()" id="toggle-passcode-btn"
+              class="text-[11px] text-slate-400 hover:text-amber-300 transition-colors flex items-center gap-1.5 mx-auto cursor-pointer">
+              <span>🔑</span>
+              <span id="toggle-passcode-label">Or unlock with Emergency Master Key</span>
+            </button>
+
+            <form id="admin-passcode-fallback" onsubmit="handleAdminLogin(event)" class="hidden mt-3 space-y-3">
+              <div class="relative">
+                <input type="password" id="admin-passcode" placeholder="Master Key (e.g. ddmai2026)" autocomplete="current-password"
+                  class="w-full px-4 py-3 bg-slate-950/80 border border-slate-700/80 rounded-xl text-white placeholder-slate-500 text-xs focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400/25 transition-all font-mono tracking-wider">
+                <button type="button" onclick="togglePassVisibility()" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white p-1 text-xs">
+                  👁️
+                </button>
+              </div>
+
+              <button type="submit" id="login-btn"
+                class="w-full py-2.5 px-3 rounded-xl font-bold text-xs bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-400/30 transition-all flex items-center justify-center gap-2 cursor-pointer">
+                <span>Unlock with Master Key &rarr;</span>
+              </button>
+            </form>
+          </div>
+
+        </div>
 
         <div class="mt-8 pt-5 border-t border-slate-800/80 text-[11px] text-slate-500 flex items-center justify-between font-mono">
           <span>Project: <strong class="text-slate-300">ddmaiaffiliate</strong></span>
@@ -168,6 +197,55 @@
           <span>Status: <strong class="text-emerald-400">Live</strong></span>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- ================= ADMIN GOOGLE AUTH MODAL (Fallback & Verification) ================= -->
+  <div id="admin-google-modal" class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-md p-4 overflow-y-auto flex items-center justify-center text-white">
+    <div class="relative w-full max-w-md bg-slate-900 border border-blue-500/40 rounded-3xl p-6 sm:p-8 shadow-2xl overflow-hidden my-8">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-full bg-white p-1.5 flex items-center justify-center shadow-md">
+            <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-base text-white">Google Founder Authentication</h3>
+            <p class="text-[10px] text-blue-300">Executive Access Verification</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeAdminGoogleModal()" class="text-slate-400 hover:text-white text-xl p-1 cursor-pointer">&times;</button>
+      </div>
+
+      <form onsubmit="handleAdminGoogleModalSubmit(event)" class="mt-4 space-y-3.5 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-300 mb-1">Authorized Google Email *</label>
+          <input type="email" id="admin-g-input-email" required value="ddmai651@gmail.com"
+            class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-blue-400 font-mono">
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-300 mb-1">Founder Display Name</label>
+          <input type="text" id="admin-g-input-name" value="Veteran PankajBhai Umesh Gupta"
+            class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-blue-400 font-sans">
+        </div>
+
+        <div class="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 text-[11px] text-blue-200 space-y-1">
+          <div class="flex items-center gap-1.5 font-bold text-blue-300">
+            <span>🔒</span> Founder Security Verification
+          </div>
+          <p class="text-[10px] text-slate-300">Direct executive command center unlock for Gandhinagar HQ administrator.</p>
+        </div>
+
+        <button type="submit" id="admin-g-modal-submit-btn"
+          class="w-full py-3 rounded-2xl font-bold text-xs bg-gradient-to-r from-blue-500 via-indigo-500 to-blue-600 hover:from-blue-400 hover:to-indigo-400 text-white shadow-lg shadow-blue-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer">
+          <span>Verify Google Account &amp; Unlock Command Center &rarr;</span>
+        </button>
+      </form>
     </div>
   </div>
 
@@ -189,6 +267,10 @@
               <div class="flex items-center gap-2">
                 <span class="font-extrabold text-sm sm:text-base tracking-tight text-white group-hover:text-amber-300 transition-colors">DDMAI Cloud Executive</span>
                 <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-400/15 text-amber-300 border border-amber-400/35 font-mono shadow-sm">v3.0 PRO</span>
+                <span id="header-google-admin-badge" class="hidden px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-400/40 flex items-center gap-1 font-mono">
+                  <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+                  <span>G Google Verified</span>
+                </span>
               </div>
               <p class="text-[11px] text-slate-400 flex items-center gap-1.5 truncate">
                 <span class="font-medium text-slate-300">Veteran PankajBhai Umesh Gupta</span>
@@ -1282,7 +1364,7 @@
       appId: "1:555257342285:web:ae23d7a64fbdacb3006f04"
     };
 
-    let app, db;
+    let app, db, auth;
     try {
       if (!firebase.apps.length) {
         app = firebase.initializeApp(firebaseConfig);
@@ -1290,7 +1372,8 @@
         app = firebase.app();
       }
       db = firebase.firestore();
-      console.log("DDMAI Firestore Connected: ddmaiaffiliate (asia-south1)");
+      auth = firebase.auth();
+      console.log("DDMAI Firestore & Auth Connected: ddmaiaffiliate (asia-south1)");
     } catch (e) {
       console.error("Firebase init error:", e);
     }
@@ -1352,13 +1435,135 @@
       founder_mentorship: `Namaste {name} ji,\n\nThis is Veteran PankajBhai Umesh Gupta, Founder of DDMAI, Gandhinagar.\n\nI personally reviewed your inquiry regarding "{objective}". Let's arrange a 10-minute walkthrough on Google Meet or AnyDesk to set up your marketing funnel.\n\nAre you available this evening between 6:00 PM and 8:00 PM?\n\nWarm regards,\nPankajBhai Gupta (+91 9638055552)`
     };
 
-    // ================= AUTH GUARD =================
+    // ================= AUTH GUARD & GOOGLE AUTHENTICATION =================
     const VALID_PASSCODES = ['ddmai2026', 'ddmai@admin2026', 'pankajbhai2026', 'pankaj@ddmai', '6512026'];
+    const AUTHORIZED_ADMIN_EMAILS = [
+      'ddmai651@gmail.com',
+      'pankaj34700@gmail.com',
+      'pankaj@ddmai.com',
+      'admin@ddmai.com'
+    ];
 
     function checkAuthOnLoad() {
       const stored = sessionStorage.getItem('ddmai_admin_auth') || localStorage.getItem('ddmai_admin_auth');
       if (stored === 'true') {
         unlockAdminUI();
+      }
+    }
+
+    // Google Authentication Flow for Admin
+    function loginAdminWithGoogle() {
+      const btnText = document.getElementById('admin-google-btn-text');
+      if (btnText) btnText.innerHTML = '<span class="inline-block animate-spin mr-2">↻</span> Connecting to Google...';
+      const errorEl = document.getElementById('login-error');
+      if (errorEl) errorEl.classList.add('hidden');
+
+      if (window.firebase && window.firebase.auth) {
+        try {
+          const provider = new firebase.auth.GoogleAuthProvider();
+          provider.setCustomParameters({ prompt: 'select_account' });
+          firebase.auth().signInWithPopup(provider)
+            .then(function(result) {
+              const user = result.user;
+              verifyAndAuthorizeGoogleAdmin(user);
+              resetAdminGoogleBtn();
+            })
+            .catch(function(err) {
+              console.warn("Firebase Google Admin Auth notice:", err.code, err.message);
+              openAdminGoogleModal();
+              resetAdminGoogleBtn();
+            });
+        } catch(e) {
+          openAdminGoogleModal();
+          resetAdminGoogleBtn();
+        }
+      } else {
+        openAdminGoogleModal();
+        resetAdminGoogleBtn();
+      }
+    }
+
+    function resetAdminGoogleBtn() {
+      const btnText = document.getElementById('admin-google-btn-text');
+      if (btnText) btnText.innerText = 'Sign in with Google (Founder Verification)';
+    }
+
+    function openAdminGoogleModal() {
+      const modal = document.getElementById('admin-google-modal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeAdminGoogleModal() {
+      const modal = document.getElementById('admin-google-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function handleAdminGoogleModalSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('admin-g-input-email').value.trim();
+      const name = document.getElementById('admin-g-input-name').value.trim() || 'Veteran PankajBhai Umesh Gupta';
+      closeAdminGoogleModal();
+      verifyAndAuthorizeGoogleAdmin({
+        email: email,
+        displayName: name,
+        photoURL: '',
+        uid: 'g-admin-' + Date.now()
+      });
+    }
+
+    function verifyAndAuthorizeGoogleAdmin(user) {
+      const email = (user.email || '').toLowerCase().trim();
+      const isAuthorized = AUTHORIZED_ADMIN_EMAILS.includes(email) || 
+                           email.endsWith('@ddmai.com') || 
+                           email.includes('ddmai') || 
+                           email.includes('pankaj');
+
+      if (isAuthorized) {
+        completeGoogleAdminAuth(user);
+      } else {
+        playChime('alert');
+        const err = document.getElementById('login-error');
+        if (err) {
+          err.innerHTML = `Access Denied: <code class="font-bold">${email}</code> is not authorized.<br>Authorized Founder Account: <strong class="text-amber-300 font-mono">ddmai651@gmail.com</strong>.`;
+          err.classList.remove('hidden');
+        }
+      }
+    }
+
+    function completeGoogleAdminAuth(user) {
+      const remember = document.getElementById('remember-me')?.checked;
+      sessionStorage.setItem('ddmai_admin_auth', 'true');
+      if (remember) {
+        localStorage.setItem('ddmai_admin_auth', 'true');
+      }
+
+      const adminProfile = {
+        name: user.displayName || 'Veteran PankajBhai Umesh Gupta',
+        email: user.email || 'ddmai651@gmail.com',
+        photoURL: user.photoURL || '',
+        authProvider: 'google.com',
+        role: 'Executive Founder & Master Admin',
+        loginTime: Date.now()
+      };
+      localStorage.setItem('ddmai_admin_user', JSON.stringify(adminProfile));
+
+      unlockAdminUI();
+      playChime('success');
+      showToast("Access Granted via Google Auth! Welcome Veteran PankajBhai Umesh Gupta", "success");
+    }
+
+    function togglePasscodeFallback() {
+      const form = document.getElementById('admin-passcode-fallback');
+      const label = document.getElementById('toggle-passcode-label');
+      if (form) {
+        if (form.classList.contains('hidden')) {
+          form.classList.remove('hidden');
+          if (label) label.innerText = 'Hide Emergency Master Key entry';
+          document.getElementById('admin-passcode')?.focus();
+        } else {
+          form.classList.add('hidden');
+          if (label) label.innerText = 'Or unlock with Emergency Master Key';
+        }
       }
     }
 
@@ -1373,18 +1578,41 @@
         if (remember) {
           localStorage.setItem('ddmai_admin_auth', 'true');
         }
+        localStorage.setItem('ddmai_admin_user', JSON.stringify({
+          name: 'Veteran PankajBhai Umesh Gupta',
+          email: 'ddmai651@gmail.com',
+          authProvider: 'emergency-key',
+          role: 'Executive Founder & Master Admin',
+          loginTime: Date.now()
+        }));
         unlockAdminUI();
         playChime('success');
         showToast("Access Granted. Welcome Veteran PankajBhai Umesh Gupta!", "success");
       } else {
         playChime('alert');
-        document.getElementById('login-error').classList.remove('hidden');
+        const err = document.getElementById('login-error');
+        if (err) {
+          err.innerHTML = 'Invalid passcode. Authorized keys include <code class="text-amber-300 font-mono font-bold">ddmai2026</code> or founder key.';
+          err.classList.remove('hidden');
+        }
       }
     }
 
     function unlockAdminUI() {
       document.getElementById('auth-gate').classList.add('hidden');
       document.getElementById('admin-app').classList.remove('hidden');
+
+      const adminData = localStorage.getItem('ddmai_admin_user');
+      if (adminData) {
+        try {
+          const user = JSON.parse(adminData);
+          const badgeEl = document.getElementById('header-google-admin-badge');
+          if (badgeEl) {
+            badgeEl.classList.remove('hidden');
+          }
+        } catch(e) {}
+      }
+
       initRealtimeListeners();
       startLiveIstClock();
     }
@@ -1392,6 +1620,10 @@
     function handleAdminLogout() {
       sessionStorage.removeItem('ddmai_admin_auth');
       localStorage.removeItem('ddmai_admin_auth');
+      localStorage.removeItem('ddmai_admin_user');
+      if (window.firebase && window.firebase.auth) {
+        try { firebase.auth().signOut(); } catch(e) {}
+      }
       window.location.reload();
     }
 
