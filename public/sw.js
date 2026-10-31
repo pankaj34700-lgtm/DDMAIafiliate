@@ -10,6 +10,8 @@ const STATIC_ASSETS = [
   '/index.html',
   '/admin.html',
   '/user-dashboard.html',
+  '/signup/index.html',
+  '/signup.html',
   '/manifest.json',
   '/assets/ddmai-logo.jpg',
   '/assets/founder-pankajbhai.jpg',

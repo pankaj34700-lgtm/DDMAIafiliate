@@ -23,12 +23,20 @@
         "destination": "/user-dashboard.html"
       },
       {
-        "source": "/signup**",
-        "destination": "/index.html"
+        "source": "/signup",
+        "destination": "/signup/index.html"
       },
       {
-        "source": "/register**",
-        "destination": "/index.html"
+        "source": "/signup/**",
+        "destination": "/signup/index.html"
+      },
+      {
+        "source": "/register",
+        "destination": "/signup/index.html"
+      },
+      {
+        "source": "/register/**",
+        "destination": "/signup/index.html"
       }
     ],
     "headers": [

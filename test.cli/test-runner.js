@@ -11,6 +11,9 @@ const rootDir = path.resolve(__dirname, '..');
 const indexPath = path.join(rootDir, 'index.html');
 const adminPath = path.join(rootDir, 'admin.html');
 const userDashPath = path.join(rootDir, 'user-dashboard.html');
+const signupIndexPath = path.join(rootDir, 'signup', 'index.html');
+const signupHtmlPath = path.join(rootDir, 'signup.html');
+const publicSignupIndexPath = path.join(rootDir, 'public', 'signup', 'index.html');
 const blueprintPath = path.join(rootDir, 'BLUEPRINT_NOTE.md');
 const logoPath = path.join(rootDir, 'assets', 'ddmai-logo.jpg');
 const founderPath = path.join(rootDir, 'assets', 'founder-pankajbhai.jpg');
@@ -44,6 +47,9 @@ console.log('\x1b[36m[Group 1] File & Asset Integrity Checks\x1b[0m');
 assert(fs.existsSync(indexPath), 'index.html exists at workspace root');
 assert(fs.existsSync(adminPath), 'admin.html exists at workspace root');
 assert(fs.existsSync(userDashPath), 'user-dashboard.html exists at workspace root');
+assert(fs.existsSync(signupIndexPath), 'signup/index.html exists as dedicated signup page');
+assert(fs.existsSync(signupHtmlPath), 'signup.html exists at workspace root');
+assert(fs.existsSync(publicSignupIndexPath), 'public/signup/index.html is synchronized');
 assert(fs.existsSync(blueprintPath), 'BLUEPRINT_NOTE.md exists at workspace root');
 assert(fs.existsSync(logoPath), 'DDMAI official logo exists in assets/');
 assert(fs.existsSync(founderPath), 'Founder portrait exists in assets/');
@@ -51,11 +57,13 @@ assert(fs.existsSync(founderPath), 'Founder portrait exists in assets/');
 const indexContent = fs.existsSync(indexPath) ? fs.readFileSync(indexPath, 'utf8') : '';
 const adminContent = fs.existsSync(adminPath) ? fs.readFileSync(adminPath, 'utf8') : '';
 const userDashContent = fs.existsSync(userDashPath) ? fs.readFileSync(userDashPath, 'utf8') : '';
+const signupContent = fs.existsSync(signupIndexPath) ? fs.readFileSync(signupIndexPath, 'utf8') : '';
 const blueprintContent = fs.existsSync(blueprintPath) ? fs.readFileSync(blueprintPath, 'utf8') : '';
 
 assert(indexContent.length > 50000, `index.html is complete (>50KB, actual: ${(indexContent.length / 1024).toFixed(1)}KB)`);
 assert(adminContent.length > 30000, `admin.html is complete (>30KB, actual: ${(adminContent.length / 1024).toFixed(1)}KB)`);
 assert(userDashContent.length > 20000, `user-dashboard.html is complete (>20KB, actual: ${(userDashContent.length / 1024).toFixed(1)}KB)`);
+assert(signupContent.length > 10000, `signup/index.html is complete (>10KB, actual: ${(signupContent.length / 1024).toFixed(1)}KB)`);
 assert(blueprintContent.length > 4000, `BLUEPRINT_NOTE.md is complete (>4KB, actual: ${(blueprintContent.length / 1024).toFixed(1)}KB)`);
 
 // 2. STRICT LEGACY KEYWORD REMOVAL (Zero Tolerance)
@@ -63,14 +71,17 @@ console.log('\n\x1b[36m[Group 2] Zero-Tolerance Legacy Keyword Check\x1b[0m');
 assert(!/tutorkhoji/i.test(indexContent), 'Zero occurrences of "tutorkhoji" in index.html');
 assert(!/tutorkhoji/i.test(adminContent), 'Zero occurrences of "tutorkhoji" in admin.html');
 assert(!/tutorkhoji/i.test(userDashContent), 'Zero occurrences of "tutorkhoji" in user-dashboard.html');
+assert(!/tutorkhoji/i.test(signupContent), 'Zero occurrences of "tutorkhoji" in signup/index.html');
 assert(!/tutorkhoji/i.test(blueprintContent), 'Zero occurrences of "tutorkhoji" in BLUEPRINT_NOTE.md');
 
 assert(!/\bILH\b/i.test(indexContent), 'Zero occurrences of "ILH" in index.html');
 assert(!/\bILH\b/i.test(adminContent), 'Zero occurrences of "ILH" in admin.html');
 assert(!/\bILH\b/i.test(userDashContent), 'Zero occurrences of "ILH" in user-dashboard.html');
+assert(!/\bILH\b/i.test(signupContent), 'Zero occurrences of "ILH" in signup/index.html');
 assert(!/\bILH\b/i.test(blueprintContent), 'Zero occurrences of "ILH" in BLUEPRINT_NOTE.md');
 
 assert(!/TK-V5H4QH/i.test(indexContent), 'Zero occurrences of legacy code "TK-V5H4QH" in index.html');
+assert(!/TK-V5H4QH/i.test(signupContent), 'Zero occurrences of legacy code "TK-V5H4QH" in signup/index.html');
 assert(!/TK-V5H4QH/i.test(blueprintContent), 'Zero occurrences of legacy code "TK-V5H4QH" in BLUEPRINT_NOTE.md');
 
 // 3. BRAND IDENTITY & FOUNDER VERIFICATION
@@ -115,6 +126,7 @@ assert(fs.existsSync(path.join(playwrightCliDir, 'member-and-cert-test.js')), 'p
 assert(fs.existsSync(path.join(playwrightCliDir, 'mobile-runner.js')), 'playwright.cli contains "mobile-runner.js" (Pixel 7 Android audit)');
 assert(fs.existsSync(path.join(playwrightCliDir, 'pwa-test.js')), 'playwright.cli contains "pwa-test.js" (PWA automation suite)');
 assert(fs.existsSync(path.join(playwrightCliDir, 'partner-registration-test.js')), 'playwright.cli contains "partner-registration-test.js" (Partner registration suite)');
+assert(fs.existsSync(path.join(playwrightCliDir, 'signup-page-test.js')), 'playwright.cli contains "signup-page-test.js" (Dedicated signup page suite)');
 assert(fs.existsSync(path.join(playwrightCliDir, 'run-all-playwright.js')), 'playwright.cli contains "run-all-playwright.js" master orchestrator');
 assert(fs.existsSync(path.join(playwrightCliDir, 'run-playwright.bat')), 'playwright.cli contains 1-click launcher "run-playwright.bat"');
 
@@ -171,6 +183,20 @@ assert(indexContent.includes('handlePartnerRegisterSubmit'), 'index.html impleme
 assert(indexContent.includes('openPartnerRegisterModal(\'business-partner\')') || indexContent.includes('openPartnerRegisterModal("business-partner")'), 'Business Partner button triggers openPartnerRegisterModal');
 assert(indexContent.includes('openPartnerRegisterModal(\'affiliate\')') || indexContent.includes('openPartnerRegisterModal("affiliate")'), 'Affiliate button triggers openPartnerRegisterModal');
 assert(indexContent.includes('id="partner-reg-success"'), 'Partner registration modal contains success view');
+
+// Verify dedicated signup/index.html page
+assert(signupContent.includes('DDMAI-V5H4QH'), 'signup/index.html configures referral code DDMAI-V5H4QH');
+assert(signupContent.includes('Veteran PankajBhai Umesh Gupta'), 'signup/index.html credits Founder Veteran PankajBhai Umesh Gupta');
+assert(signupContent.includes('Digital Business Partner'), 'signup/index.html includes Plan 02 Digital Business Partner');
+assert(signupContent.includes('Digital Affiliate'), 'signup/index.html includes Plan 01 Digital Affiliate');
+assert(signupContent.includes('+91 9638055552'), 'signup/index.html links to WhatsApp +91 9638055552');
+assert(signupContent.includes('id="signup-form"'), 'signup/index.html contains registration form');
+assert(signupContent.includes('id="signup-success"'), 'signup/index.html contains success screen');
+
+// Verify firebase.json rewrites for /signup
+const firebaseJson = JSON.parse(fs.readFileSync(path.join(rootDir, 'firebase.json'), 'utf8'));
+assert(firebaseJson.hosting.rewrites.some(r => r.source === '/signup' && r.destination === '/signup/index.html'), 'firebase.json rewrites /signup to /signup/index.html');
+assert(firebaseJson.hosting.rewrites.some(r => r.source === '/signup/**' && r.destination === '/signup/index.html'), 'firebase.json rewrites /signup/** to /signup/index.html');
 
 // SUMMARY REPORT
 console.log('\n======================================================');
