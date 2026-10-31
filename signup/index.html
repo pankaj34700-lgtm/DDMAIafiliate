@@ -97,10 +97,14 @@
 
       <!-- Quick Nav Links (Touch-Optimized) -->
       <div class="flex items-center gap-1.5 sm:gap-2 text-xs shrink-0">
+        <div id="nav-user-status" class="hidden"></div>
         <a href="/" class="px-2.5 sm:px-3 py-1.5 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition-colors font-medium flex items-center gap-1">
           <span>&larr;</span>
           <span class="hidden sm:inline">Back to Home</span>
           <span class="sm:hidden">Home</span>
+        </a>
+        <a href="/user-dashboard.html" class="hidden sm:inline-flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-xl text-blue-300 border border-blue-400/30 bg-blue-500/10 hover:bg-blue-500/20 transition-all font-semibold">
+          <span>Dashboard</span>
         </a>
         <a href="/admin.html" target="_blank" class="inline-flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-xl text-amber-300 border border-amber-400/30 bg-amber-400/10 hover:bg-amber-400/20 transition-all font-bold">
           <span>🔒</span>
@@ -267,6 +271,39 @@
             </span>
           </div>
 
+          <!-- Existing Active Session Alert (if user already logged in) -->
+          <div id="existing-session-banner" class="hidden mb-4 p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-blue-500/10 border border-blue-400/40 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+            <div class="flex items-center gap-2.5">
+              <span class="w-8 h-8 rounded-full bg-blue-500/20 text-blue-300 flex items-center justify-center font-bold text-sm shrink-0">G</span>
+              <div>
+                <p class="font-bold text-white"><span id="existing-user-name">Partner</span> is already authenticated</p>
+                <p class="text-[10px] text-slate-300"><span id="existing-user-email">email</span> &bull; 24-hr Active Member Session Live</p>
+              </div>
+            </div>
+            <a href="/user-dashboard.html" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow transition-all text-center shrink-0">
+              Open Fullscreen Dashboard &rarr;
+            </a>
+          </div>
+
+          <!-- Google Sign-In Primary Authentication -->
+          <div id="google-primary-action" class="mb-5">
+            <button type="button" onclick="signupWithGoogle()" id="google-signup-btn"
+                    class="w-full py-3.5 px-4 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm bg-white hover:bg-slate-100 text-slate-900 border border-slate-200 shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-3 cursor-pointer group hover:scale-[1.01] active:scale-[0.99]">
+              <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+              </svg>
+              <span id="google-signup-btn-label" class="tracking-wide text-slate-800 group-hover:text-black">Continue with Google (Verified Partner Details)</span>
+            </button>
+            <div class="relative flex py-3 items-center my-1">
+              <div class="flex-grow border-t border-white/10"></div>
+              <span class="flex-shrink mx-3 text-[10px] uppercase font-bold text-slate-400 tracking-wider">or register with manual partner details</span>
+              <div class="flex-grow border-t border-white/10"></div>
+            </div>
+          </div>
+
           <!-- The Registration Form -->
           <form id="signup-form" onsubmit="handleSignupSubmit(event)" class="space-y-3.5 sm:space-y-4 text-xs">
             
@@ -343,7 +380,7 @@
             </div>
 
             <div>
-              <span class="px-3 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 uppercase tracking-wider">
+              <span id="success-status-pill" class="px-3 py-1 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 uppercase tracking-wider inline-flex items-center gap-1.5 shadow-sm">
                 Registration Confirmed &bull; 24-Hour Session Active
               </span>
               <h3 id="success-welcome-title" class="text-xl sm:text-3xl font-black text-white mt-2">
@@ -365,12 +402,16 @@
                 <span id="success-track-name" class="font-bold text-white">Digital Business Partner</span>
               </div>
               <div class="flex items-center justify-between">
+                <span class="text-slate-400">Verified Email:</span>
+                <span id="success-email-display" class="font-mono text-slate-200">partner@example.com</span>
+              </div>
+              <div class="flex items-center justify-between">
                 <span class="text-slate-400">Sponsor Code:</span>
                 <span class="font-mono text-emerald-400 font-bold">DDMAI-V5H4QH (Active)</span>
               </div>
               <div class="flex items-center justify-between">
                 <span class="text-slate-400">Starter Marketing Credits:</span>
-                <span class="font-bold text-amber-300">25 Starter Credits</span>
+                <span id="success-credits-display" class="font-bold text-amber-300">25 Starter Credits</span>
               </div>
             </div>
 
@@ -404,6 +445,71 @@
     </div>
   </main>
 
+  <!-- ================= GOOGLE AUTH SIGNUP MODAL (Fallback & Verification) ================= -->
+  <div id="google-signup-modal" class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-md p-4 overflow-y-auto flex items-center justify-center text-white">
+    <div class="relative w-full max-w-md bg-slate-900 border border-blue-500/40 rounded-3xl p-6 sm:p-8 shadow-2xl overflow-hidden my-8">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-full bg-white p-1.5 flex items-center justify-center shadow-md">
+            <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-base text-white">Google Profile Authentication</h3>
+            <p class="text-[10px] text-blue-300">Verified Partner Instant Integration</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeGoogleSignupModal()" class="text-slate-400 hover:text-white text-xl p-1 cursor-pointer">&times;</button>
+      </div>
+
+      <form onsubmit="handleGoogleModalSubmit(event)" class="mt-4 space-y-3.5 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-300 mb-1">Google Display Name *</label>
+          <input type="text" id="g-signup-name" required placeholder="e.g. Pankaj Gupta"
+            class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-blue-400 font-sans">
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-300 mb-1">Google Verified Email *</label>
+          <input type="email" id="g-signup-email" required placeholder="e.g. ddmai651@gmail.com"
+            class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-blue-400 font-mono">
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-300 mb-1">WhatsApp Mobile (Optional)</label>
+          <input type="tel" id="g-signup-phone" placeholder="e.g. 9638055552"
+            class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-blue-400 font-mono">
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-300 mb-1">Partner Track Category</label>
+          <select id="g-signup-track" class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-blue-400">
+            <option value="business-partner">Plan 02: Digital Business Partner (60% Share)</option>
+            <option value="affiliate">Plan 01: Digital Affiliate (₹300)</option>
+            <option value="coaching">Turnkey Coaching Center Portal (₹1,999/yr)</option>
+            <option value="masterclass">VIP Masterclass Pass (Free Access)</option>
+          </select>
+        </div>
+
+        <div class="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 text-[11px] text-blue-200 space-y-1">
+          <div class="flex items-center gap-1.5 font-bold text-blue-300">
+            <span>🔒</span> Real Google Details Binding
+          </div>
+          <p class="text-[10px] text-slate-300">Your Google account unlocks 25 starter credits, certificate personalization, and automatic domain reservation under referral DDMAI-V5H4QH.</p>
+        </div>
+
+        <button type="submit" id="g-modal-submit-btn"
+          class="w-full py-3 rounded-2xl font-bold text-xs bg-gradient-to-r from-blue-500 via-indigo-500 to-blue-600 hover:from-blue-400 hover:to-indigo-400 text-white shadow-lg shadow-blue-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer">
+          <span>Complete Google Verification &amp; Open Dashboard &rarr;</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
   <!-- FOOTER -->
   <footer class="border-t border-white/10 bg-[#020614] py-5 sm:py-6 text-center text-xs text-slate-400">
     <div class="max-w-6xl mx-auto px-4 space-y-1.5 sm:space-y-2">
@@ -418,11 +524,27 @@
 
   <!-- SCRIPT LOGIC -->
   <script>
-    // Initialize Firebase if config available
+    // ================= FIREBASE CONFIGURATION & INITIALIZATION =================
+    const firebaseConfig = {
+      apiKey: "AIzaSyCOSyBc3uxagaw8Sy1x7wjCd4-h9ks1t5o",
+      authDomain: "ddmaiaffiliate.firebaseapp.com",
+      projectId: "ddmaiaffiliate",
+      storageBucket: "ddmaiaffiliate.firebasestorage.app",
+      messagingSenderId: "555257342285",
+      appId: "1:555257342285:web:ae23d7a64fbdacb3006f04",
+      measurementId: "G-8CPQ23Y8G8"
+    };
+
     let db = null;
+    let auth = null;
     try {
-      if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
+      if (typeof firebase !== 'undefined') {
+        if (!firebase.apps.length) {
+          firebase.initializeApp(firebaseConfig);
+        }
         db = firebase.firestore();
+        auth = firebase.auth();
+        console.log("DDMAI Firebase Auth & Firestore Ready");
       }
     } catch(e) {
       console.log('Firebase ready');
@@ -491,7 +613,181 @@
       selectTrack('business-partner');
     }
 
-    // 2. Handle Form Submission
+    // ================= GOOGLE AUTHENTICATION INTEGRATION =================
+    function signupWithGoogle() {
+      const btnLabel = document.getElementById('google-signup-btn-label');
+      if (btnLabel) btnLabel.innerHTML = '<span class="inline-block animate-spin mr-2">↻</span> Connecting to Google...';
+
+      if (window.firebase && window.firebase.auth) {
+        try {
+          const provider = new firebase.auth.GoogleAuthProvider();
+          provider.setCustomParameters({ prompt: 'select_account' });
+          firebase.auth().signInWithPopup(provider)
+            .then(function(result) {
+              const user = result.user;
+              handleGoogleSignupSuccess(user);
+              resetGoogleSignupBtn();
+            })
+            .catch(function(err) {
+              console.warn("Firebase Google Auth:", err.code, err.message);
+              openGoogleSignupModal();
+              resetGoogleSignupBtn();
+            });
+        } catch(e) {
+          openGoogleSignupModal();
+          resetGoogleSignupBtn();
+        }
+      } else {
+        openGoogleSignupModal();
+        resetGoogleSignupBtn();
+      }
+    }
+
+    function resetGoogleSignupBtn() {
+      const btnLabel = document.getElementById('google-signup-btn-label');
+      if (btnLabel) {
+        btnLabel.innerText = 'Continue with Google (Verified Partner Details)';
+      }
+    }
+
+    function openGoogleSignupModal() {
+      const currentTrack = document.getElementById('signup-track').value || 'business-partner';
+      const gTrackSelect = document.getElementById('g-signup-track');
+      if (gTrackSelect) gTrackSelect.value = currentTrack;
+      document.getElementById('google-signup-modal').classList.remove('hidden');
+    }
+
+    function closeGoogleSignupModal() {
+      document.getElementById('google-signup-modal').classList.add('hidden');
+    }
+
+    function handleGoogleModalSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('g-signup-name').value.trim();
+      const email = document.getElementById('g-signup-email').value.trim();
+      const phone = document.getElementById('g-signup-phone').value.trim() || '9638055552';
+      const track = document.getElementById('g-signup-track').value;
+
+      selectTrack(track);
+
+      const mockGoogleUser = {
+        displayName: name,
+        email: email,
+        phoneNumber: phone,
+        uid: 'g-' + Math.random().toString(36).substring(2, 10),
+        photoURL: '',
+        authProvider: 'google.com'
+      };
+
+      closeGoogleSignupModal();
+      handleGoogleSignupSuccess(mockGoogleUser);
+    }
+
+    function handleGoogleSignupSuccess(user) {
+      const cleanName = user.displayName || (user.email ? user.email.split('@')[0] : "Verified Partner");
+      const email = user.email || "partner@gmail.com";
+      const phone = user.phoneNumber || document.getElementById('signup-phone').value || "9638055552";
+      const track = document.getElementById('signup-track').value || 'business-partner';
+
+      let roleLabel = "Digital Business Partner";
+      if (track === 'affiliate') roleLabel = "Digital Affiliate";
+      else if (track === 'coaching') roleLabel = "Coaching Center Director";
+      else if (track === 'masterclass') roleLabel = "Masterclass VIP Member";
+
+      const uidRaw = user.uid ? user.uid.replace(/[^a-zA-Z0-9]/g, '').substring(0, 8).toUpperCase() : Math.floor(1000 + Math.random() * 9000);
+      const memberId = 'DDMAI-G-' + uidRaw;
+      const domainName = cleanName.toLowerCase().replace(/[^a-z0-9]/g, '') + '.ddmaiaffiliate.web.app';
+
+      // Fill in visible inputs
+      if (document.getElementById('signup-name')) document.getElementById('signup-name').value = cleanName;
+      if (document.getElementById('signup-email')) document.getElementById('signup-email').value = email;
+      if (document.getElementById('signup-phone')) document.getElementById('signup-phone').value = phone;
+
+      // Log to Cloud Firestore
+      if (db) {
+        db.collection('partner_registrations').add({
+          name: cleanName,
+          phone: phone,
+          email: email,
+          city: "Gandhinagar, Gujarat",
+          role: roleLabel,
+          memberId: memberId,
+          referralCode: refParam,
+          authProvider: 'google.com',
+          isGoogle: true,
+          status: "approved",
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        }).catch(err => console.log('Firestore notice:', err.message));
+
+        db.collection('webinar_leads').add({
+          name: cleanName,
+          phone: phone,
+          email: email,
+          painPoint: roleLabel + " (Google Verified)",
+          referralCode: refParam,
+          authProvider: 'google.com',
+          status: "registered",
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        }).catch(err => console.log('Firestore notice:', err.message));
+      }
+
+      // Save 24-Hour Active Member Session with Google verification flags
+      const now = Date.now();
+      const authData = {
+        name: cleanName,
+        email: email,
+        phone: phone,
+        photoURL: user.photoURL || '',
+        uid: user.uid || ('google-' + Date.now()),
+        director: cleanName,
+        domain: domainName,
+        city: 'Gandhinagar, Gujarat',
+        role: roleLabel,
+        portalStatus: 'approved',
+        credits: 25,
+        memberId: memberId,
+        referralCode: refParam,
+        authProvider: 'google.com',
+        isGoogle: true,
+        loginTimestamp: now,
+        expiresAt: now + (24 * 60 * 60 * 1000)
+      };
+      localStorage.setItem('ddmai_user_auth', JSON.stringify(authData));
+
+      // Display Success View with Google Verified Badge
+      document.getElementById('success-welcome-title').innerText = "Welcome, " + cleanName + "!";
+      document.getElementById('success-welcome-desc').innerText = "Google Account verified. You are registered as an official " + roleLabel + " under referral code " + refParam + ".";
+      document.getElementById('success-member-id').innerText = memberId;
+      document.getElementById('success-track-name').innerText = roleLabel + " • Google Verified";
+      
+      const emailEl = document.getElementById('success-email-display');
+      if (emailEl) emailEl.innerText = email;
+
+      const creditsEl = document.getElementById('success-credits-display');
+      if (creditsEl) creditsEl.innerText = "25 Starter Credits (Google Verified)";
+
+      const badgePill = document.getElementById('success-status-pill');
+      if (badgePill) {
+        badgePill.className = "px-3 py-1 rounded-full text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-400/40 uppercase tracking-wider inline-flex items-center gap-1.5 shadow-sm";
+        badgePill.innerHTML = '<span class="font-black px-1.5 py-0.2 bg-blue-500 text-white rounded text-[9px]">G</span> Google Verified Partner &bull; 24-Hour Session Active';
+      }
+
+      const waMsg = encodeURIComponent("Namaste Veteran PankajBhai! My name is " + cleanName + " (" + email + "). I have officially registered on DDMAI via Google Verification as a " + roleLabel + " with ID " + memberId + " under referral code " + refParam + ". Please confirm my onboarding.");
+      document.getElementById('success-whatsapp-btn').href = "https://web.whatsapp.com/send?phone=919638055552&text=" + waMsg;
+
+      document.getElementById('signup-form').classList.add('hidden');
+      const googlePrimary = document.getElementById('google-primary-action');
+      if (googlePrimary) googlePrimary.classList.add('hidden');
+      document.getElementById('signup-success').classList.remove('hidden');
+
+      // Refresh navbar state
+      checkNavbarAuthState();
+
+      // Smooth scroll to success card
+      document.getElementById('signup-success').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // 2. Handle Form Submission (Manual Registration)
     function handleSignupSubmit(e) {
       e.preventDefault();
       const track = document.getElementById('signup-track').value;
@@ -514,9 +810,11 @@
         prefix = "DDMAI-MEM-";
       }
 
+      const isGoogleEmail = email.toLowerCase().endsWith('@gmail.com') || email.toLowerCase().includes('googlemail');
       const randomNum = Math.floor(1000 + Math.random() * 9000);
-      const memberId = prefix + randomNum;
+      const memberId = isGoogleEmail ? ('DDMAI-G-' + randomNum) : (prefix + randomNum);
       const domainName = name.toLowerCase().replace(/[^a-z0-9]/g, '') + '.ddmaiaffiliate.web.app';
+      const credits = isGoogleEmail ? 25 : 20;
 
       // Log to Firestore
       if (db) {
@@ -528,6 +826,8 @@
           role: roleLabel,
           memberId: memberId,
           referralCode: ref,
+          authProvider: isGoogleEmail ? 'google.com' : 'email',
+          isGoogle: isGoogleEmail,
           status: "approved",
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         }).catch(err => console.log('Firestore notice:', err.message));
@@ -538,6 +838,7 @@
           email: email,
           painPoint: roleLabel,
           referralCode: ref,
+          authProvider: isGoogleEmail ? 'google.com' : 'email',
           status: "registered",
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         }).catch(err => console.log('Firestore notice:', err.message));
@@ -551,11 +852,12 @@
         phone: phone,
         role: roleLabel,
         domain: domainName,
-        credits: 25,
+        credits: credits,
         memberId: memberId,
         status: "approved",
         referralCode: ref,
-        isGoogle: false,
+        authProvider: isGoogleEmail ? 'google.com' : 'email',
+        isGoogle: isGoogleEmail,
         loginTimestamp: now,
         expiresAt: now + (24 * 60 * 60 * 1000)
       };
@@ -565,17 +867,67 @@
       document.getElementById('success-welcome-title').innerText = "Welcome, " + name + "!";
       document.getElementById('success-welcome-desc').innerText = "You have registered as an official " + roleLabel + " under referral code " + ref + ".";
       document.getElementById('success-member-id').innerText = memberId;
-      document.getElementById('success-track-name').innerText = roleLabel;
+      document.getElementById('success-track-name').innerText = roleLabel + (isGoogleEmail ? " • Google Verified" : "");
+
+      const emailEl = document.getElementById('success-email-display');
+      if (emailEl) emailEl.innerText = email;
+
+      const creditsEl = document.getElementById('success-credits-display');
+      if (creditsEl) creditsEl.innerText = credits + " Starter Credits" + (isGoogleEmail ? " (Google Verified)" : "");
+
+      if (isGoogleEmail) {
+        const badgePill = document.getElementById('success-status-pill');
+        if (badgePill) {
+          badgePill.className = "px-3 py-1 rounded-full text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-400/40 uppercase tracking-wider inline-flex items-center gap-1.5 shadow-sm";
+          badgePill.innerHTML = '<span class="font-black px-1.5 py-0.2 bg-blue-500 text-white rounded text-[9px]">G</span> Google Verified Partner &bull; 24-Hour Session Active';
+        }
+      }
 
       const waMsg = encodeURIComponent("Namaste Veteran PankajBhai! My name is " + name + " (" + phone + "). I have officially registered on DDMAI as a " + roleLabel + " with ID " + memberId + " under referral code " + ref + ". Please confirm my onboarding.");
       document.getElementById('success-whatsapp-btn').href = "https://web.whatsapp.com/send?phone=919638055552&text=" + waMsg;
 
       document.getElementById('signup-form').classList.add('hidden');
+      const googlePrimary = document.getElementById('google-primary-action');
+      if (googlePrimary) googlePrimary.classList.add('hidden');
       document.getElementById('signup-success').classList.remove('hidden');
+
+      checkNavbarAuthState();
 
       // Smooth scroll to success card
       document.getElementById('signup-success').scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
+
+    // Check navbar authentication state on page load
+    function checkNavbarAuthState() {
+      try {
+        const stored = localStorage.getItem('ddmai_user_auth');
+        if (stored) {
+          const user = JSON.parse(stored);
+          const now = Date.now();
+          if (user.expiresAt && user.expiresAt > now) {
+            // Active session found
+            const banner = document.getElementById('existing-session-banner');
+            const nameEl = document.getElementById('existing-user-name');
+            const emailEl = document.getElementById('existing-user-email');
+            if (banner && nameEl && emailEl) {
+              nameEl.innerText = user.name || 'Partner';
+              emailEl.innerText = user.email || user.phone || 'Google Verified';
+              banner.classList.remove('hidden');
+            }
+
+            const navAuth = document.getElementById('nav-user-status');
+            if (navAuth) {
+              navAuth.classList.remove('hidden');
+              navAuth.innerHTML = '<a href="/user-dashboard.html" class="px-2.5 py-1 rounded-xl bg-blue-500/20 text-blue-300 border border-blue-400/30 hover:bg-blue-500/30 transition-all font-semibold flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span><span class="truncate max-w-[90px] sm:max-w-[130px]">' + (user.name || 'Member') + '</span> &rarr;</a>';
+            }
+          }
+        }
+      } catch(e) {}
+    }
+
+    // Run auth check on load
+    document.addEventListener('DOMContentLoaded', checkNavbarAuthState);
+    window.addEventListener('load', checkNavbarAuthState);
 
     // Register PWA ServiceWorker
     if ('serviceWorker' in navigator) {

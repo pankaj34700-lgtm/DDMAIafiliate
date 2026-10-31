@@ -198,6 +198,27 @@ const firebaseJson = JSON.parse(fs.readFileSync(path.join(rootDir, 'firebase.jso
 assert(firebaseJson.hosting.rewrites.some(r => r.source === '/signup' && r.destination === '/signup/index.html'), 'firebase.json rewrites /signup to /signup/index.html');
 assert(firebaseJson.hosting.rewrites.some(r => r.source === '/signup/**' && r.destination === '/signup/index.html'), 'firebase.json rewrites /signup/** to /signup/index.html');
 
+// 9. GOOGLE AUTHENTICATION SYSTEM VERIFICATION
+console.log('\n\x1b[36m[Group 9] Google Authentication System Verification\x1b[0m');
+const rootSignupHtml = fs.readFileSync(path.join(rootDir, 'signup.html'), 'utf8');
+const pubSignupIndexHtml = fs.readFileSync(path.join(rootDir, 'public', 'signup', 'index.html'), 'utf8');
+const pubSignupHtml = fs.readFileSync(path.join(rootDir, 'public', 'signup.html'), 'utf8');
+
+assert(signupContent.includes('id="google-signup-btn"'), 'signup/index.html includes id="google-signup-btn" primary CTA');
+assert(signupContent.includes('signupWithGoogle'), 'signup/index.html implements signupWithGoogle() function');
+assert(signupContent.includes('handleGoogleSignupSuccess'), 'signup/index.html implements handleGoogleSignupSuccess() function');
+assert(signupContent.includes('id="google-signup-modal"'), 'signup/index.html includes fallback modal id="google-signup-modal"');
+assert(signupContent.includes('handleGoogleModalSubmit'), 'signup/index.html implements handleGoogleModalSubmit() function');
+assert(signupContent.includes('ddmaiaffiliate.firebaseapp.com'), 'signup/index.html configures official Firebase Auth domain');
+assert(signupContent.includes('id="existing-session-banner"'), 'signup/index.html includes id="existing-session-banner" for active sessions');
+assert(indexContent.includes('loginWithGoogle'), 'index.html implements loginWithGoogle() authentication flow');
+assert(indexContent.includes('id="google-details-modal"'), 'index.html contains id="google-details-modal"');
+assert(userDashContent.includes('loginWithGoogle'), 'user-dashboard.html implements loginWithGoogle() authentication flow');
+assert(userDashContent.includes('id="dash-google-badge"'), 'user-dashboard.html contains Google Verified badge');
+assert(rootSignupHtml.includes('id="google-signup-btn"'), 'signup.html is synchronized with Google authentication CTA');
+assert(pubSignupIndexHtml.includes('id="google-signup-btn"'), 'public/signup/index.html is synchronized with Google authentication CTA');
+assert(pubSignupHtml.includes('id="google-signup-btn"'), 'public/signup.html is synchronized with Google authentication CTA');
+
 // SUMMARY REPORT
 console.log('\n======================================================');
 console.log(`  SUMMARY: Total Tests: ${totalTests} | Passed: ${passedTests} | Failed: ${failedTests}`);
