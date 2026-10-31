@@ -114,6 +114,7 @@ assert(fs.existsSync(path.join(playwrightCliDir, 'admin-test.js')), 'playwright.
 assert(fs.existsSync(path.join(playwrightCliDir, 'member-and-cert-test.js')), 'playwright.cli contains "member-and-cert-test.js"');
 assert(fs.existsSync(path.join(playwrightCliDir, 'mobile-runner.js')), 'playwright.cli contains "mobile-runner.js" (Pixel 7 Android audit)');
 assert(fs.existsSync(path.join(playwrightCliDir, 'pwa-test.js')), 'playwright.cli contains "pwa-test.js" (PWA automation suite)');
+assert(fs.existsSync(path.join(playwrightCliDir, 'partner-registration-test.js')), 'playwright.cli contains "partner-registration-test.js" (Partner registration suite)');
 assert(fs.existsSync(path.join(playwrightCliDir, 'run-all-playwright.js')), 'playwright.cli contains "run-all-playwright.js" master orchestrator');
 assert(fs.existsSync(path.join(playwrightCliDir, 'run-playwright.bat')), 'playwright.cli contains 1-click launcher "run-playwright.bat"');
 
@@ -159,6 +160,17 @@ assert(userDashContent.includes('rel="manifest"'), 'user-dashboard.html includes
 assert(userDashContent.includes('navigator.serviceWorker.register'), 'user-dashboard.html registers service worker');
 assert(adminContent.includes('rel="manifest"'), 'admin.html includes PWA manifest link');
 assert(adminContent.includes('navigator.serviceWorker.register'), 'admin.html registers service worker');
+
+// 8. PARTNER REGISTRATION & BUSINESS PARTNER FLOW VERIFICATION
+console.log('\n\x1b[36m[Group 8] Partner Registration & Business Partner Verification\x1b[0m');
+assert(!indexContent.includes('ddmai.com/signup'), 'Zero broken external ddmai.com/signup links in index.html');
+assert(!userDashContent.includes('ddmai.com/signup'), 'Zero broken external ddmai.com/signup links in user-dashboard.html');
+assert(indexContent.includes('id="partner-register-modal"'), 'index.html contains id="partner-register-modal"');
+assert(indexContent.includes('openPartnerRegisterModal'), 'index.html implements openPartnerRegisterModal() function');
+assert(indexContent.includes('handlePartnerRegisterSubmit'), 'index.html implements handlePartnerRegisterSubmit() function');
+assert(indexContent.includes('openPartnerRegisterModal(\'business-partner\')') || indexContent.includes('openPartnerRegisterModal("business-partner")'), 'Business Partner button triggers openPartnerRegisterModal');
+assert(indexContent.includes('openPartnerRegisterModal(\'affiliate\')') || indexContent.includes('openPartnerRegisterModal("affiliate")'), 'Affiliate button triggers openPartnerRegisterModal');
+assert(indexContent.includes('id="partner-reg-success"'), 'Partner registration modal contains success view');
 
 // SUMMARY REPORT
 console.log('\n======================================================');

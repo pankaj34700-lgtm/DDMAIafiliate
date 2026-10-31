@@ -20,7 +20,8 @@ const tests = [
   { name: '2. Executive Admin Suite & Approval Engine', file: 'admin-test.js' },
   { name: '3. Member Login, Dashboard & Certificate Studio', file: 'member-and-cert-test.js' },
   { name: '4. Android Mobile Emulation (Pixel 7)', file: 'mobile-runner.js' },
-  { name: '5. Progressive Web App (PWA) & Install Suite', file: 'pwa-test.js' }
+  { name: '5. Progressive Web App (PWA) & Install Suite', file: 'pwa-test.js' },
+  { name: '6. Partner Registration & Business Partner Suite', file: 'partner-registration-test.js' }
 ];
 
 let allPassed = true;
